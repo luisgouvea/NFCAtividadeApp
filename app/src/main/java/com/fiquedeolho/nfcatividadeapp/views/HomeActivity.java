@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -17,15 +15,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,9 +73,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(JSONArray response) {
+                //adicionar o Response para a proxima pagina
+                ArrayList<Atividade> listAtividade = new ArrayList<>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject row = response.getJSONObject(i);
+                        int id = row.getInt("id");
+                        String nome = row.getString("nome");
+
+                        Atividade atividade = new Atividade();
+                        atividade.setNome(nome);
+                        atividade.setId(id);
+
+                        listAtividade.add(atividade);
+                    }catch (Exception e){
+                        Log.d("Erro getAtivExecutar ->",e.getMessage());
+                    }
+                }
                 Intent intent = new Intent(contextoHome, ListAtividadesActivity.class);
                 intent.putExtra("idUsuario", idUsuario);
-                //adicionar o Response para a proxima pagina
+                intent.putParcelableArrayListExtra("listAtividade", listAtividade);
                 startActivity(intent);
                 //pDialog.hide();
             }

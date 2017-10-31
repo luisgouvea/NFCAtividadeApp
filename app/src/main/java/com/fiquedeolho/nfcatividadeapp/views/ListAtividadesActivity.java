@@ -20,14 +20,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 
 import org.json.JSONArray;
+
+import java.util.ArrayList;
 
 public class ListAtividadesActivity extends AppCompatActivity  implements View.OnClickListener{
 
     private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Não executada", "Executada"};
     private TableLayout tableAtividades;
     private String idUsuario;
+    public ArrayList<Atividade> listAtividade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class ListAtividadesActivity extends AppCompatActivity  implements View.O
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idUsuario = extras.getString("idUsuario");
+            this.listAtividade = extras.getParcelable("listAtividade");
         }
 
         Spinner combo = (Spinner) findViewById(R.id.status_spinner);
