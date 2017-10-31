@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,8 +69,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         JSONArray params = new JSONArray();
         params.put(this.idUsuario);
 
-        String url = "http://192.168.43.27:57016/api/TesteComunicacao/getAtivExecutar";
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, url, params, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
@@ -86,8 +86,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         atividade.setId(id);
 
                         listAtividade.add(atividade);
-                    }catch (Exception e){
-                        Log.d("Erro getAtivExecutar ->",e.getMessage());
+                    } catch (Exception e) {
+                        Log.d("Erro getAtivExecutar ->", e.getMessage());
                     }
                 }
                 Intent intent = new Intent(contextoHome, ListAtividadesActivity.class);

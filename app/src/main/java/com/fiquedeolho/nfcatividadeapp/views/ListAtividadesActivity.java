@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 
 import org.json.JSONArray;
 
@@ -89,8 +90,7 @@ public class ListAtividadesActivity extends AppCompatActivity  implements View.O
         params.put(this.idUsuario);
         params.put(status);
 
-        String url = "http://192.168.43.27:57016/api/TesteComunicacao/getAtivExecutar";
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, url, params, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {

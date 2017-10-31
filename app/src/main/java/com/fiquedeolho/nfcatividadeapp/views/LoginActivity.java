@@ -3,7 +3,6 @@ package com.fiquedeolho.nfcatividadeapp.views;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,24 +19,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolder loginViewHolder = new ViewHolder();
-    private JSONObject resultLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +73,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = "http://192.168.43.27:57016/api/TesteComunicacao/Comunicar";
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, ConstantsURIAPI.AUTENTICACAO, params, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                resultLogin = response;
                 try {
                     String idUsuario = response.getString("Id");
                     Log.d("ResultJSONLogin", response.toString());
