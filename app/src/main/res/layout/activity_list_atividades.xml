@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Spinner
+        android:id="@+id/status_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"/>
+
+    <Button
+        android:id="@+id/btn_filtrar_atividade"
+        android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
+        android:text="@string/pesquisar_atividade"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <!--<TableRow android:layout_marginTop="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="match_parent">-->
+
+            <!--<Button-->
+                <!--android:gravity="center"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:text="gg"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
+        <!--</TableRow>-->
+        <!--<TableRow android:layout_marginTop="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="match_parent">-->
+
+            <!--<Button-->
+                <!--android:gravity="center"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:text="fsdfsfsffdffvv"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
+        <!--</TableRow>-->
+
+    </TableLayout>
+    </ScrollView>
+
+</LinearLayout>
