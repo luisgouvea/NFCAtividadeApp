@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 public class ListAtividadesActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Não executada", "Executada"};
+    private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
     private TableLayout tableAtividades;
     private String idUsuario;
     ArrayList<Atividade> listAtividade;

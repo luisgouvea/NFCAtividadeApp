@@ -4,4 +4,5 @@
     <string name="tarefas_criadas">Tarefas Criadas</string>
     <string name="tarefas_executar">Tarefas para fazer</string>
     <string name="pesquisar_atividade">Filtrar</string>
+    <string name="op_es_de_gerenciamento_de_atividades">Opções de Gerenciamento de Atividades</string>
 </resources>
