@@ -22,34 +22,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TableLayout
-        android:id="@+id/table_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <!--<TableRow android:layout_marginTop="10dp"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_width="match_parent">-->
 
-            <!--<Button-->
-                <!--android:gravity="center"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:text="gg"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
-        <!--</TableRow>-->
-        <!--<TableRow android:layout_marginTop="10dp"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_width="match_parent">-->
+       <android.support.v7.widget.RecyclerView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/recyclerViewAtividade">
+       </android.support.v7.widget.RecyclerView>
 
-            <!--<Button-->
-                <!--android:gravity="center"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:text="fsdfsfsffdffvv"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
-        <!--</TableRow>-->
-
-    </TableLayout>
     </ScrollView>
 
 </LinearLayout>

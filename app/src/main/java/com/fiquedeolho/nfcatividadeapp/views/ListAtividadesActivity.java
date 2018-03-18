@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.listAtividades.recyclerView.AtividadeListAdpter;
+import com.fiquedeolho.nfcatividadeapp.listAtividades.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
@@ -43,11 +47,14 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
     private String idUsuario;
     ArrayList<Atividade> listAtividade;
 
+    private Context context;
+    private ViewHolder mViewHolder = new ViewHolder();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_atividades);
-
+        context = this;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idUsuario = extras.getString("idUsuario");
@@ -61,8 +68,41 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
         Button botao = (Button) findViewById(R.id.btn_filtrar_atividade);
         botao.setOnClickListener(this);
         this.createView();
+
+
+        // 1 - Obter a recyclerview
+        this.mViewHolder.recyclerViewAtividade = (RecyclerView) this.findViewById(R.id.recyclerViewAtividade);
+
+
+        // Implementa o evento de click para passar por parâmetro para a ViewHolder
+        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+            @Override
+            public void onClick(int id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID", id);
+
+                Intent intent = new Intent(context, DetailsAtividadeActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        };
+
+        // 2 - Definir adapter passando listagem de carros e listener
+        AtividadeListAdpter atividadeListAdapter = new AtividadeListAdpter(listAtividade, listener);
+        this.mViewHolder.recyclerViewAtividade.setAdapter(atividadeListAdapter);
+
+        // 3 - Definir um layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        this.mViewHolder.recyclerViewAtividade.setLayoutManager(linearLayoutManager);
     }
 
+    /**
+     * ViewHolder
+     */
+    private static class ViewHolder {
+        RecyclerView recyclerViewAtividade;
+    }
     public void createView() {
 
         tableAtividades = (TableLayout) findViewById(R.id.table_layout);
