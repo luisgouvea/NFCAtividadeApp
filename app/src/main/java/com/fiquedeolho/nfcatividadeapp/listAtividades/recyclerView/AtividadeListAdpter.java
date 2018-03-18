@@ -12,7 +12,7 @@ import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 
 import java.util.List;
 
-public class AtividadeListAdpter extends RecyclerView.Adapter {
+public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolder> {
 
     // Lista de carros
     private List<Atividade> mListCars;
