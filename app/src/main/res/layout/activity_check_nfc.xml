@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tglReadWrite"
+        android:textOn="Ler TAG NFC"
+        android:textOff="Escrever na TAG NFC"
+        android:checked="true"
+        android:onClick="tglReadWriteOnClick"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/txtTagContent"
+        android:layout_below="@+id/tglReadWrite" />
+
+</RelativeLayout>
+

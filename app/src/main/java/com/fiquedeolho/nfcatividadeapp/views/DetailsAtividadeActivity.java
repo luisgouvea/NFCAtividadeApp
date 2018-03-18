@@ -1,5 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -60,6 +61,10 @@ public class DetailsAtividadeActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View view) {
-        //quando houver qualquer click, sempre vai para o  Details da TAG
+        int id = view.getId();
+        if (id == R.id.realizar_Check_nfc) {
+            Intent intent = new Intent(this, CheckNFCActivity.class);
+            startActivity(intent);
+        }
     }
 }

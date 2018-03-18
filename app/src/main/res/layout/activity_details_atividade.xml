@@ -15,6 +15,7 @@
         android:text="Detalhes da atividade"/>
 
     <Button
+        android:id="@+id/realizar_Check_nfc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
