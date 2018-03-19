@@ -2,15 +2,11 @@ package com.fiquedeolho.nfcatividadeapp.listAtividades.recyclerView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 
-/**
- * Created by Luis Eduardo on 18/03/2018.
- */
 
 public class AtividadeViewHolder extends RecyclerView.ViewHolder {
 

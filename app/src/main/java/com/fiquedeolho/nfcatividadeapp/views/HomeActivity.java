@@ -3,14 +3,11 @@ package com.fiquedeolho.nfcatividadeapp.views;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,7 +17,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 
 import org.json.JSONArray;
@@ -85,24 +81,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             atividade.setNome(atividadeAPI.getString("Nome"));
                             atividade.setId(atividadeAPI.getInt("Id"));
                         //cria atividade
-
-                        JSONArray listTag = atividadeAPI.getJSONArray("listTag");
-                        ArrayList<TAG> listTagsAtividade = new ArrayList();
-                        for (int j = 0; j < listTag.length(); j++) {
-                            JSONObject tag_target = listTag.getJSONObject(j);
-                            JSONArray jsonAntecessores = tag_target.getJSONArray("listAntecessores");
-
-                            ArrayList<String> listAntecessores = new ArrayList();
-                            for(int k=0; k < jsonAntecessores.length(); k++){
-                                listAntecessores.add(jsonAntecessores.getString(k));
-                            }
-                            TAG tag = new TAG();
-                            tag.setId(tag_target.getInt("Id"));
-                            tag.setNome(tag_target.getString("Nome"));
-                            tag.setListAntecessores(listAntecessores);
-                            listTagsAtividade.add(tag);
-                        }
-                        atividade.setListTags(listTagsAtividade);
                         listAtividade.add(atividade);
                     } catch (Exception e) {
                         Log.d("Erro getAtivExecutar ->", e.getMessage());

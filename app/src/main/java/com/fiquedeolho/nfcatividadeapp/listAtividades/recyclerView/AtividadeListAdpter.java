@@ -14,8 +14,8 @@ import java.util.List;
 
 public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolder> {
 
-    // Lista de carros
-    private List<Atividade> mListCars;
+    // Lista de atividades
+    private List<Atividade> mListAtividades;
 
     // Interface que define as ações
     private OnListClickInteractionListener mOnListClickInteractionListener;
@@ -23,8 +23,8 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> cars, OnListClickInteractionListener listener) {
-        this.mListCars = cars;
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener) {
+        this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
     }
 
@@ -39,10 +39,10 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View carView = inflater.inflate(R.layout.activity_row_atividade_list, parent, false);
+        View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list, parent, false);
 
         // Passa a ViewHolder
-        return new AtividadeViewHolder(carView);
+        return new AtividadeViewHolder(atividadeView);
     }
 
     /**
@@ -50,12 +50,12 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
      */
     @Override
     public void onBindViewHolder(AtividadeViewHolder holder, int position) {
-        Atividade car = this.mListCars.get(position);
+        Atividade car = this.mListAtividades.get(position);
         holder.bindData(car, this.mOnListClickInteractionListener);
     }
 
     @Override
     public int getItemCount() {
-        return this.mListCars.size();
+        return this.mListAtividades.size();
     }
 }

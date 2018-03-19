@@ -67,7 +67,6 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
         combo.setAdapter(adp);
         Button botao = (Button) findViewById(R.id.btn_filtrar_atividade);
         botao.setOnClickListener(this);
-        this.createView();
 
 
         // 1 - Obter a recyclerview
@@ -79,7 +78,7 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(int id) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("ID", id);
+                bundle.putInt("IdAtividade", id);
 
                 Intent intent = new Intent(context, DetailsAtividadeActivity.class);
                 intent.putExtras(bundle);
@@ -102,23 +101,6 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
      */
     private static class ViewHolder {
         RecyclerView recyclerViewAtividade;
-    }
-    public void createView() {
-
-        tableAtividades = (TableLayout) findViewById(R.id.table_layout);
-
-        for (int i = 0; i < this.listAtividade.size(); i++) {
-            Atividade atividade = this.listAtividade.get(i);
-            LayoutInflater inflater = LayoutInflater.from(this);
-
-            TableRow row = (TableRow) inflater.inflate(R.layout.activity_list_atividades_inflater, tableAtividades, false);
-
-            Button botao = (Button) row.findViewById(R.id.botao);
-            botao.setId(atividade.getId()); // ID da Atividade
-            botao.setText(atividade.getNome()); // Nome da Atividade
-            botao.setOnClickListener(this);
-            tableAtividades.addView(row);
-        }
     }
 
     @Override
@@ -151,23 +133,6 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
         params.put(status);
 
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
-
-            public void createView() {
-
-                tableAtividades = (TableLayout) findViewById(R.id.table_layout);
-                for (int i = 0; i < listAtividade.size(); i++) {
-                    Atividade atividade = listAtividade.get(i);
-                    LayoutInflater inflater = LayoutInflater.from(contextoListAtividades);
-
-                    TableRow row = (TableRow) inflater.inflate(R.layout.activity_list_atividades_inflater, tableAtividades, false);
-
-                    Button botao = (Button) row.findViewById(R.id.botao);
-                    botao.setId(atividade.getId()); // ID da Atividade
-                    botao.setText(atividade.getNome()); // Nome da Atividade
-                    botao.setOnClickListener(listenerBotao);
-                    tableAtividades.addView(row);
-                }
-            }
 
             @Override
             public void onResponse(JSONArray response) {
@@ -209,7 +174,7 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
                 //para cada atividade recebida
                 //criar as tables rows
                 listAtividade = list;
-                this.createView();
+                //this.createView();
                 //pDialog.hide();
             }
         }, new Response.ErrorListener() {
