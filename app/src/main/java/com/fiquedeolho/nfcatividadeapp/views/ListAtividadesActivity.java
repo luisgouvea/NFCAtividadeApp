@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -90,6 +91,8 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
         // 2 - Definir adapter passando listagem de carros e listener
         AtividadeListAdpter atividadeListAdapter = new AtividadeListAdpter(listAtividade, listener);
         this.mViewHolder.recyclerViewAtividade.setAdapter(atividadeListAdapter);
+
+        this.mViewHolder.recyclerViewAtividade.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
