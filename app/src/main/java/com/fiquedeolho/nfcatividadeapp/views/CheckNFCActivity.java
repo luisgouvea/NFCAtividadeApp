@@ -68,7 +68,7 @@ public class CheckNFCActivity extends Activity {
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
 
             if(tglReadWrite.isChecked())
             {
@@ -103,6 +103,7 @@ public class CheckNFCActivity extends Activity {
 
             txtTagContent.setText(tagContent);
 
+            Toast.makeText(this, "Conteúdo Lido!", Toast.LENGTH_SHORT).show();
         }else
         {
             Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
@@ -142,7 +143,7 @@ public class CheckNFCActivity extends Activity {
             ndefFormatable.format(ndefMessage);
             ndefFormatable.close();
 
-            Toast.makeText(this, "Tag writen!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Conteúdo escrito na TAG!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             Log.e("formatTag", e.getMessage());
@@ -177,7 +178,7 @@ public class CheckNFCActivity extends Activity {
                 ndef.writeNdefMessage(ndefMessage);
                 ndef.close();
 
-                Toast.makeText(this, "Tag writen!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Conteúdo escrito na TAG!", Toast.LENGTH_SHORT).show();
 
             }
 
