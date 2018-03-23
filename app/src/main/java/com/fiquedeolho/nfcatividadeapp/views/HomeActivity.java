@@ -17,7 +17,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -66,7 +68,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         RequestQueue rq = Volley.newRequestQueue(this);
         JSONArray params = new JSONArray();
         params.put(this.idUsuario);
+        ArrayList<TAG> aj = new ArrayList<TAG>();
+        TAG tg = new TAG();
+        tg.setNome("fdsf");
+        aj.add(tg);
 
+        Gson f = new Gson();
+        String gg = f.toJson(aj);
+        params.put(gg);
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
 
             @Override
