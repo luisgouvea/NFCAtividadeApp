@@ -2,5 +2,17 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#26A69A</color>
+    <color name="dot_dark_screen1">#000</color>
+    <color name="dot_light_screen1">#FFF</color>
+    <color name="metalico">#263238</color>
+    <color name="prata">#90A4AE</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+    </array>
 </resources>

@@ -24,6 +24,7 @@
         <activity android:name=".views.ListAtividadesActivity" />
         <activity android:name=".views.DetailsAtividadeActivity" />
         <activity android:name=".views.CheckNFCActivity" />
+        <activity android:name=".views.WelcomeActivity"></activity>
     </application>
 
 </manifest>

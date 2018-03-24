@@ -34,4 +34,13 @@
         android:padding="12dp"
         android:text="@string/tarefas_executar"/>
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_addFloatingAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_gravity="center_horizontal"
+        />
+
 </LinearLayout>

@@ -66,8 +66,9 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
         ArrayAdapter adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
         combo.setAdapter(adp);
-        Button botao = (Button) findViewById(R.id.btn_filtrar_atividade);
-        botao.setOnClickListener(this);
+
+        this.mViewHolder.botaoFiltrar = (Button) findViewById(R.id.btn_filtrar_atividade);
+        this.mViewHolder.botaoFiltrar.setOnClickListener(this);
 
 
         // 1 - Obter a recyclerview
@@ -104,6 +105,7 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
      */
     private static class ViewHolder {
         RecyclerView recyclerViewAtividade;
+        Button botaoFiltrar;
     }
 
     @Override
@@ -114,13 +116,6 @@ public class ListAtividadesActivity extends AppCompatActivity implements View.On
             Spinner spinner = (Spinner) findViewById(R.id.status_spinner);
             String statusAtividade = spinner.getSelectedItem().toString();
             this.filtrarAtividades(statusAtividade);
-        } else {
-            //usuario clicou em verificar a atividade
-            //fazer get das tags e roteiros
-            Atividade ativ = this.listAtividade.get(id);
-            Intent intent = new Intent(this, DetailsAtividadeActivity.class);
-            intent.putExtra("atividadeForDetalhar", ativ);
-            startActivity(intent);
         }
     }
 

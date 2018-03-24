@@ -3,6 +3,7 @@ package com.fiquedeolho.nfcatividadeapp.views;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,24 +32,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private HomeActivity.ViewHolder homeViewHolder = new ViewHolder();
 
     private String idUsuario;
+    private Context contextoHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        contextoHome = this;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idUsuario = extras.getString("idUsuario");
         }
         this.homeViewHolder.btnAtiviExecutar = (Button) findViewById(R.id.btn_ativExecutar);
+        this.homeViewHolder.addFloatingAction = (FloatingActionButton) findViewById(R.id.btn_addFloatingAction);
+        this.homeViewHolder.addFloatingAction.setOnClickListener(this);
         this.homeViewHolder.btnAtiviExecutar.setOnClickListener(this);
 
     }
 
     private static class ViewHolder {
         Button btnAtiviExecutar;
+        FloatingActionButton addFloatingAction;
     }
 
     @Override
@@ -58,11 +63,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             this.getAtivExecutar();
         }
+        else if(id == R.id.btn_addFloatingAction) {
+            Intent intent = new Intent(contextoHome, WelcomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void getAtivExecutar() {
         final ProgressDialog pDialog = new ProgressDialog(this);
-        final Context contextoHome = this;
 //        pDialog.setMessage("Aguarde, buscando atividades...");
 //        pDialog.show();
         RequestQueue rq = Volley.newRequestQueue(this);
