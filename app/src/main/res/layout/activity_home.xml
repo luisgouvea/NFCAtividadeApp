@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.fiquedeolho.nfcatividadeapp.views.HomeActivity">
-<TextView
+<!--<TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textSize="25sp"
-    android:text="@string/op_es_de_gerenciamento_de_atividades"/>
+    android:text="@string/op_es_de_gerenciamento_de_atividades"/>-->
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_ativCriadas"

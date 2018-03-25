@@ -1,6 +1,5 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,7 +20,7 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class AddAtividadeActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -34,9 +33,9 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
+       //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
 
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_add_atividade);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -48,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity {
         // add few more layouts if you want
         layouts = new int[]{
                 R.layout.activity_screen_slide_page_fragment,
-                R.layout.welcome_slide1
+                R.layout.content_add_atividade_slide1
         };
 
         // adding bottom dots
@@ -108,7 +107,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+        startActivity(new Intent(AddAtividadeActivity.this, InitialNavigationActivity.class));
         finish();
     }
 

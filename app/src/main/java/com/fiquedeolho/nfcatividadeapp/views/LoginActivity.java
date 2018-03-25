@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String idUsuario = response.getString("Id");
                     Log.d("ResultJSONLogin", response.toString());
                     pDialog.hide();
-                    Intent intent = new Intent(contextoLogin, HomeActivity.class);
+                    Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
                     intent.putExtra("idUsuario", idUsuario);
                     startActivity(intent);
                 } catch (JSONException e) {
