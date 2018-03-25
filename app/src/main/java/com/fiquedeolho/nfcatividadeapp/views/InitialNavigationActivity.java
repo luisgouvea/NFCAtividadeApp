@@ -1,22 +1,29 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -43,6 +50,21 @@ public class InitialNavigationActivity extends AppCompatActivity
 
     private String idUsuario;
     private Context contextoInitial;
+    private ViewPager mViewPagerTable;
+
+    private final String LOG_TAG = InitialNavigationActivity.class.getSimpleName();
+
+    // Titles of the individual pages (displayed in tabs)
+    private final String[] PAGE_TITLES = new String[] {
+            "Tarefas criadas",
+            "Tarefas para fazer"
+    };
+
+    // The fragments that are used as the individual pages
+    private final Fragment[] PAGES = new Fragment[] {
+            new FragmentHomeAddAtividade(),
+            new FragmentHomeFazerAtividade()
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +84,25 @@ public class InitialNavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Bundle extras = getIntent().getExtras();
+        mViewPagerTable = (ViewPager) findViewById(R.id.view_pager_table_initial);
+        mViewPagerTable.setAdapter(new MyPagerAdapter(this.getSupportFragmentManager()));
+
+        // Connect the tabs with the ViewPager (the setupWithViewPager method does this for us in
+        // both directions, i.e. when a new tab is selected, the ViewPager switches to this page,
+        // and when the ViewPager switches to a new page, the corresponding tab is selected)
+        TabLayout tabLayout = findViewById(R.id.tab_layout_initial);
+        tabLayout.setupWithViewPager(mViewPagerTable);
+
+
+
+        /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idUsuario = extras.getString("idUsuario");
         }
         this.InitialViewHolder.btnAtiviExecutar = findViewById(R.id.btn_ativExecutar);
         this.InitialViewHolder.addFloatingAction = (FloatingActionButton) findViewById(R.id.btn_addFloatingAction);
         this.InitialViewHolder.addFloatingAction.setOnClickListener(this);
-        this.InitialViewHolder.btnAtiviExecutar.setOnClickListener(this);
+        this.InitialViewHolder.btnAtiviExecutar.setOnClickListener(this);*/
     }
 
     @Override
@@ -192,5 +225,54 @@ public class InitialNavigationActivity extends AppCompatActivity
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         // Adding request to request queue
         rq.add(jsonObjReq);
+    }
+
+
+    /*The table of Fragment of activity*/
+
+    /* PagerAdapter for supplying the ViewPager with the pages (fragments) to display. */
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return PAGES[position];
+        }
+
+        @Override
+        public int getCount() {
+            return PAGES.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return PAGE_TITLES[position];
+        }
+    }
+
+
+    /*Secoes das tabelas*/
+
+    /* Fragment used as page 1 */
+    public static class FragmentHomeAddAtividade extends Fragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home_add_ativ, container, false);
+            return rootView;
+        }
+    }
+
+    /* Fragment used as page 2 */
+    public static class FragmentHomeFazerAtividade extends Fragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home_fazer_ativ, container, false);
+            return rootView;
+        }
     }
 }

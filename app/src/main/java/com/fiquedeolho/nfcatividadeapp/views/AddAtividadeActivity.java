@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -36,6 +38,9 @@ public class AddAtividadeActivity extends AppCompatActivity {
        //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
 
         setContentView(R.layout.activity_add_atividade);
+        /*getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -140,6 +145,17 @@ public class AddAtividadeActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * Making notification bar transparent
