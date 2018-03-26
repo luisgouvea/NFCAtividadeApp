@@ -22,8 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.HomeActivity" />
-        <activity android:name=".views.ListAtividadesActivity" />
         <activity android:name=".views.DetailsAtividadeActivity" />
         <activity android:name=".views.CheckNFCActivity" />
 
