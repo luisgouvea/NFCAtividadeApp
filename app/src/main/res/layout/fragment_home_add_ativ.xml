@@ -3,14 +3,22 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="This is page 1"
+        android:text="Você não possui Atividades Criadas!"
         />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_addFloatingAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_black_24dp"/>
 
 </FrameLayout>

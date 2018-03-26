@@ -1,4 +1,4 @@
-package com.fiquedeolho.nfcatividadeapp.listAtividades.recyclerView;
+package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
