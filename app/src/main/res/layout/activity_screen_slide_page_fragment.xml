@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/first_content_linear_layout_add_ativ"
     android:orientation="vertical">
 
     <!--<ScrollView
@@ -19,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:id="@+id/linear_layout_nome_ativ_add">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -32,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Nome da atividade" />
+                android:hint="@string/nomeAtividadeAdd"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -40,23 +43,22 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EA80FC"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/second_content_linear_layout_add_ativ">
 
-        <TextView
-            style="?android:textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:lineSpacingMultiplier="1.2"
-            android:padding="16dp"
-            android:text="vfsdfs" />
-        <TextView
-            style="?android:textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:lineSpacingMultiplier="1.2"
-            android:padding="16dp"
-            android:text="fff" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:hintTextAppearance="@style/TextLabelAtivAdd">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_data_finalizacao_ativ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:hint="@string/dtFinalizacaoAtiv"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 

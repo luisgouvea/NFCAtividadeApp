@@ -62,6 +62,10 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         }
         getAtivExecutar(rootView);
 
+        return rootView;
+    }
+
+    public void MontaRestanteTela(final View rootView){
         this.mViewHolderExecAtivHome.mViewSpinnerAtivFazer = rootView.findViewById(R.id.status_spinner_atividade_fazer);
         ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -97,8 +101,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setLayoutManager(linearLayoutManager);
-
-        return rootView;
     }
 
     @Override
@@ -113,21 +115,21 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         }*/
     }
 
-    private void getAtivExecutar(View rootView) {
+    private void getAtivExecutar(final View rootView) {
         final ProgressDialog pDialog = new ProgressDialog(rootView.getContext());
-//        pDialog.setMessage("Aguarde, buscando atividades...");
-//        pDialog.show();
+        pDialog.setMessage("Aguarde, buscando atividades...");
+        pDialog.show();
         RequestQueue rq = Volley.newRequestQueue(rootView.getContext());
         JSONArray params = new JSONArray();
         params.put(this.idUsuario);
-        ArrayList<com.fiquedeolho.nfcatividadeapp.models.TAG> aj = new ArrayList<TAG>();
+        /*ArrayList<com.fiquedeolho.nfcatividadeapp.models.TAG> aj = new ArrayList<TAG>();
         TAG tg = new TAG();
         tg.setNome("fdsf");
         aj.add(tg);
 
         Gson f = new Gson();
         String gg = f.toJson(aj);
-        params.put(gg);
+        params.put(gg);*/
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
 
@@ -142,11 +144,12 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                         atividade.setId(atividadeAPI.getInt("Id"));
                         //cria atividade
                         listAtividadeExecutar.add(atividade);
+                        MontaRestanteTela(rootView);
                     } catch (Exception e) {
                         Log.d("Erro getAtivExecutar ->", e.getMessage());
                     }
                 }
-                //pDialog.hide();
+                pDialog.hide();
             }
         }, new Response.ErrorListener() {
 

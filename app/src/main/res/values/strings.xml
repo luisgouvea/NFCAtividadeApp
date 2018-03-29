@@ -10,4 +10,6 @@
     <string name="concluido">Concluído</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dtFinalizacaoAtiv">Data de finalização</string>
+    <string name="nomeAtividadeAdd">Nome da atividade</string>
 </resources>
