@@ -49,6 +49,11 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private TextView[] dots;
     public ViewHolderAddAtividade mViewHolderAddAtividade = new ViewHolderAddAtividade();
     private int[] layouts;
+    private ProgressDialog pDialog;
+    //private Boolean addAtividadeDB;
+    private String dataFinalizacaoInput;
+    private String nomeAtividadeInput;
+    private Context context;
 
     /**
      * ViewHolder dos elementos
@@ -67,6 +72,10 @@ public class AddAtividadeActivity extends AppCompatActivity {
        //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
 
         setContentView(R.layout.activity_add_atividade);
+        //addAtividadeDB = false;
+        dataFinalizacaoInput = null;
+        nomeAtividadeInput = null;
+        context = this;
         /*getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
@@ -96,7 +105,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtividade.mViewBtnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen(false);
+                //addAtividadeDB = false;
+                launchHomeScreen();
             }
         });
 
@@ -110,7 +120,17 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     // move to next screen
                     mViewHolderAddAtividade.mViewPagerAddAtividade.setCurrentItem(current);
                 } else {
-                    launchHomeScreen(true);
+                    //addAtividadeDB = true;
+                    pDialog = new ProgressDialog(context);
+                    pDialog.setMessage("Aguarde, criando atividade...");
+                    pDialog.show();
+                    LinearLayout linear = mViewHolderAddAtividade.mViewPagerAddAtividade.findViewById(R.id.first_content_linear_layout_add_ativ);
+                    EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
+                    EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
+                    nomeAtividadeInput = nomeAtivEle.getText().toString();
+                    dataFinalizacaoInput = dataFinalizaEle.getText().toString();
+                    addAtividade();
+                    launchHomeScreen();
                 }
             }
         });
@@ -139,35 +159,31 @@ public class AddAtividadeActivity extends AppCompatActivity {
         return this.mViewHolderAddAtividade.mViewPagerAddAtividade.getCurrentItem() + i;
     }
 
-    private void launchHomeScreen(Boolean criarAtividade) {
-        if(criarAtividade){
-            LinearLayout linear = this.mViewHolderAddAtividade.mViewPagerAddAtividade.findViewById(R.id.first_content_linear_layout_add_ativ);
-            EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
-            EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
-            String nomeAtividade = nomeAtivEle.getText().toString();
-            String dataFinalizacao = dataFinalizaEle.getText().toString();
-            Boolean resultado = addAtividade(nomeAtividade, dataFinalizacao);
-            final ProgressDialog pDialog = new ProgressDialog(this);
-            if(!resultado){
-                pDialog.setMessage("Ocorreu algum problema para a inserção");
-                pDialog.show();
-            }
-            pDialog.hide();
-        }
+    private void launchHomeScreen() {
         startActivity(new Intent(AddAtividadeActivity.this, InitialNavigationActivity.class));
         finish();
     }
 
-    private Boolean addAtividade(String nome, String data) {
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        final Context contextoAddAtividade = this;
-        pDialog.setMessage("Aguarde, criando atividade...");
-        pDialog.show();
+
+    /*@Override
+    protected void onPause(){
+        super.onPause();
+    }*/
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+    private Boolean addAtividade() {
         RequestQueue rq = Volley.newRequestQueue(this);
         JSONObject params = new JSONObject();
         try {
-            params.put("nomeAtividade", nome);
-            params.put("dataFinalizacao", data);
+            params.put("nomeAtividade", nomeAtividadeInput);
+            params.put("dataFinalizacao", dataFinalizacaoInput);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -183,14 +199,14 @@ public class AddAtividadeActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }*/
-                pDialog.hide();
+                //pDialog.hide();
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("Erro", "Error: " + error.getMessage());
-                pDialog.hide();
+                //pDialog.dismiss();
 /*                Toast t = Toast.makeText(contextoLogin, "Por favor, tente novamente!", Toast.LENGTH_SHORT);
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();*/
@@ -203,11 +219,11 @@ public class AddAtividadeActivity extends AppCompatActivity {
         // Adding request to request queue
         rq.add(jsonObjReq);
         // TODO: Rever esse uso, pode existir uma outra forma e ainda, isso pode dar problema, pesquisar...
-        try {
+        /*try {
             future.get(2, TimeUnit.SECONDS);
         } catch (Exception e) {
             String g = e.getMessage();
-        }
+        }*/
         return true;
     }
 

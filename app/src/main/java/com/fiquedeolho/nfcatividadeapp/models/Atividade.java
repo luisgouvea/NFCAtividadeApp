@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Atividade implements Parcelable {
 
-    private String nome;
-    private int id;
+    private String Nome;
+    private int Id;
     private ArrayList<TAG> listTags;
 
     public Atividade() {
@@ -16,8 +16,8 @@ public class Atividade implements Parcelable {
 
 
     protected Atividade(Parcel in) {
-        nome = in.readString();
-        id = in.readInt();
+        Nome = in.readString();
+        Id = in.readInt();
         listTags = in.createTypedArrayList(TAG.CREATOR);
     }
 
@@ -34,11 +34,11 @@ public class Atividade implements Parcelable {
     };
 
     public String getNome() {
-        return nome;
+        return Nome;
     }
 
     public int getId() {
-        return id;
+        return Id;
     }
 
     public ArrayList<TAG> getListTags() {
@@ -46,11 +46,11 @@ public class Atividade implements Parcelable {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.Nome = nome;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public void setListTags(ArrayList<TAG> listTags) {
@@ -65,8 +65,8 @@ public class Atividade implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(nome);
-        parcel.writeInt(id);
+        parcel.writeString(Nome);
+        parcel.writeInt(Id);
         parcel.writeTypedList(listTags);
     }
 }

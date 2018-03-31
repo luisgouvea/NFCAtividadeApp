@@ -20,17 +20,29 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolder loginViewHolder = new ViewHolder();
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
 
     private static class ViewHolder {
         EditText login;
@@ -62,11 +81,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Button btnLogin;
     }
 
-    private void autenticarUsuario(String login, String senha) {
-        final ProgressDialog pDialog = new ProgressDialog(this);
+    private void autenticarUsuario(String login, String senha){
         final Context contextoLogin = this;
-        pDialog.setMessage("Aguarde, autenticando...");
+        UsuarioRetrofit usuInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
+        ArrayList <String> list = new ArrayList<>();
+        list.add(login);
+        list.add(senha);
+        final Call<Integer> call = usuInterface.logarUsuario(list);
+        pDialog = new ProgressDialog(this);
+        pDialog.setTitle(getString(R.string.title_progress_aut_login));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.setCancelable(false);
         pDialog.show();
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
+                int idUsuario = response.body();
+                Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
+                intent.putExtra("idUsuario", Integer.toString(idUsuario));
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(t.getMessage()), Toast.LENGTH_LONG).show();
+                if(pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    /*private void autenticarUsuario(String login, String senha) {
+        final Context contextoLogin = this;
         RequestQueue rq = Volley.newRequestQueue(this);
         JSONObject params = new JSONObject();
         try {
@@ -82,10 +130,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     String idUsuario = response.getString("Id");
                     Log.d("ResultJSONLogin", response.toString());
-                    pDialog.hide();
                     Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
                     intent.putExtra("idUsuario", idUsuario);
                     startActivity(intent);
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -107,5 +155,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         // Adding request to request queue
         rq.add(jsonObjReq);
-    }
+    }*/
 }

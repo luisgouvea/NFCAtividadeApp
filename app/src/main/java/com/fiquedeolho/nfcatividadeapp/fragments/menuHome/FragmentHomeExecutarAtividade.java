@@ -2,6 +2,9 @@ package com.fiquedeolho.nfcatividadeapp.fragments.menuHome;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,29 +17,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.OnListClickInteractionListener;
-import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Conteudo abaixo do menu
@@ -48,11 +44,22 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
     private ViewHolderExecutarAtivHome mViewHolderExecAtivHome = new ViewHolderExecutarAtivHome();
     private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
     private ArrayList<Atividade> listAtividadeExecutar = new ArrayList<Atividade>();
+    private ProgressDialog pDialog;
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_home_fazer_ativ, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home_fazer_ativ, container, false);
+        return rootView;
+    }
 
+    @Override
+    public void onStart() {
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setTitle(getString(R.string.title_progress_ativ_executar));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.setCancelable(false);
+        pDialog.show();
         Bundle budle = getArguments();
         if (budle != null) {
             idUsuario = budle.getString("idUsuario");
@@ -60,12 +67,29 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             //TODO REVER ESSA LOGICA DEPOIS ARRUMAR ISSO
             idUsuario = "1"; //
         }
-        getAtivExecutar(rootView);
-
-        return rootView;
+        getAtivExecutar();
+        super.onStart();
     }
 
-    public void MontaRestanteTela(final View rootView){
+    /*@Override
+    public void onResume(){
+        super.onResume();
+        if(pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }*/
+
+    /*@Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+    }*/
+
+    public void MontaRestanteTela() {
         this.mViewHolderExecAtivHome.mViewSpinnerAtivFazer = rootView.findViewById(R.id.status_spinner_atividade_fazer);
         ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -115,64 +139,90 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         }*/
     }
 
-    private void getAtivExecutar(final View rootView) {
-        final ProgressDialog pDialog = new ProgressDialog(rootView.getContext());
-        pDialog.setMessage("Aguarde, buscando atividades...");
-        pDialog.show();
-        RequestQueue rq = Volley.newRequestQueue(rootView.getContext());
-        JSONArray params = new JSONArray();
-        params.put(this.idUsuario);
-        /*ArrayList<com.fiquedeolho.nfcatividadeapp.models.TAG> aj = new ArrayList<TAG>();
-        TAG tg = new TAG();
-        tg.setNome("fdsf");
-        aj.add(tg);
+   /* private void getAtivExecutar() {
 
-        Gson f = new Gson();
-        String gg = f.toJson(aj);
-        params.put(gg);*/
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST, ConstantsURIAPI.GETATIVIDADESEXECUTAR, params, new Response.Listener<JSONArray>() {
-
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject atividadeAPI = response.getJSONObject(i);
-                        //cria atividade
-                        Atividade atividade = new Atividade();
-                        atividade.setNome(atividadeAPI.getString("Nome"));
-                        atividade.setId(atividadeAPI.getInt("Id"));
-                        //cria atividade
-                        listAtividadeExecutar.add(atividade);
-                        MontaRestanteTela(rootView);
-                    } catch (Exception e) {
-                        Log.d("Erro getAtivExecutar ->", e.getMessage());
-                    }
+            public void run() {
+                AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+                final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(idUsuario);
+                try{
+                    listAtividadeExecutar = call.execute().body();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //this runs on the UI thread
+                            MontaRestanteTela();
+                            if(pDialog != null && pDialog.isShowing()){
+                                pDialog.dismiss();
+                            }
+                            //atividadeListAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }catch (Exception e){
+
                 }
-                pDialog.hide();
             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String h = "fjfjf";
-            }
-        });
-
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        // Adding request to request queue
-        rq.add(jsonObjReq);
-
-        // TODO: Rever esse uso, pode existir uma outra forma e ainda, isso pode dar problema, pesquisar...
+        }).start();
+        //AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+        *//*final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(idUsuario);
         try {
-            future.get(1, TimeUnit.SECONDS);
+            new NetworkCall().execute(call);
         } catch (Exception e) {
             String g = e.getMessage();
+        }*//*
+    }*/
+
+
+    private class NetworkCall extends AsyncTask<Call, Void, ArrayList<Atividade>> {
+
+        protected ArrayList<Atividade> doInBackground(Call [] params) {
+            try {
+                Call<ArrayList<Atividade>> call = params[0];
+                return call.execute().body();
+                //return response.body().toString();
+            } catch (Exception e) {
+                Log.d("@@jj@@", e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Atividade> result) {
+            listAtividadeExecutar = result;
+            MontaRestanteTela();
+            if(pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
         }
     }
+    private void getAtivExecutar(){
+        AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+        final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(this.idUsuario);
+        // TODO: Rever essa logica de Thread, ta gambiarra
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        call.enqueue(new Callback<ArrayList<Atividade>>() {
+            @Override
+            public void onResponse(Call <ArrayList<Atividade>> call, retrofit2.Response <ArrayList<Atividade>> response) {
+                listAtividadeExecutar = response.body();
+                MontaRestanteTela();
+                if(pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
 
+            @Override
+            public void onFailure(Call <ArrayList<Atividade>> call, Throwable t) {
+                if(pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
 
     /**
      * ViewHolder dos elementos
