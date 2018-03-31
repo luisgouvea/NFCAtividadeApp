@@ -1,6 +1,5 @@
 package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -22,24 +21,22 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
     private TextView descricaoAtividade;
     private TextView statusAtividade;
     private TextView popMenu;
-    private Context mContext;
 
 
     /**
      * Construtor
      */
-    public AtividadeViewHolder(View itemView , Context context) {
+    public AtividadeViewHolder(View itemView) {
         super(itemView);
         this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_car_model);
         this.statusAtividade = (TextView) itemView.findViewById(R.id.text_view_details);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionDigit);
-        this.mContext = context;
     }
 
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final PopupMenu.OnMenuItemClickListener listenerOptions ) {
+    public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListener listenerOptions ) {
 
         // Altera valor
         this.descricaoAtividade.setText(atividade.getNome());
@@ -54,14 +51,25 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        /*PopupMenu popupMenu = new PopupMenu(mContext, popMenu);
+        popupMenu.inflate(R.menu.options_list_ativ_executar);
+        popupMenu.show();*/
+        popMenu.setId(atividade.getId());
         this.popMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listenerOptions.onClick(view.getId());
+            }
+        });
+
+        /*this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Display option menu
                 PopupMenu popupMenu = new PopupMenu(mContext, popMenu);
                 popupMenu.inflate(R.menu.options_list_ativ_executar);
                 popupMenu.setOnMenuItemClickListener(listenerOptions);
-                /*popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                *//*popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
@@ -71,8 +79,8 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
                                 break;
                             case R.id.mnu_item_delete:
                                 //Delete item
-                                *//*listItems.remove(position);
-                                notifyDataSetChanged();*//*
+                                *//**//*listItems.remove(position);
+                                notifyDataSetChanged();*//**//*
                                 Toast.makeText(mContext, "Deleted", Toast.LENGTH_LONG).show();
                                 break;
                             default:
@@ -80,9 +88,9 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
                         }
                         return false;
                     }
-                });*/
+                });*//*
                 popupMenu.show();
             }
-        });
+        });*/
     }
 }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
     private ArrayList<Atividade> listAtividadeExecutar = new ArrayList<Atividade>();
     private ProgressDialog pDialog;
     private View rootView;
+    private AtividadeListAdpter atividadeListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,32 +122,55 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             }
         };
 
-        /*OnListClickInteractionListener listenerSeila = new OnListClickInteractionListener() {
+        /**
+         Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
+         Parametro: O ID em questao, representa o id do Text (tres pontinhos)
+         idOptionsDocs = posicao do ArrayList
+         idOptionsDocs = representa o ID no banco de dados
+         */
+
+        // TODO: Talvez descobrir: mais de um elemento nao da problema
+        // TODO: POSSIVEL SOLUCAO: CONCATENAR STRNGS
+        OnListClickInteractionListener listenerOptionsList = new OnListClickInteractionListener() {
             @Override
-            public void onClick(int id) {
+            public void onClick(final int idOptionsDocs) {
+                LinearLayout linear = rootView.findViewById(R.id.layoutLinearAtivExecutar);
+                RecyclerView re = linear.findViewById(R.id.recyclerViewAtividadeFazer);
+                TextView tresPontinhosOptions = re.findViewById(idOptionsDocs);
+                PopupMenu popupMenu = new PopupMenu(getContext(), tresPontinhosOptions);
+                popupMenu.inflate(R.menu.options_list_ativ_executar);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.mnu_item_save:
+                                Toast.makeText(getContext(), "Salvo", Toast.LENGTH_LONG).show();
+                                break;
+                            case R.id.mnu_item_delete:
+                                Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();
+                                int positionDeletar = descobrePositionArrayListAtiv(idOptionsDocs);
+                                listAtividadeExecutar.remove(positionDeletar);
+                                ObservableRecycler();
+                                break;
+                            default:
+                                break;
+                        }
+                        /*Bundle bundle = new Bundle();
+                        bundle.putInt("IdAtividade", idOptionsDocs);
 
-            }
-        };*/
+                        Intent intent = new Intent(rootView.getContext(), DetailsAtividadeActivity.class);
+                        intent.putExtras(bundle);
 
-        android.support.v7.widget.PopupMenu.OnMenuItemClickListener listenerOptionsList = new android.support.v7.widget.PopupMenu.OnMenuItemClickListener(){
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.mnu_item_save:
-                        Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
-                        break;
-                    case R.id.mnu_item_delete:
-                        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
+                        startActivity(intent);*/
+                        return true;
+                    }
+                });
             }
         };
+
         // 2 - Definir adapter passando listagem de carros e listener
-        AtividadeListAdpter atividadeListAdapter = new AtividadeListAdpter(listAtividadeExecutar, listener, listenerOptionsList, getContext());
+        atividadeListAdapter = new AtividadeListAdpter(listAtividadeExecutar, listener, listenerOptionsList);
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setAdapter(atividadeListAdapter);
 
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
@@ -153,6 +178,20 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setLayoutManager(linearLayoutManager);
+    }
+
+    private int descobrePositionArrayListAtiv(int idAtividade){
+        for (int i = 0; i < listAtividadeExecutar.size(); i++ ){
+            Atividade ativ = listAtividadeExecutar.get(i);
+            if(ativ.getId() == idAtividade){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void ObservableRecycler() {
+        atividadeListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -204,7 +243,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
     private class NetworkCall extends AsyncTask<Call, Void, ArrayList<Atividade>> {
 
-        protected ArrayList<Atividade> doInBackground(Call [] params) {
+        protected ArrayList<Atividade> doInBackground(Call[] params) {
             try {
                 Call<ArrayList<Atividade>> call = params[0];
                 return call.execute().body();
@@ -219,12 +258,13 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         protected void onPostExecute(ArrayList<Atividade> result) {
             listAtividadeExecutar = result;
             MontaRestanteTela();
-            if(pDialog != null && pDialog.isShowing()) {
+            if (pDialog != null && pDialog.isShowing()) {
                 pDialog.dismiss();
             }
         }
     }
-    private void getAtivExecutar(){
+
+    private void getAtivExecutar() {
         AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
         final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(this.idUsuario);
         // TODO: Rever essa logica de Thread, ta gambiarra
@@ -235,17 +275,17 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         }
         call.enqueue(new Callback<ArrayList<Atividade>>() {
             @Override
-            public void onResponse(Call <ArrayList<Atividade>> call, retrofit2.Response <ArrayList<Atividade>> response) {
+            public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
                 listAtividadeExecutar = response.body();
                 MontaRestanteTela();
-                if(pDialog != null && pDialog.isShowing()) {
+                if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
             }
 
             @Override
-            public void onFailure(Call <ArrayList<Atividade>> call, Throwable t) {
-                if(pDialog != null && pDialog.isShowing()) {
+            public void onFailure(Call<ArrayList<Atividade>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
             }

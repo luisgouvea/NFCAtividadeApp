@@ -23,17 +23,14 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     // Interface que define as ações
     private OnListClickInteractionListener mOnListClickInteractionListener;
 
-    private PopupMenu.OnMenuItemClickListener mOnListOptionListener;
-
-    private Context mContext;
+    private OnListClickInteractionListener mOnListOptionListener;
 
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, PopupMenu.OnMenuItemClickListener listOptions, Context context) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListener listOptions) {
         this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
-        this.mContext = context;
         this.mOnListOptionListener = listOptions;
     }
 
@@ -51,7 +48,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
         View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list, parent, false);
 
         // Passa a ViewHolder
-        return new AtividadeViewHolder(atividadeView, this.mContext);
+        return new AtividadeViewHolder(atividadeView);
     }
 
     /**
