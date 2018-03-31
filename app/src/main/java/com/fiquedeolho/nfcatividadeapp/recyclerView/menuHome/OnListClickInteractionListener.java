@@ -1,4 +1,4 @@
-package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
+package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome;
 
 /**
  * Interface utilizada para lidar com eventos na listagem

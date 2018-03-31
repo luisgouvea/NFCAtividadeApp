@@ -2,16 +2,15 @@ package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
 
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.OnListClickInteractionListenerOptionsList;
 
 import java.util.List;
 
@@ -23,12 +22,12 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     // Interface que define as ações
     private OnListClickInteractionListener mOnListClickInteractionListener;
 
-    private OnListClickInteractionListener mOnListOptionListener;
+    private OnListClickInteractionListenerOptionsList mOnListOptionListener;
 
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListener listOptions) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerOptionsList listOptions) {
         this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
         this.mOnListOptionListener = listOptions;

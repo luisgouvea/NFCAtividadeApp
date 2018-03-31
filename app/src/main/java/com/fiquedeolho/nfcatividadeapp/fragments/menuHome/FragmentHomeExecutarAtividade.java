@@ -3,8 +3,6 @@ package com.fiquedeolho.nfcatividadeapp.fragments.menuHome;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,13 +25,12 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.OnListClickInteractionListenerOptionsList;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,21 +119,15 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         };
 
         /**
+         * OnListClickInteractionListenerOptionsList interface QUE CRIEI
          Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
-         Parametro: O ID em questao, representa o id do Text (tres pontinhos)
-         idOptionsDocs = posicao do ArrayList
-         idOptionsDocs = representa o ID no banco de dados
+         Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
          */
-
-        // TODO: Talvez descobrir: mais de um elemento nao da problema
-        // TODO: POSSIVEL SOLUCAO: CONCATENAR STRNGS
-        OnListClickInteractionListener listenerOptionsList = new OnListClickInteractionListener() {
+        OnListClickInteractionListenerOptionsList listenerOptionsList = new OnListClickInteractionListenerOptionsList() {
             @Override
-            public void onClick(final int idOptionsDocs) {
-                LinearLayout linear = rootView.findViewById(R.id.layoutLinearAtivExecutar);
-                RecyclerView re = linear.findViewById(R.id.recyclerViewAtividadeFazer);
-                TextView tresPontinhosOptions = re.findViewById(idOptionsDocs);
-                PopupMenu popupMenu = new PopupMenu(getContext(), tresPontinhosOptions);
+            public void onClick(final View viewTarget) {
+                final int idAtividade = viewTarget.getId();
+                PopupMenu popupMenu = new PopupMenu(getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_ativ_executar);
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -149,7 +139,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                                 break;
                             case R.id.mnu_item_delete:
                                 Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();
-                                int positionDeletar = descobrePositionArrayListAtiv(idOptionsDocs);
+                                int positionDeletar = descobrePositionArrayListAtiv(idAtividade);
                                 listAtividadeExecutar.remove(positionDeletar);
                                 ObservableRecycler();
                                 break;
