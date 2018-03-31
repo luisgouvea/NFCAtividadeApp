@@ -2,8 +2,11 @@ package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
 
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,12 +23,18 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     // Interface que define as ações
     private OnListClickInteractionListener mOnListClickInteractionListener;
 
+    private PopupMenu.OnMenuItemClickListener mOnListOptionListener;
+
+    private Context mContext;
+
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, PopupMenu.OnMenuItemClickListener listOptions, Context context) {
         this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
+        this.mContext = context;
+        this.mOnListOptionListener = listOptions;
     }
 
     /**
@@ -42,7 +51,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
         View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list, parent, false);
 
         // Passa a ViewHolder
-        return new AtividadeViewHolder(atividadeView);
+        return new AtividadeViewHolder(atividadeView, this.mContext);
     }
 
     /**
@@ -51,7 +60,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     @Override
     public void onBindViewHolder(AtividadeViewHolder holder, int position) {
         Atividade car = this.mListAtividades.get(position);
-        holder.bindData(car, this.mOnListClickInteractionListener);
+        holder.bindData(car, this.mOnListClickInteractionListener, this.mOnListOptionListener);
     }
 
     @Override

@@ -26,5 +26,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_car_model"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&#8942;"
+        android:id="@+id/txtOptionDigit"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+
 
 </RelativeLayout>

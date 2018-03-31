@@ -12,12 +12,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
@@ -116,8 +120,32 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             }
         };
 
+        /*OnListClickInteractionListener listenerSeila = new OnListClickInteractionListener() {
+            @Override
+            public void onClick(int id) {
+
+            }
+        };*/
+
+        android.support.v7.widget.PopupMenu.OnMenuItemClickListener listenerOptionsList = new android.support.v7.widget.PopupMenu.OnMenuItemClickListener(){
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.mnu_item_save:
+                        Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.mnu_item_delete:
+                        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        };
         // 2 - Definir adapter passando listagem de carros e listener
-        AtividadeListAdpter atividadeListAdapter = new AtividadeListAdpter(listAtividadeExecutar, listener);
+        AtividadeListAdpter atividadeListAdapter = new AtividadeListAdpter(listAtividadeExecutar, listener, listenerOptionsList, getContext());
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setAdapter(atividadeListAdapter);
 
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
