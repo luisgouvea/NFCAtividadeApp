@@ -114,7 +114,7 @@ public class InitialNavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_camera) {
+        if (id == R.id.help_tutorial) {
             return true;
         }
 

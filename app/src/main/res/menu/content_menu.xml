@@ -2,14 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_camera"
-        android:icon="@drawable/ic_menu_camera"
-        android:title="Update"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/fdf"
-        android:icon="@drawable/ic_menu_send"
-        android:title="Teste"
+        android:id="@+id/help_tutorial"
+        android:icon="@drawable/ic_help_menu_main"
+        android:title="Tutorial ajuda"
         app:showAsAction="ifRoom"/>
 </menu>
