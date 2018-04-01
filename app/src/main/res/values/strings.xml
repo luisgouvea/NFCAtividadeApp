@@ -15,4 +15,5 @@
     <string name="message_progress_dialog">Aguarde...</string>
     <string name="title_progress_aut_login">Autenticando o usuário</string>
     <string name="title_progress_ativ_executar">Buscando atividade(s)</string>
+    <string name="title_progress_ativ_adicionadas">Buscando atividade(s)</string>
 </resources>

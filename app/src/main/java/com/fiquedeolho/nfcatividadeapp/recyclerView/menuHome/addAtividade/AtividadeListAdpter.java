@@ -1,4 +1,4 @@
-package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade;
+package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade;
 
 
 import android.content.Context;
@@ -44,7 +44,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_exec, parent, false);
+        View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_add, parent, false);
 
         // Passa a ViewHolder
         return new AtividadeViewHolder(atividadeView);
