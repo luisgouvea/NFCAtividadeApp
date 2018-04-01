@@ -20,6 +20,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_tarefas_list"
             android:layout_weight="0.70"/>
         <TextView
@@ -27,7 +28,9 @@
             android:layout_height="0dp"
             android:layout_weight="0.30"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorAccent"
             android:text="@string/title_page_inf_tarefas"/>
     </LinearLayout>
 
@@ -48,7 +51,7 @@
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_addFloatingAction_add_tag"
+                android:id="@+id/btn_addFloatingAction_add_tarefa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right|end"

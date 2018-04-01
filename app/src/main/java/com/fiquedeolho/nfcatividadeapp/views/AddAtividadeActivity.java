@@ -11,8 +11,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -40,8 +37,6 @@ import com.fiquedeolho.nfcatividadeapp.util.Mask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.TimeUnit;
 
 public class AddAtividadeActivity extends AppCompatActivity {
 
@@ -88,8 +83,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
         // layouts of all welcome sliders
         // add few more layouts if you want
         layouts = new int[]{
-                R.layout.activity_screen_slide_page_fragment,
-                R.layout.content_add_atividade_slide1
+                R.layout.content_add_ativ_inf,
+                R.layout.content_add_ativ_vinc_executor
         };
 
         // adding bottom dots

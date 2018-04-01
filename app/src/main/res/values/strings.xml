@@ -19,4 +19,9 @@
     <string name="title_page_inf_tarefas">Informações das tarefas</string>
     <string name="concluir_inf_tarefas">CONCLUIR</string>
     <string name="btn_regras_tarefas">DEFINIR REGRAS DAS TAREFAS</string>
+    <string name="input_nome_tarefa">Nome da Tarefa</string>
+    <string name="title_page_activity_add_atividade">Adicionar Atividade</string>
+    <string name="title_page_activity_add_tarefa">Adicionar Tarefa</string>
+    <string name="title_page_activity_inf_tarefas">Listagem de tarefas</string>
+    <item name="visible" type="id"/> <item name="masked" type="id"/>
 </resources>

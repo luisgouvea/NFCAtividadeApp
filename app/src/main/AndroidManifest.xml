@@ -26,7 +26,8 @@
         <activity android:name=".views.CheckNFCActivity" />
         <activity
             android:name=".views.AddAtividadeActivity"
-            android:parentActivityName=".views.InitialNavigationActivity">
+            android:parentActivityName=".views.InitialNavigationActivity"
+            android:label="@string/title_page_activity_add_atividade">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InitialNavigationActivity" />
@@ -34,7 +35,22 @@
         <activity
             android:name=".views.InitialNavigationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".views.InfTarefasActivity"></activity>
+        <activity
+            android:name=".views.InfTarefasActivity"
+            android:parentActivityName=".views.InitialNavigationActivity"
+            android:label="@string/title_page_activity_inf_tarefas">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.InitialNavigationActivity" />
+        </activity>
+        <activity
+            android:name=".views.AddTarefaActivity"
+            android:parentActivityName=".views.InfTarefasActivity"
+            android:label="@string/title_page_activity_add_tarefa">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="views.InfTarefasActivity" />
+        </activity>
     </application>
 
 </manifest>
