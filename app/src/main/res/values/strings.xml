@@ -16,4 +16,7 @@
     <string name="title_progress_aut_login">Autenticando o usuário</string>
     <string name="title_progress_ativ_executar">Buscando atividade(s)</string>
     <string name="title_progress_ativ_adicionadas">Buscando atividade(s)</string>
+    <string name="title_page_inf_tarefas">Informações das tarefas</string>
+    <string name="concluir_inf_tarefas">CONCLUIR</string>
+    <string name="btn_regras_tarefas">DEFINIR REGRAS DAS TAREFAS</string>
 </resources>

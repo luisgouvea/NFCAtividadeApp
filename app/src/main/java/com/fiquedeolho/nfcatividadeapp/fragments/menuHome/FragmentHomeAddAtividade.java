@@ -27,6 +27,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.OnListClickInteract
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
+import com.fiquedeolho.nfcatividadeapp.views.InfTarefasActivity;
 
 import java.util.ArrayList;
 
@@ -179,7 +180,14 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_inf_tag:
-                                Toast.makeText(getContext(), "Inf tag", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Inf Tarefas", Toast.LENGTH_LONG).show();
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("IdAtividade", idAtividade);
+
+                                Intent intent = new Intent(rootView.getContext(), InfTarefasActivity.class);
+                                intent.putExtras(bundle);
+
+                                startActivity(intent);
                                 break;
                             case R.id.mnu_deletar_ativ:
                                 Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();
@@ -190,13 +198,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                             default:
                                 break;
                         }
-                        /*Bundle bundle = new Bundle();
-                        bundle.putInt("IdAtividade", idOptionsDocs);
-
-                        Intent intent = new Intent(rootView.getContext(), DetailsAtividadeActivity.class);
-                        intent.putExtras(bundle);
-
-                        startActivity(intent);*/
                         return true;
                     }
                 });
