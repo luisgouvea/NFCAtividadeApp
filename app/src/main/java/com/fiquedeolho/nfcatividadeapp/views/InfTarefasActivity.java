@@ -1,19 +1,30 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTarefas.TarefasListAdapter;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class InfTarefasActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,6 +32,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     private int idAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
     private ProgressDialog pDialog;
+    private TarefasListAdapter tarefasListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +58,125 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
             listTags = extras.getParcelableArrayList("listaTarefas");
         }
-        if(listTags == null){
+        if (listTags == null) {
             // SELECT NO BANCO
+            getListTarefas();
         }
-        ObservableRecycler();
+    }
+
+    private void getListTarefas() {
+        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.idAtividade);
+        // TODO: Rever essa logica de Thread, ta gambiarra
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        call.enqueue(new Callback<ArrayList<TAG>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
+                listTags = response.body();
+                SetarRecyclerView();
+                ObservableRecycler();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void SetarRecyclerView() {
+
+        // 1 - Obter a recyclerview
+        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas = findViewById(R.id.recyclerViewInfTarefas);
+
+        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.getVisibility() == View.VISIBLE) {
+                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.hide();
+                } else if (dy < 0 && mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.getVisibility() != View.VISIBLE) {
+                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.show();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
+
+        /**
+         * OnListClickInteractionListenerOptionsList interface QUE CRIEI
+         Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
+         Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
+         */
+        OnListClickInteractionListenerOptionsList listenerOptionsList = new OnListClickInteractionListenerOptionsList() {
+            @Override
+            public void onClick(final View viewTarget) {
+                final int idTag = viewTarget.getId();
+                PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
+                popupMenu.inflate(R.menu.options_list_tarefa);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.mnu_vinc_tarefa_tag:
+                                Toast.makeText(getApplicationContext(), "Vincular com TAG", Toast.LENGTH_LONG).show();
+                                /*Bundle bundle = new Bundle();
+                                bundle.putInt("IdTag", idTag);
+
+                                Intent intent = new Intent(getApplicationContext(), InfTarefasActivity.class);
+                                intent.putExtras(bundle);
+
+                                startActivity(intent);*/
+                                break;
+                            case R.id.mnu_deletar_tarefa:
+                                Toast.makeText(getApplicationContext(), "Deletado", Toast.LENGTH_LONG).show();
+                                int positionDeletar = descobrePositionArrayListAtiv(idTag);
+                                listTags.remove(positionDeletar);
+                                ObservableRecycler();
+                                break;
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
+            }
+        };
+
+        // 2 - Definir adapter passando listagem de tarefas e listener
+        tarefasListAdapter = new TarefasListAdapter(listTags, listenerOptionsList);
+        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.setAdapter(tarefasListAdapter);
+
+        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+
+        // 3 - Definir um layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -76,12 +196,21 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
             startActivity(intent);
             finish();
-
         }
     }
 
+    private int descobrePositionArrayListAtiv(int idTag){
+        for (int i = 0; i < listTags.size(); i++ ){
+            TAG tag = listTags.get(i);
+            if(tag.getId() == idTag){
+                return i;
+            }
+        }
+        return 0;
+    }
+
     private void ObservableRecycler() {
-        //infTarefasAdapter.notifyDataSetChanged();
+        tarefasListAdapter.notifyDataSetChanged();
     }
 
     /**

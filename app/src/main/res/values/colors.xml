@@ -7,6 +7,7 @@
     <color name="dot_light_screen1">#FFF</color>
     <color name="metalico">#263238</color>
     <color name="prata">#90A4AE</color>
+    <color name="row_recyclerView">#E0E0E0</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

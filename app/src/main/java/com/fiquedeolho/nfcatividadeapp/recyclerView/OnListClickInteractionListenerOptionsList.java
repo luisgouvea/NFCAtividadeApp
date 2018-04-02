@@ -1,4 +1,4 @@
-package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome;
+package com.fiquedeolho.nfcatividadeapp.recyclerView;
 
 import android.view.View;
 
