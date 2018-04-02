@@ -180,7 +180,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_inf_tag:
-                                Toast.makeText(getContext(), "Inf Tarefas", Toast.LENGTH_LONG).show();
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 

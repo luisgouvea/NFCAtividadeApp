@@ -29,10 +29,10 @@ import retrofit2.Callback;
 public class InfTarefasActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
-    private int idAtividade;
+    private int IdAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
-    private ProgressDialog pDialog;
     private TarefasListAdapter tarefasListAdapter;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +62,61 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         super.onStart();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            idAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
+            IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
             listTags = extras.getParcelableArrayList("listaTarefas");
         }
         if (listTags == null) {
             // SELECT NO BANCO
             getListTarefas();
+        }else{
+            //A LISTA JA VEIO POPULADA DA ACTIVITY AddTarefaActivity
+            TAG tag = listTags.get(listTags.size() - 1);
+            addTarefa(tag);
+            SetarRecyclerView();
+            //ObservableRecycler();
         }
     }
 
+    private void addTarefa(final TAG tag) {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_add));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<Boolean> call = tagInterface.addTag(tag);
+        // TODO: Rever essa logica de Thread, ta gambiarra
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                Boolean result = response.body();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
     private void getListTarefas() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
         TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.idAtividade);
+        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
         // TODO: Rever essa logica de Thread, ta gambiarra
         try {
             Thread.sleep(1000);
@@ -85,7 +128,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
                 listTags = response.body();
                 SetarRecyclerView();
-                ObservableRecycler();
+                //ObservableRecycler();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -189,8 +232,8 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         } else if (id == R.id.btn_addFloatingAction_add_tarefa) {
 
             Bundle bundle = new Bundle();
-            bundle.putInt("IdAtividade", idAtividade);
-
+            bundle.putInt("IdAtividade", IdAtividade);
+            bundle.putParcelableArrayList("listaTarefas", listTags);
             Intent intent = new Intent(this, AddTarefaActivity.class);
             intent.putExtras(bundle);
 

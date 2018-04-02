@@ -9,11 +9,13 @@ import java.util.ArrayList;
 public class TAG  implements Parcelable{
 
     private int Id;
+    private int IdAtividade;
     private String Nome;
     private ArrayList<String> listAntecessores;
 
     public TAG(Parcel in) {
         Id = in.readInt();
+        IdAtividade = in.readInt();
         Nome = in.readString();
         listAntecessores = in.createStringArrayList();
     }
@@ -42,6 +44,10 @@ public class TAG  implements Parcelable{
         return Id;
     }
 
+    public int getIdAtividade() {
+        return IdAtividade;
+    }
+
     public ArrayList<String> getListAntecessores() {
         return this.listAntecessores;
     }
@@ -52,6 +58,10 @@ public class TAG  implements Parcelable{
 
     public void setNome(String nome) {
         this.Nome = nome;
+    }
+
+    public void setIdAtividade(int idAtividade) {
+        this.IdAtividade = idAtividade;
     }
 
     public void setListAntecessores(ArrayList<String> listAntecessores) {
@@ -66,6 +76,7 @@ public class TAG  implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(Id);
+        parcel.writeInt(IdAtividade);
         parcel.writeString(Nome);
         parcel.writeStringList(listAntecessores);
     }

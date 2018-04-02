@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.EditText;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-
 import java.util.ArrayList;
 
 public class AddTarefaActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolderAddTarefa mViewHolderAddTarefa = new ViewHolderAddTarefa();
-    private int idAtividade;
+    private int IdAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
 
     @Override
@@ -28,30 +27,31 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            idAtividade = extras.getInt("IdAtividade");
+            IdAtividade = extras.getInt("IdAtividade");
+            listTags = extras.getParcelableArrayList("listaTarefas");
         }
 
+        this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa = findViewById(R.id.input_nomeTarefa);
         this.mViewHolderAddTarefa.mViewBtnSalvarTarefa = findViewById(R.id.btn_salvar_tarefa);
         this.mViewHolderAddTarefa.mViewBtnSalvarTarefa.setOnClickListener(this);
-        BackToInfTarefas();
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if(id == R.id.btn_salvar_tarefa){
-            //addTarefa();
+            TAG tag  = new TAG();
+            tag.setNome(this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa.getText().toString());
+            tag.setIdAtividade(IdAtividade);
+            backToInfTarefas(tag);
         }
     }
 
-    private void BackToInfTarefas() {
+    private void backToInfTarefas(TAG tag) {
         Intent resultIntent = new Intent(this, InfTarefasActivity.class);
-        // TODO Add extras or a data URI to this intent as appropriate.
-        TAG tag = new TAG();
-        tag.setNome("Teste tag");
         listTags.add(tag);
         resultIntent.putExtra("listaTarefas", listTags);
-        resultIntent.putExtra("idAtividade", idAtividade);
+        resultIntent.putExtra("IdAtividade", IdAtividade);
         setResult(Activity.RESULT_OK, resultIntent);
         startActivity(resultIntent);
         finish();
@@ -63,5 +63,6 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
     private class ViewHolderAddTarefa {
 
         private Button mViewBtnSalvarTarefa;
+        private EditText mViewBtnInputNomeTarefa;
     }
 }
