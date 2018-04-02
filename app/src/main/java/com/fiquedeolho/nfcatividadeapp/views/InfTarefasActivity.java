@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,11 +11,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.models.TAG;
+
+import java.util.ArrayList;
 
 public class InfTarefasActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
-    private int IdAtividade;
+    private int idAtividade;
+    private ArrayList<TAG> listTags = new ArrayList<>();
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +29,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            IdAtividade = extras.getInt("IdAtividade");
-        }
 
         /**
          * Pegando os elementos da Activity
@@ -47,6 +48,15 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onStart(){
         super.onStart();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            idAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
+            listTags = extras.getParcelableArrayList("listaTarefas");
+        }
+        if(listTags == null){
+            // SELECT NO BANCO
+        }
+        ObservableRecycler();
     }
 
     @Override
@@ -59,16 +69,20 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         } else if (id == R.id.btn_addFloatingAction_add_tarefa) {
 
             Bundle bundle = new Bundle();
-            bundle.putInt("IdAtividade", IdAtividade);
+            bundle.putInt("IdAtividade", idAtividade);
 
             Intent intent = new Intent(this, AddTarefaActivity.class);
             intent.putExtras(bundle);
 
             startActivity(intent);
+            finish();
 
         }
     }
 
+    private void ObservableRecycler() {
+        //infTarefasAdapter.notifyDataSetChanged();
+    }
 
     /**
      * ViewHolder dos elementos
