@@ -31,6 +31,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
     private int IdAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
+    private Boolean criarTarefa;
     private TarefasListAdapter tarefasListAdapter;
     private ProgressDialog pDialog;
 
@@ -64,16 +65,24 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
             listTags = extras.getParcelableArrayList("listaTarefas");
+            criarTarefa = extras.getBoolean("criarTarefa");
         }
         if (listTags == null) {
             // SELECT NO BANCO
             getListTarefas();
-        }else{
+        } else if(listTags.size() == 0){
+            // Text dizendo que esta vazia
+        }
+        else if(criarTarefa != null && criarTarefa){
             //A LISTA JA VEIO POPULADA DA ACTIVITY AddTarefaActivity
             TAG tag = listTags.get(listTags.size() - 1);
             addTarefa(tag);
             SetarRecyclerView();
             //ObservableRecycler();
+        }else {
+            //A LISTA JA VEIO POPULADA DA ACTIVITY RegrasTarefas ou ACTIVITY AddTarefaActivity
+            // desta forma, só carrega a lista
+            SetarRecyclerView();
         }
     }
 
@@ -227,6 +236,14 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         int id = v.getId();
         if (id == R.id.btn_definir_regras_tarefas) {
 
+            Bundle bundle = new Bundle();
+            bundle.putInt("IdAtividade", IdAtividade);
+            bundle.putParcelableArrayList("listaTarefas", listTags);
+            Intent intent = new Intent(this, RegrasTarefasActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            //finish();
+
         } else if (id == R.id.btn_concluir_inf_tarefas) {
 
         } else if (id == R.id.btn_addFloatingAction_add_tarefa) {
@@ -238,7 +255,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             intent.putExtras(bundle);
 
             startActivity(intent);
-            finish();
+            //finish();
         }
     }
 

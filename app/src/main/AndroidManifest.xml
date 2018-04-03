@@ -26,8 +26,8 @@
         <activity android:name=".views.CheckNFCActivity" />
         <activity
             android:name=".views.AddAtividadeActivity"
-            android:parentActivityName=".views.InitialNavigationActivity"
-            android:label="@string/title_page_activity_add_atividade">
+            android:label="@string/title_page_activity_add_atividade"
+            android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InitialNavigationActivity" />
@@ -37,16 +37,23 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.InfTarefasActivity"
-            android:parentActivityName=".views.InitialNavigationActivity"
-            android:label="@string/title_page_activity_inf_tarefas">
+            android:label="@string/title_page_activity_inf_tarefas"
+            android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.InitialNavigationActivity" />
         </activity>
         <activity
             android:name=".views.AddTarefaActivity"
-            android:parentActivityName=".views.InfTarefasActivity"
-            android:label="@string/title_page_activity_add_tarefa">
+            android:label="@string/title_page_activity_add_tarefa"
+            android:parentActivityName=".views.InfTarefasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="views.InfTarefasActivity" />
+        </activity>
+        <activity android:name=".views.RegrasTarefasActivity"
+            android:label="@string/title_page_activity_regras_tarefa"
+            android:parentActivityName=".views.InfTarefasActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InfTarefasActivity" />
