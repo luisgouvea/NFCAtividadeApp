@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listRegras.TarefasListRegrasAdapter;
 
 import java.util.ArrayList;
 
@@ -15,6 +20,8 @@ public class RegrasTarefasActivity extends AppCompatActivity {
 
     private int IdAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
+    private ViewHolderRegrasTarefas mViewHolderRegrasTarefas = new ViewHolderRegrasTarefas();
+    private TarefasListRegrasAdapter tarefasListRegrasAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
             IdAtividade = extras.getInt("IdAtividade");
             listTags = extras.getParcelableArrayList("listaTarefas");
         }
+        SetarRecyclerView();
     }
 
     /**
@@ -54,5 +62,43 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         setResult(Activity.RESULT_OK, resultIntent);
         startActivity(resultIntent);
         finish();
+    }
+
+    private void SetarRecyclerView() {
+
+        // 1 - Obter a recyclerview
+        this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas = findViewById(R.id.recyclerViewRegrasTarefas);
+
+        // Implementa o evento de click para passar por parâmetro para a ViewHolder
+        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+            @Override
+            public void onClick(int id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("IdAtividade", id);
+
+                Intent intent = new Intent(getApplicationContext(), DetailsAtividadeActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        };
+
+        // 2 - Definir adapter passando listagem de tarefas e listener
+        tarefasListRegrasAdapter = new TarefasListRegrasAdapter(listTags, listener);
+        this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.setAdapter(tarefasListRegrasAdapter);
+
+        this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+
+        // 3 - Definir um layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.setLayoutManager(linearLayoutManager);
+    }
+
+    /**
+     * ViewHolder dos elementos
+     */
+    private class ViewHolderRegrasTarefas {
+
+        private RecyclerView mViewRecyclerViewRegrasTarefas;
     }
 }
