@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutLinearPrecedenciaTarefas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:id="@+id/linear_content_title_precedencia_tarefas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.50"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.70"
+            android:src="@drawable/ic_linear_content_precedencia_tarefas" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="@string/title_page_precedencia_tarefas"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:id="@+id/name_tag_target"
+            android:visibility="gone"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_content_recycler_precedencia_tarefas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.40">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewPrecedenciaTarefas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_content_btn_precedencia_tarefas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.10">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/salvar_algo"/>
+    </LinearLayout>
+
+</LinearLayout>

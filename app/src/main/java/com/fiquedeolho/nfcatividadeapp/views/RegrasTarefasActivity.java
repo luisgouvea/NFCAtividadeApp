@@ -73,10 +73,13 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         OnListClickInteractionListener listener = new OnListClickInteractionListener() {
             @Override
             public void onClick(int id) {
+                TAG tag = getTagTarget(id);
                 Bundle bundle = new Bundle();
-                bundle.putInt("IdAtividade", id);
+                bundle.putParcelable("tagTarget", tag);
+                bundle.putInt("IdAtividade", IdAtividade);
+                bundle.putParcelableArrayList("listaTags", listTags);
 
-                Intent intent = new Intent(getApplicationContext(), DetailsAtividadeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PrecedenciaTarefaActivity.class);
                 intent.putExtras(bundle);
 
                 startActivity(intent);
@@ -94,6 +97,16 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.setLayoutManager(linearLayoutManager);
     }
 
+
+    private TAG getTagTarget(int idTag){
+        for(int i = 0; i< listTags.size() -1; i++){
+            TAG tag = listTags.get(i);
+            if(tag.getId() == idTag){
+                return tag;
+            }
+        }
+        return null;
+    }
     /**
      * ViewHolder dos elementos
      */

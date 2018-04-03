@@ -19,6 +19,7 @@
     <string name="title_progress_tarefa_list">Buscando tarefa(s)</string>
     <string name="title_page_inf_tarefas">Informações das tarefas</string>
     <string name="title_page_regras_tarefas">Regras das tarefas</string>
+    <string name="title_page_precedencia_tarefas">Defina o que vem antes da tarefa</string>
     <string name="concluir_inf_tarefas">CONCLUIR</string>
     <string name="btn_regras_tarefas">DEFINIR REGRAS DAS TAREFAS</string>
     <string name="input_nome_tarefa">Nome da Tarefa</string>
@@ -26,7 +27,9 @@
     <string name="title_page_activity_add_tarefa">Adicionar Tarefa</string>
     <string name="title_page_activity_inf_tarefas">Listagem de tarefas</string>
     <string name="title_page_activity_regras_tarefa">Regras das tarefas</string>
+    <string name="title_page_activity_precedencia_tarefa">Precedência da tarefa</string>
     <string name="title_progress_tarefa_add">Criando a tarefa</string>
+    <string name="salvar_algo">SALVAR</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>

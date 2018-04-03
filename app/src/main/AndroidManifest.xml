@@ -51,12 +51,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InfTarefasActivity" />
         </activity>
-        <activity android:name=".views.RegrasTarefasActivity"
+        <activity
+            android:name=".views.RegrasTarefasActivity"
             android:label="@string/title_page_activity_regras_tarefa"
             android:parentActivityName=".views.InfTarefasActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InfTarefasActivity" />
+        </activity>
+        <activity android:name=".views.PrecedenciaTarefaActivity"
+            android:label="@string/title_page_activity_precedencia_tarefa"
+            android:parentActivityName=".views.RegrasTarefasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="views.RegrasTarefasActivity" />
         </activity>
     </application>
 
