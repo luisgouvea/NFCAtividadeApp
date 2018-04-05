@@ -12,12 +12,14 @@ public class TAG  implements Parcelable{
     private int IdAtividade;
     private String Nome;
     private ArrayList<String> listAntecessores;
+    private ArrayList<TAG> listaEncadeamento;
 
     public TAG(Parcel in) {
         Id = in.readInt();
         IdAtividade = in.readInt();
         Nome = in.readString();
         listAntecessores = in.createStringArrayList();
+        listaEncadeamento = in.createTypedArrayList(CREATOR);
     }
 
     public static final Creator<TAG> CREATOR = new Creator<TAG>() {
@@ -34,6 +36,7 @@ public class TAG  implements Parcelable{
 
     public TAG() {
         listAntecessores = new ArrayList<>();
+        listaEncadeamento = new ArrayList<>();
     }
 
     public String getNome() {
@@ -52,6 +55,10 @@ public class TAG  implements Parcelable{
         return this.listAntecessores;
     }
 
+    public ArrayList<TAG> getListEncadeamento() {
+        return this.listaEncadeamento;
+    }
+
     public void setId(int id) {
         this.Id = id;
     }
@@ -68,6 +75,10 @@ public class TAG  implements Parcelable{
         this.listAntecessores = listAntecessores;
     }
 
+    public void setListEncadeamento(ArrayList<TAG> listaEncadeamento) {
+        this.listaEncadeamento = listaEncadeamento;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -79,5 +90,7 @@ public class TAG  implements Parcelable{
         parcel.writeInt(IdAtividade);
         parcel.writeString(Nome);
         parcel.writeStringList(listAntecessores);
+        parcel.writeTypedList(listaEncadeamento);
+        //parcel.parc(listaEncadeamento);
     }
 }
