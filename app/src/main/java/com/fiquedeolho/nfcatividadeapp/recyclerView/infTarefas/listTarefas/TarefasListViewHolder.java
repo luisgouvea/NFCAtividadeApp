@@ -11,8 +11,8 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 public class TarefasListViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
-    private TextView descricaoTarefa;
-    private TextView apelidoTarefa;
+    private TextView nomeTarefa;
+    private TextView palavraChave;
     private TextView popMenu;
 
     /**
@@ -20,8 +20,8 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
      */
     public TarefasListViewHolder(View itemView) {
         super(itemView);
-        this.descricaoTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa);
-        this.apelidoTarefa = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa);
+        this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa);
+        this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionListTarefa);
     }
 
@@ -31,8 +31,8 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
     public void bindData(final TAG tag, final OnListClickInteractionListenerOptionsList listenerOptions ) {
 
         // Altera valor
-        this.descricaoTarefa.setText(tag.getNome());
-        this.apelidoTarefa.setText(tag.getNome());
+        this.nomeTarefa.setText(tag.getNome());
+        this.palavraChave.setText(tag.getPalavraChave());
 
 
         popMenu.setId(tag.getId());

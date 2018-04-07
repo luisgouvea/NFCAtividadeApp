@@ -11,16 +11,16 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 public class TarefasListRegrasViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
-    private TextView descricaoTarefa;
-    private TextView apelidoTarefa;
+    private TextView nomeTarefa;
+    private TextView palavraChave;
 
     /**
      * Construtor
      */
     public TarefasListRegrasViewHolder(View itemView) {
         super(itemView);
-        this.descricaoTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_regra);
-        this.apelidoTarefa = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_regra);
+        this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_regra);
+        this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_regra);
     }
 
     /**
@@ -29,11 +29,11 @@ public class TarefasListRegrasViewHolder extends RecyclerView.ViewHolder {
     public void bindData(final TAG tag, final OnListClickInteractionListener listener ) {
 
         // Altera valor
-        this.descricaoTarefa.setText(tag.getNome());
-        this.apelidoTarefa.setText(tag.getNome());
+        this.nomeTarefa.setText(tag.getNome());
+        this.palavraChave.setText(tag.getPalavraChave());
 
         // Adciona evento de click
-        this.descricaoTarefa.setOnClickListener(new View.OnClickListener() {
+        this.nomeTarefa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /**

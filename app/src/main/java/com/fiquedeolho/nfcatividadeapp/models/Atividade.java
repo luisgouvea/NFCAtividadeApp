@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Atividade implements Parcelable {
 
     private String Nome;
+    private String Descricao;
     private int Id;
     private int IdUsuarioCriador;
     private int IdUsuarioExecutor;
@@ -19,6 +20,7 @@ public class Atividade implements Parcelable {
 
     protected Atividade(Parcel in) {
         Nome = in.readString();
+        Descricao = in.readString();
         Id = in.readInt();
         IdUsuarioCriador = in.readInt();
         IdUsuarioExecutor = in.readInt();
@@ -44,6 +46,10 @@ public class Atividade implements Parcelable {
         return Nome;
     }
 
+    public String getDescricao() {
+        return Descricao;
+    }
+
     public int getId() {
         return Id;
     }
@@ -65,6 +71,10 @@ public class Atividade implements Parcelable {
      */
     public void setNome(String nome) {
         this.Nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.Descricao = descricao;
     }
 
     public void setId(int id) {
@@ -91,6 +101,7 @@ public class Atividade implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(Nome);
+        parcel.writeString(Descricao);
         parcel.writeInt(Id);
         parcel.writeInt(IdUsuarioCriador);
         parcel.writeInt(IdUsuarioExecutor);

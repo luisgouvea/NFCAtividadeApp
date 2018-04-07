@@ -12,8 +12,8 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 public class AtividadeViewHolder extends RecyclerView.ViewHolder{
 
     // Elemento de interface
+    private TextView nomeAtividade;
     private TextView descricaoAtividade;
-    private TextView statusAtividade;
     private TextView popMenu;
 
 
@@ -22,8 +22,8 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder{
      */
     public AtividadeViewHolder(View itemView) {
         super(itemView);
-        this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_title_nome_ativ);
-        this.statusAtividade = (TextView) itemView.findViewById(R.id.text_subtitle_nome_ativ);
+        this.nomeAtividade = (TextView) itemView.findViewById(R.id.text_title_nome_ativ);
+        this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_subtitle_desc_ativ);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionAtivAdd);
     }
 
@@ -33,12 +33,12 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder{
     public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListenerOptionsList listenerOptions ) {
 
         // Altera valor
-        this.descricaoAtividade.setText(atividade.getNome());
-        this.statusAtividade.setText(atividade.getNome());
+        this.nomeAtividade.setText(atividade.getNome());
+        this.descricaoAtividade.setText(atividade.getDescricao());
 
 
         // Adciona evento de click
-        this.descricaoAtividade.setOnClickListener(new View.OnClickListener() {
+        this.nomeAtividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /**

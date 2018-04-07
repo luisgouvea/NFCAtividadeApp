@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
-    private TextView descricaoTarefa;
-    private TextView apelidoTarefa;
+    private TextView nomeTarefa;
+    private TextView palavraChave;
     private CheckBox antecedeTagTarget;
 
     /**
@@ -24,8 +24,8 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
      */
     public TarefasListPrecedenciaViewHolder(View itemView) {
         super(itemView);
-        this.descricaoTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_precedencia);
-        this.apelidoTarefa = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_precedencia);
+        this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_precedencia);
+        this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_precedencia);
         this.antecedeTagTarget = (CheckBox) itemView.findViewById(R.id.checkbox_tarefa_precedencia);
     }
 
@@ -35,8 +35,8 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
     public void bindData(final TAG tagDaLista, TAG tagTarget , final OnListClickInteractionListener listener ) {
 
         // Altera valor
-        this.descricaoTarefa.setText(tagDaLista.getNome());
-        this.apelidoTarefa.setText(tagDaLista.getNome());
+        this.nomeTarefa.setText(tagDaLista.getNome());
+        this.palavraChave.setText(tagDaLista.getPalavraChave());
 
         this.antecedeTagTarget.setId(tagDaLista.getId());
         // Adciona evento de click

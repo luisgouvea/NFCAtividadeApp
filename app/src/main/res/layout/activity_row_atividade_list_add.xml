@@ -21,7 +21,7 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/text_subtitle_nome_ativ"
+        android:id="@+id/text_subtitle_desc_ativ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_title_nome_ativ"/>

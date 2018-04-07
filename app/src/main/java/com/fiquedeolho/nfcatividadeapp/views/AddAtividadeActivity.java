@@ -253,6 +253,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 Boolean result = response.body();
+                //Log.d("Log de erro request", response.body().toString());
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
