@@ -15,4 +15,7 @@ public interface TagRetrofit {
 
     @POST("/api/Tag/addTag")
     Call<Boolean> addTag(@Body TAG tag);
+
+    @POST("/api/Tag/setarEncadeamentoTag")
+    Call<Boolean> setarEncadeamentoTag(@Body  TAG tagTarget);
 }

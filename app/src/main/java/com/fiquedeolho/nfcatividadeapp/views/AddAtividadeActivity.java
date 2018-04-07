@@ -169,7 +169,9 @@ public class AddAtividadeActivity extends AppCompatActivity {
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
         UsuarioRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
-        final Call<ArrayList<Usuario>> call = ativiInterface.listAllUsuarios(1);
+        SavePreferences save = new SavePreferences(this);
+
+        final Call<ArrayList<Usuario>> call = ativiInterface.listAllUsuarios(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
         // TODO: Rever essa logica de Thread, ta gambiarra
         /*try {
             Thread.sleep(1000);

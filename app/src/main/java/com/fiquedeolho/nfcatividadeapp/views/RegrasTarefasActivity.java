@@ -99,7 +99,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
 
 
     private TAG getTagTarget(int idTag){
-        for(int i = 0; i< listTags.size() -1; i++){
+        for(int i = 0; i< listTags.size(); i++){
             TAG tag = listTags.get(i);
             if(tag.getId() == idTag){
                 return tag;
