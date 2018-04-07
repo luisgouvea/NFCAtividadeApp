@@ -8,6 +8,8 @@ public class Atividade implements Parcelable {
 
     private String Nome;
     private int Id;
+    private int IdUsuarioCriador;
+    private int IdUsuarioExecutor;
     private ArrayList<TAG> listTags;
 
     public Atividade() {
@@ -18,6 +20,8 @@ public class Atividade implements Parcelable {
     protected Atividade(Parcel in) {
         Nome = in.readString();
         Id = in.readInt();
+        IdUsuarioCriador = in.readInt();
+        IdUsuarioExecutor = in.readInt();
         listTags = in.createTypedArrayList(TAG.CREATOR);
     }
 
@@ -33,6 +37,9 @@ public class Atividade implements Parcelable {
         }
     };
 
+    /**
+     * GETS
+     */
     public String getNome() {
         return Nome;
     }
@@ -45,6 +52,17 @@ public class Atividade implements Parcelable {
         return listTags;
     }
 
+    public int getIdUsuarioCriador() {
+        return IdUsuarioCriador;
+    }
+
+    public int getIdUsuarioExecutor() {
+        return IdUsuarioExecutor;
+    }
+
+    /**
+     * SETS
+     */
     public void setNome(String nome) {
         this.Nome = nome;
     }
@@ -57,6 +75,13 @@ public class Atividade implements Parcelable {
         this.listTags = listTags;
     }
 
+    public void setIdUsuarioCriador(int idUsuarioCriador) {
+        this.IdUsuarioCriador = idUsuarioCriador;
+    }
+
+    public void setIdUsuarioExecutor(int idUsuarioExecutor) {
+        this.IdUsuarioExecutor = idUsuarioExecutor;
+    }
 
     @Override
     public int describeContents() {
@@ -67,6 +92,8 @@ public class Atividade implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(Nome);
         parcel.writeInt(Id);
+        parcel.writeInt(IdUsuarioCriador);
+        parcel.writeInt(IdUsuarioExecutor);
         parcel.writeTypedList(listTags);
     }
 }

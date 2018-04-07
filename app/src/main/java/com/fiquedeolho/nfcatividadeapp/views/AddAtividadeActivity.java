@@ -37,8 +37,10 @@ import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.models.Usuario;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.addAtividade.vinculoExecutor.AddAtividadeListVincExecAdapter;
@@ -91,7 +93,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
+        //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
         ListAllUsuarioAddAtivVincExecutor();
         setContentView(R.layout.activity_add_atividade);
         //addAtividadeDB = false;
@@ -229,62 +231,40 @@ public class AddAtividadeActivity extends AppCompatActivity {
     }*/
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        if(pDialog != null && pDialog.isShowing()) {
+        if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
         }
     }
 
     private Boolean addAtividade() {
-        RequestQueue rq = Volley.newRequestQueue(this);
-        JSONObject params = new JSONObject();
+        AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
         SavePreferences shared = new SavePreferences(this);
-        int ff = shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
-        try {
-            params.put("nomeAtividade", nomeAtividadeInput);
-            params.put("dataFinalizacao", dataFinalizacaoInput);
-            params.put("idUsuarioVinc", idUsuarioVinc);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, ConstantsURIAPI.ADDATIVIDADE, params, new Response.Listener<JSONObject>() {
 
+        Atividade atividade = new Atividade();
+        atividade.setNome(nomeAtividadeInput);
+        atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
+        atividade.setIdUsuarioExecutor(idUsuarioVinc);
+
+        final Call<Boolean> call = atividadeInterface.criarAtividade(atividade);
+
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(JSONObject response) {
-                /*try {
-                    String idUsuario = response.getString("Id");
-                    Log.d("ResultJSONLogin", response.toString());
-                    pDialog.hide();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-                //pDialog.hide();
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                Boolean result = response.body();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
             }
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Erro", "Error: " + error.getMessage());
-                //pDialog.dismiss();
-/*                Toast t = Toast.makeText(contextoLogin, "Por favor, tente novamente!", Toast.LENGTH_SHORT);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();*/
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
             }
         });
-
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        // Adding request to request queue
-        rq.add(jsonObjReq);
-        // TODO: Rever esse uso, pode existir uma outra forma e ainda, isso pode dar problema, pesquisar...
-        /*try {
-            future.get(2, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            String g = e.getMessage();
-        }*/
         return true;
     }
 
@@ -349,7 +329,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         OnListClickInteractionListener listener = new OnListClickInteractionListener() {
             @Override
             public void onClick(int id) {
-                if(idUsuarioVinc != 0 ) {
+                if (idUsuarioVinc != 0) {
                     RecyclerView re = mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec;
                     RadioButton radio = re.findViewById(idUsuarioVinc);
                     radio.setChecked(false);
@@ -370,10 +350,10 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setLayoutManager(linearLayoutManager);
     }
 
-    private Usuario getUsuarioTarget(int idUsuario){
-        for(int i = 0; i< listUsuExecutores.size(); i++){
+    private Usuario getUsuarioTarget(int idUsuario) {
+        for (int i = 0; i < listUsuExecutores.size(); i++) {
             Usuario usuario = listUsuExecutores.get(i);
-            if(usuario.getId() == idUsuario){
+            if (usuario.getId() == idUsuario) {
                 return usuario;
             }
         }
@@ -395,14 +375,14 @@ public class AddAtividadeActivity extends AppCompatActivity {
 
             View view = layoutInflater.inflate(layouts[position], container, false);
 
-            switch (position){
+            switch (position) {
                 case 0:
                     EditText dataFinalizaElement = view.findViewById(R.id.input_data_finalizacao_ativ);
                     dataFinalizaElement.addTextChangedListener(Mask.insert("##/##/####", dataFinalizaElement));
-                break;
+                    break;
                 case 1:
                     //SetarRecyclerView(view);
-                break;
+                    break;
             }
             container.addView(view);
 
