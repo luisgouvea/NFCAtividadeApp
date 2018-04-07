@@ -36,12 +36,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Usuario;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.addAtividade.vinculoExecutor.AddAtividadeListVincExecAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.util.Mask;
 
 import org.json.JSONException;
@@ -237,6 +239,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private Boolean addAtividade() {
         RequestQueue rq = Volley.newRequestQueue(this);
         JSONObject params = new JSONObject();
+        SavePreferences shared = new SavePreferences(this);
+        int ff = shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
         try {
             params.put("nomeAtividade", nomeAtividadeInput);
             params.put("dataFinalizacao", dataFinalizacaoInput);

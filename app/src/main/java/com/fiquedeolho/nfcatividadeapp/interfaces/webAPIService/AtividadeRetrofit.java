@@ -15,4 +15,7 @@ public interface AtividadeRetrofit {
 
     @POST("/api/Atividade/getAtivAdicionadas")
     Call<ArrayList<Atividade>> getAtividadesAdicionadas(@Body String idUsuario);
+
+    @POST("/api/Atividade/criarAtividade")
+    Call<ArrayList<Atividade>> criarAtividade(@Body String idUsuario);
 }

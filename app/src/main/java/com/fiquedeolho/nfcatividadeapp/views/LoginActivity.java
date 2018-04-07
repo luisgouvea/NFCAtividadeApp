@@ -24,9 +24,11 @@ import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,6 +99,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
                 int idUsuario = response.body();
+                SavePreferences save = new SavePreferences(contextoLogin);
+                save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
                 Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
                 intent.putExtra("idUsuario", Integer.toString(idUsuario));
                 startActivity(intent);
