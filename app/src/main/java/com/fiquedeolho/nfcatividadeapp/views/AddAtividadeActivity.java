@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -160,7 +161,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private void ListAllUsuarioAddAtivVincExecutor() {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
+        //pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
         UsuarioRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
@@ -344,6 +345,11 @@ public class AddAtividadeActivity extends AppCompatActivity {
         OnListClickInteractionListener listener = new OnListClickInteractionListener() {
             @Override
             public void onClick(int id) {
+                if(idUsuarioVinc != 0 ) {
+                    RecyclerView re = mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec;
+                    RadioButton radio = re.findViewById(idUsuarioVinc);
+                    radio.setChecked(false);
+                }
                 Usuario usuario = getUsuarioTarget(id);
                 idUsuarioVinc = usuario.getId();
             }
@@ -360,33 +366,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setLayoutManager(linearLayoutManager);
     }
 
-    /*private void SetarRecyclerView(View view) {
-
-        // 1 - Obter a recyclerview
-        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec = view.findViewById(R.id.recyclerViewAddAtivVincExec);
-
-        // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
-            @Override
-            public void onClick(int id) {
-                Usuario usuario = getUsuarioTarget(id);
-                idUsuarioVinc = usuario.getId();
-            }
-        };
-
-        // 2 - Definir adapter passando listagem de tarefas e listener
-        addAtivVincExecAdpter = new AddAtividadeListVincExecAdapter(listUsuExecutores, listener);
-        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setAdapter(addAtivVincExecAdpter);
-
-        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
-
-        // 3 - Definir um layout
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setLayoutManager(linearLayoutManager);
-    }*/
-
     private Usuario getUsuarioTarget(int idUsuario){
-        for(int i = 0; i< listUsuExecutores.size() -1; i++){
+        for(int i = 0; i< listUsuExecutores.size(); i++){
             Usuario usuario = listUsuExecutores.get(i);
             if(usuario.getId() == idUsuario){
                 return usuario;
