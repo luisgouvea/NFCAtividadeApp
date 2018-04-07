@@ -10,6 +10,9 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,23 +35,37 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Usuario;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.addAtividade.vinculoExecutor.AddAtividadeListVincExecAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 import com.fiquedeolho.nfcatividadeapp.util.Mask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class AddAtividadeActivity extends AppCompatActivity {
 
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView[] dots;
     public ViewHolderAddAtividade mViewHolderAddAtividade = new ViewHolderAddAtividade();
+    private ViewHolderAddAtivVincExecutor mViewHolderAddAtivVincExecutor = new ViewHolderAddAtivVincExecutor();
+    private AddAtividadeListVincExecAdapter addAtivVincExecAdpter;
     private int[] layouts;
     private ProgressDialog pDialog;
     //private Boolean addAtividadeDB;
     private String dataFinalizacaoInput;
     private String nomeAtividadeInput;
     private Context context;
+    private ArrayList<Usuario> listUsuExecutores;
+    private int idUsuarioVinc;
 
     /**
      * ViewHolder dos elementos
@@ -60,12 +77,19 @@ public class AddAtividadeActivity extends AppCompatActivity {
         private Button mViewBtnSkip;
     }
 
+    /**
+     * ViewHolder dos elementos
+     */
+    public static class ViewHolderAddAtivVincExecutor {
+        private RecyclerView mViewRecyclerViewAddAtivVincExec;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
        //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
-
+        ListAllUsuarioAddAtivVincExecutor();
         setContentView(R.layout.activity_add_atividade);
         //addAtividadeDB = false;
         dataFinalizacaoInput = null;
@@ -129,6 +153,42 @@ public class AddAtividadeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //getList de usuarios no banco
+    }
+
+    private void ListAllUsuarioAddAtivVincExecutor() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        UsuarioRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
+        final Call<ArrayList<Usuario>> call = ativiInterface.listAllUsuarios(1);
+        // TODO: Rever essa logica de Thread, ta gambiarra
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        call.enqueue(new Callback<ArrayList<Usuario>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Usuario>> call, retrofit2.Response<ArrayList<Usuario>> response) {
+                listUsuExecutores = response.body();
+                SetarRecyclerView();
+                //ObservableRecycler();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Usuario>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     private void addBottomDots(int currentPage) {
@@ -179,6 +239,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         try {
             params.put("nomeAtividade", nomeAtividadeInput);
             params.put("dataFinalizacao", dataFinalizacaoInput);
+            params.put("idUsuarioVinc", idUsuarioVinc);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -274,6 +335,66 @@ public class AddAtividadeActivity extends AppCompatActivity {
         }
     }
 
+    private void SetarRecyclerView() {
+
+        // 1 - Obter a recyclerview
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec = findViewById(R.id.recyclerViewAddAtivVincExec);
+
+        // Implementa o evento de click para passar por parâmetro para a ViewHolder
+        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+            @Override
+            public void onClick(int id) {
+                Usuario usuario = getUsuarioTarget(id);
+                idUsuarioVinc = usuario.getId();
+            }
+        };
+
+        // 2 - Definir adapter passando listagem de tarefas e listener
+        addAtivVincExecAdpter = new AddAtividadeListVincExecAdapter(listUsuExecutores, listener);
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setAdapter(addAtivVincExecAdpter);
+
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+
+        // 3 - Definir um layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setLayoutManager(linearLayoutManager);
+    }
+
+    /*private void SetarRecyclerView(View view) {
+
+        // 1 - Obter a recyclerview
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec = view.findViewById(R.id.recyclerViewAddAtivVincExec);
+
+        // Implementa o evento de click para passar por parâmetro para a ViewHolder
+        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+            @Override
+            public void onClick(int id) {
+                Usuario usuario = getUsuarioTarget(id);
+                idUsuarioVinc = usuario.getId();
+            }
+        };
+
+        // 2 - Definir adapter passando listagem de tarefas e listener
+        addAtivVincExecAdpter = new AddAtividadeListVincExecAdapter(listUsuExecutores, listener);
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setAdapter(addAtivVincExecAdpter);
+
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+
+        // 3 - Definir um layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        this.mViewHolderAddAtivVincExecutor.mViewRecyclerViewAddAtivVincExec.setLayoutManager(linearLayoutManager);
+    }*/
+
+    private Usuario getUsuarioTarget(int idUsuario){
+        for(int i = 0; i< listUsuExecutores.size() -1; i++){
+            Usuario usuario = listUsuExecutores.get(i);
+            if(usuario.getId() == idUsuario){
+                return usuario;
+            }
+        }
+        return null;
+    }
+
     /**
      * View pager adapter
      */
@@ -295,6 +416,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     dataFinalizaElement.addTextChangedListener(Mask.insert("##/##/####", dataFinalizaElement));
                 break;
                 case 1:
+                    //SetarRecyclerView(view);
                 break;
             }
             container.addView(view);

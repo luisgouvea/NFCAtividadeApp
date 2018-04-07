@@ -4,26 +4,28 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linear_content_add_ativ_vinc_exec">
 
-        <ImageView
-            android:layout_width="@dimen/img_width_height"
-            android:layout_height="@dimen/img_width_height"
-            android:src="@drawable/ic_menu_send"/>
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <TextView
-            android:id="@+id/getTeste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aqui vai o vinculo da pessoa que vai executar a atividade "
-            android:textSize="@dimen/slide_title"
-            android:textStyle="bold" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewAddAtivVincExec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_addFloatingAction_add_ativ_vinc_exec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right|end"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
-
-
 </RelativeLayout>
