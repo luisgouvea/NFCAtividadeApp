@@ -65,10 +65,9 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             listTags = extras.getParcelableArrayList("listaTarefas");
             criarTarefa = extras.getBoolean("criarTarefa");
         }
-        if (listTags == null) {
+        if (listTags == null || listTags.size() == 0) {
             // SELECT NO BANCO
             getListTarefas();
-        } else if(listTags.size() == 0){
             // Text dizendo que esta vazia
         }
         else if(criarTarefa != null && criarTarefa){
@@ -194,14 +193,13 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_vinc_tarefa_tag:
-                                Toast.makeText(getApplicationContext(), "Vincular com TAG", Toast.LENGTH_LONG).show();
-                                /*Bundle bundle = new Bundle();
+                                Bundle bundle = new Bundle();
                                 bundle.putInt("IdTag", idTag);
-
-                                Intent intent = new Intent(getApplicationContext(), InfTarefasActivity.class);
+                                bundle.putInt("IdAtividade", IdAtividade);
+                                bundle.putParcelableArrayList("listaTarefas", listTags);
+                                Intent intent = new Intent(getApplicationContext(), VinculoTarefaETagActivity.class);
                                 intent.putExtras(bundle);
-
-                                startActivity(intent);*/
+                                startActivity(intent);
                                 break;
                             case R.id.mnu_deletar_tarefa:
                                 Toast.makeText(getApplicationContext(), "Deletado", Toast.LENGTH_LONG).show();
