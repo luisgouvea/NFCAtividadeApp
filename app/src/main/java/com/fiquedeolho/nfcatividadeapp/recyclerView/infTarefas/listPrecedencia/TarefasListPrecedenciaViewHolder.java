@@ -32,7 +32,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tagDaLista, TAG tagTarget , final OnListClickInteractionListener listener ) {
+    public void bindData(final TAG tagDaLista, TAG tagTarget, final OnListClickInteractionListener listener) {
 
         // Altera valor
         this.nomeTarefa.setText(tagDaLista.getNome());
@@ -51,10 +51,12 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
         });
 
         ArrayList<TAG> listAntecessoras = tagTarget.getListEncadeamento();
-        for (TAG tag : listAntecessoras){
-            if(tagDaLista.getId() == tag.getId()){
-                this.antecedeTagTarget.setChecked(true);
-                break;
+        if (listAntecessoras != null && listAntecessoras.size() > 0) {
+            for (TAG tag : listAntecessoras) {
+                if (tagDaLista.getId() == tag.getId()) {
+                    this.antecedeTagTarget.setChecked(true);
+                    break;
+                }
             }
         }
 

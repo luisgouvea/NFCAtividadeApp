@@ -10,7 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface TagRetrofit {
-    @POST("/api/Tag/newGetTagsByIdAtividade")
+    @POST("/api/Tag/getTagsByIdAtividade")
     Call<ArrayList<TAG>> getTarefasByIdAtividade(@Body int idAtividade);
 
     @POST("/api/Tag/addTag")
