@@ -46,14 +46,12 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         /**
          * Pegando os elementos da Activity
          */
-        this.mViewHolderInfTarefas.mViewBtnConcluirInfTarefa = findViewById(R.id.btn_concluir_inf_tarefas);
         this.mViewHolderInfTarefas.mViewBtnDefinirRegras = findViewById(R.id.btn_definir_regras_tarefas);
         this.mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa = findViewById(R.id.btn_addFloatingAction_add_tarefa);
 
         /**
          * Comportamento dos botoes
          */
-        this.mViewHolderInfTarefas.mViewBtnConcluirInfTarefa.setOnClickListener(this);
         this.mViewHolderInfTarefas.mViewBtnDefinirRegras.setOnClickListener(this);
         this.mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.setOnClickListener(this);
     }
@@ -244,8 +242,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             startActivity(intent);
             //finish();
 
-        } else if (id == R.id.btn_concluir_inf_tarefas) {
-
         } else if (id == R.id.btn_addFloatingAction_add_tarefa) {
 
             Bundle bundle = new Bundle();
@@ -280,7 +276,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
         private RecyclerView mViewRecyclerViewInfTarefas;
         private FloatingActionButton mViewFloatingActionButtonAddTarefa;
-        private Button mViewBtnConcluirInfTarefa;
         private Button mViewBtnDefinirRegras;
     }
 }

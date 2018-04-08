@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/mnu_inf_tag" android:title="Informações de Tag" />
-    <item android:id="@+id/mnu_deletar_ativ" android:title="Deletar" />
+    <item android:id="@+id/mnu_inf_tag" android:title="Tarefa(s) da Atividade" />
+    <item android:id="@+id/mnu_deletar_ativ" android:title="Remover" />
 </menu>

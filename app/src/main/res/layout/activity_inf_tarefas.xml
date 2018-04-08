@@ -78,21 +78,9 @@
                 android:id="@+id/btn_definir_regras_tarefas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:background="@null"
-                android:layout_marginRight="8dp"
+                android:layout_centerInParent="true"
                 android:text="@string/btn_regras_tarefas"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/btn_concluir_inf_tarefas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:background="@null"
-                android:text="@string/concluir_inf_tarefas"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
     </LinearLayout>
