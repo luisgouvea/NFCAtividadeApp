@@ -11,13 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listPrecedencia.TarefasListPrecedenciaAdapter;
 
 import java.util.ArrayList;
@@ -64,17 +65,23 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         this.mViewHolderPrecedenciaTarefas.mViewRecyclerViewPrecedenciaTarefas = findViewById(R.id.recyclerViewPrecedenciaTarefas);
 
         // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+        OnListClickInteractionListenerView listener = new OnListClickInteractionListenerView() {
             @Override
-            public void onClick(int id) {
+            public void onClick(View view) {
+                int id = view.getId();
                 TAG tagClicada = getTagTarget(id); // TAG clicada
-                int position = getPositionTagTarget(tagTarget.getId());
+                int positionTagTarget = getPositionTag(tagTarget.getId(), listTags);
                 ArrayList<TAG> listEncTagTarget = tagTarget.getListEncadeamento();
-                if (!listEncTagTarget.contains(tagClicada)) {
+                int positionTagClicada = getPositionTag(tagClicada.getId(), listEncTagTarget);
+                CheckBox checkBox = (CheckBox) view;
+                if (checkBox.isChecked() && !listEncTagTarget.contains(tagClicada)) {
                     listEncTagTarget.add(tagClicada);
-                    tagTarget.setListEncadeamento(listEncTagTarget);
-                    listTags.set(position, tagTarget);
+                } else {
+                    // usuario desmarcou o checkBox
+                    listEncTagTarget.remove(positionTagClicada);
                 }
+                tagTarget.setListEncadeamento(listEncTagTarget);
+                listTags.set(positionTagTarget, tagTarget);
             }
         };
 
@@ -112,9 +119,9 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         return null;
     }
 
-    private int getPositionTagTarget(int idTag) {
-        for (int i = 0; i < listTags.size(); i++) {
-            TAG tag = listTags.get(i);
+    private int getPositionTag(int idTag, ArrayList<TAG> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            TAG tag = lista.get(i);
             if (tag.getId() == idTag) {
                 return i;
             }

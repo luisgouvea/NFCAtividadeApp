@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
@@ -22,12 +22,12 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     // Interface que define as ações
     private OnListClickInteractionListener mOnListClickInteractionListener;
 
-    private OnListClickInteractionListenerOptionsList mOnListOptionListener;
+    private OnListClickInteractionListenerView mOnListOptionListener;
 
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerOptionsList listOptions) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerView listOptions) {
         this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
         this.mOnListOptionListener = listOptions;

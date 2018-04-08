@@ -18,7 +18,7 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTarefas.TarefasListAdapter;
 
 import java.util.ArrayList;
@@ -180,11 +180,11 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
 
         /**
-         * OnListClickInteractionListenerOptionsList interface QUE CRIEI
+         * OnListClickInteractionListenerView interface QUE CRIEI
          Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
          Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
          */
-        OnListClickInteractionListenerOptionsList listenerOptionsList = new OnListClickInteractionListenerOptionsList() {
+        OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
                 final int idTag = viewTarget.getId();

@@ -7,7 +7,7 @@ import android.view.View;
  * No caso do recyclerview das listagens, um TextView
  * Em outros casos, verificar como os elementos serao criados
  */
-public interface OnListClickInteractionListenerOptionsList {
+public interface OnListClickInteractionListenerView {
 
     /**
      * Trata evento de click na lista para as opcoes

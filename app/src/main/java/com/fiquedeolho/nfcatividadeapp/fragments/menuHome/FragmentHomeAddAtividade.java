@@ -23,7 +23,7 @@ import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofi
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
@@ -164,11 +164,11 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         };
 
         /**
-         * OnListClickInteractionListenerOptionsList interface QUE CRIEI
+         * OnListClickInteractionListenerView interface QUE CRIEI
          Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
          Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
          */
-        OnListClickInteractionListenerOptionsList listenerOptionsList = new OnListClickInteractionListenerOptionsList() {
+        OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
                 final int idAtividade = viewTarget.getId();

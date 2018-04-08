@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public class TarefasListAdapter extends RecyclerView.Adapter<TarefasListViewHold
     private List<TAG> mListTags;
 
     // Interface que define as ações
-    private OnListClickInteractionListenerOptionsList mOnListOptionListener;
+    private OnListClickInteractionListenerView mOnListOptionListener;
 
-    public TarefasListAdapter(List<TAG> tags, OnListClickInteractionListenerOptionsList listOptions){
+    public TarefasListAdapter(List<TAG> tags, OnListClickInteractionListenerView listOptions){
         this.mListTags = tags;
         this.mOnListOptionListener = listOptions;
     }

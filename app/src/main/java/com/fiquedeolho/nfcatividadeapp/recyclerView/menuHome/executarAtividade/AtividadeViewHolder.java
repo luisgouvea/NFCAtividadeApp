@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 
 public class AtividadeViewHolder extends RecyclerView.ViewHolder {
@@ -31,7 +31,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListenerOptionsList listenerOptions ) {
+    public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListenerView listenerOptions ) {
 
         // Altera valor
         this.nomeAtividade.setText(atividade.getNome());
@@ -54,7 +54,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 /**
-                 * Metodo (onClick) da interface OnListClickInteractionListenerOptionsList,  implementada nesse projeto
+                 * Metodo (onClick) da interface OnListClickInteractionListenerView,  implementada nesse projeto
                  * Nesse caso, o View eh um TextView
                  */
                 listenerOptions.onClick(view);

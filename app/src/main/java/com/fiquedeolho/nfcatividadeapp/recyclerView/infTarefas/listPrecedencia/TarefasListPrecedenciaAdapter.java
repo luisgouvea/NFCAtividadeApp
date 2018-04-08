@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public class TarefasListPrecedenciaAdapter extends RecyclerView.Adapter<TarefasL
     private List<TAG> mListTags;
 
     // Interface que define as ações
-    private OnListClickInteractionListener mOnListClickInteractionListener;
+    private OnListClickInteractionListenerView mOnListClickInteractionListener;
 
     private TAG mTagTarget;
 
-    public TarefasListPrecedenciaAdapter(List<TAG> tags, TAG tagTarget  , OnListClickInteractionListener listener){
+    public TarefasListPrecedenciaAdapter(List<TAG> tags, TAG tagTarget  , OnListClickInteractionListenerView listener){
         this.mListTags = tags;
         this.mTagTarget = tagTarget;
         this.mOnListClickInteractionListener = listener;

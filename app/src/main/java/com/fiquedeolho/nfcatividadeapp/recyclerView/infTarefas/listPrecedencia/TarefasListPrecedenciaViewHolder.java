@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tagDaLista, TAG tagTarget, final OnListClickInteractionListener listener) {
+    public void bindData(final TAG tagDaLista, TAG tagTarget, final OnListClickInteractionListenerView listener) {
 
         // Altera valor
         this.nomeTarefa.setText(tagDaLista.getNome());
@@ -46,7 +47,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
                 /**
                  * Metodo (onClick) da interface OnListClickInteractionListener,  implementada nesse projeto
                  */
-                listener.onClick(tagDaLista.getId());
+                listener.onClick(view);
             }
         });
 

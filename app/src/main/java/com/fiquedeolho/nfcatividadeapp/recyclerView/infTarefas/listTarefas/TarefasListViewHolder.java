@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerOptionsList;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 public class TarefasListViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,7 +28,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tag, final OnListClickInteractionListenerOptionsList listenerOptions ) {
+    public void bindData(final TAG tag, final OnListClickInteractionListenerView listenerOptions ) {
 
         // Altera valor
         this.nomeTarefa.setText(tag.getNome());
@@ -41,7 +41,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 /**
-                 * Metodo (onClick) da interface OnListClickInteractionListenerOptionsList,  implementada nesse projeto
+                 * Metodo (onClick) da interface OnListClickInteractionListenerView,  implementada nesse projeto
                  * Nesse caso, o View eh um TextView
                  */
                 listenerOptions.onClick(view);
