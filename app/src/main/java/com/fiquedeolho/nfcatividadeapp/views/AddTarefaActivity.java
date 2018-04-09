@@ -1,28 +1,33 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class AddTarefaActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolderAddTarefa mViewHolderAddTarefa = new ViewHolderAddTarefa();
     private int IdAtividade;
-    private ArrayList<TAG> listTags = new ArrayList<>();
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tarefa);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -30,12 +35,19 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade");
-            listTags = extras.getParcelableArrayList("listaTarefas");
         }
 
         this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa = findViewById(R.id.input_nomeTarefa);
         this.mViewHolderAddTarefa.mViewBtnSalvarTarefa = findViewById(R.id.btn_salvar_tarefa);
         this.mViewHolderAddTarefa.mViewBtnSalvarTarefa.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
     }
 
     /**
@@ -45,7 +57,7 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                backToInfTarefas(null, false);
+                backToInfTarefas();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -59,21 +71,37 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
             TAG tag  = new TAG();
             tag.setNome(this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa.getText().toString());
             tag.setIdAtividade(IdAtividade);
-            backToInfTarefas(tag, true);
+            addTarefa(tag);
         }
     }
 
-    private void backToInfTarefas(TAG tag, Boolean criarTarefa) {
+    private void addTarefa(final TAG tag) {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_add));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<Boolean> call = tagInterface.addTag(tag);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                Boolean result = response.body();
+                backToInfTarefas();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void backToInfTarefas() {
         Intent resultIntent = new Intent(this, InfTarefasActivity.class);
-        if(tag != null) {
-            listTags.add(tag);
-        }
-        resultIntent.putExtra("listaTarefas", listTags);
         resultIntent.putExtra("IdAtividade", IdAtividade);
-        if(criarTarefa){
-            resultIntent.putExtra("criarTarefa", true);
-        }
-        setResult(Activity.RESULT_OK, resultIntent);
         startActivity(resultIntent);
         finish();
     }

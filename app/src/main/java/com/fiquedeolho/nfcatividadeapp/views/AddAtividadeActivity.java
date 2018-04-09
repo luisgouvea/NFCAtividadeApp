@@ -65,7 +65,6 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private AddAtividadeListVincExecAdapter addAtivVincExecAdpter;
     private int[] layouts;
     private ProgressDialog pDialog;
-    //private Boolean addAtividadeDB;
     private String dataFinalizacaoInput;
     private String nomeAtividadeInput;
     private Context context;
@@ -93,10 +92,9 @@ public class AddAtividadeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //getSupportActionBar().hide();  // VERIFICAR DEPOIS SE VOU USAR OU NAO
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ListAllUsuarioAddAtivVincExecutor();
         setContentView(R.layout.activity_add_atividade);
-        //addAtividadeDB = false;
         dataFinalizacaoInput = null;
         nomeAtividadeInput = null;
         context = this;

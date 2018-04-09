@@ -20,12 +20,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import retrofit2.Callback;
 
 public class FragmentHomeExecutarAtividade extends Fragment implements View.OnClickListener {
 
-    private String idUsuario;
+    private int idUsuario;
     private ViewHolderExecutarAtivHome mViewHolderExecAtivHome = new ViewHolderExecutarAtivHome();
     private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
     private ArrayList<Atividade> listAtividadeExecutar = new ArrayList<Atividade>();
@@ -50,46 +52,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home_fazer_ativ, container, false);
-        return rootView;
-    }
 
-    @Override
-    public void onStart() {
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setTitle(getString(R.string.title_progress_ativ_executar));
-        pDialog.setMessage(getString(R.string.message_progress_dialog));
-        pDialog.setCancelable(false);
-        pDialog.show();
-        Bundle budle = getArguments();
-        if (budle != null) {
-            idUsuario = budle.getString("idUsuario");
-        } else {
-            //TODO REVER ESSA LOGICA DEPOIS ARRUMAR ISSO
-            idUsuario = "1"; //
-        }
-        getAtivExecutar();
-        super.onStart();
-    }
-
-    /*@Override
-    public void onResume(){
-        super.onResume();
-        if(pDialog != null && pDialog.isShowing()) {
-            pDialog.dismiss();
-        }
-    }*/
-
-    /*@Override
-    public void onPause(){
-        super.onPause();
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-    }*/
-
-    public void MontaRestanteTela() {
         this.mViewHolderExecAtivHome.mViewSpinnerAtivFazer = rootView.findViewById(R.id.status_spinner_atividade_fazer);
         ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -97,6 +60,24 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
         this.mViewHolderExecAtivHome.mVieBtnFiltrarAtivFazer = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_fazer);
         this.mViewHolderExecAtivHome.mVieBtnFiltrarAtivFazer.setOnClickListener(this);
+
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setTitle(getString(R.string.title_progress_ativ_executar));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.setCancelable(false);
+        pDialog.show();
+        SavePreferences save = new SavePreferences(getContext());
+        idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+        getAtivExecutar();
+    }
+
+    public void MontaRestanteTela() {
 
         // 1 - Obter a recyclerview
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer = rootView.findViewById(R.id.recyclerViewAtividadeFazer);
@@ -194,73 +175,9 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         }*/
     }
 
-   /* private void getAtivExecutar() {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
-                final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(idUsuario);
-                try{
-                    listAtividadeExecutar = call.execute().body();
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //this runs on the UI thread
-                            MontaRestanteTela();
-                            if(pDialog != null && pDialog.isShowing()){
-                                pDialog.dismiss();
-                            }
-                            //atividadeListAdapter.notifyDataSetChanged();
-                        }
-                    });
-                }catch (Exception e){
-
-                }
-            }
-        }).start();
-        //AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
-        *//*final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(idUsuario);
-        try {
-            new NetworkCall().execute(call);
-        } catch (Exception e) {
-            String g = e.getMessage();
-        }*//*
-    }*/
-
-
-    private class NetworkCall extends AsyncTask<Call, Void, ArrayList<Atividade>> {
-
-        protected ArrayList<Atividade> doInBackground(Call[] params) {
-            try {
-                Call<ArrayList<Atividade>> call = params[0];
-                return call.execute().body();
-                //return response.body().toString();
-            } catch (Exception e) {
-                Log.d("@@jj@@", e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Atividade> result) {
-            listAtividadeExecutar = result;
-            MontaRestanteTela();
-            if (pDialog != null && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-        }
-    }
-
     private void getAtivExecutar() {
         AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
         final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesExecutar(this.idUsuario);
-        // TODO: Rever essa logica de Thread, ta gambiarra
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         call.enqueue(new Callback<ArrayList<Atividade>>() {
             @Override
             public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {

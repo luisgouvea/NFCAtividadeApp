@@ -11,7 +11,7 @@
         android:id="@+id/linear_content_title_regras_tarefas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.30"
+        android:layout_weight="0.40"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -37,7 +37,7 @@
         android:id="@+id/linear_content_recycler_regras_tarefas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.70">
+        android:layout_weight="0.60">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewRegrasTarefas"

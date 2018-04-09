@@ -31,7 +31,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
     private int IdAtividade;
     private ArrayList<TAG> listTags = new ArrayList<>();
-    private Boolean criarTarefa;
     private TarefasListAdapter tarefasListAdapter;
     private ProgressDialog pDialog;
 
@@ -62,57 +61,8 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
-            listTags = extras.getParcelableArrayList("listaTarefas");
-            criarTarefa = extras.getBoolean("criarTarefa");
         }
-        if (listTags == null || listTags.size() == 0) {
-            // SELECT NO BANCO
-            getListTarefas();
-            // Text dizendo que esta vazia
-        }
-        else if(criarTarefa != null && criarTarefa){
-            //A LISTA JA VEIO POPULADA DA ACTIVITY AddTarefaActivity
-            TAG tag = listTags.get(listTags.size() - 1);
-            addTarefa(tag);
-            SetarRecyclerView();
-            //ObservableRecycler();
-        }else {
-            //A LISTA JA VEIO POPULADA DA ACTIVITY RegrasTarefas ou ACTIVITY AddTarefaActivity
-            // desta forma, só carrega a lista
-            SetarRecyclerView();
-        }
-    }
-
-    private void addTarefa(final TAG tag) {
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-        pDialog.setTitle(getString(R.string.title_progress_tarefa_add));
-        pDialog.setMessage(getString(R.string.message_progress_dialog));
-        pDialog.show();
-        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<Boolean> call = tagInterface.addTag(tag);
-        // TODO: Rever essa logica de Thread, ta gambiarra
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                Boolean result = response.body();
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
-            }
-        });
+        getListTarefas();
     }
 
     private void getListTarefas() {
@@ -123,12 +73,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         pDialog.show();
         TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
         final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
-        // TODO: Rever essa logica de Thread, ta gambiarra
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         call.enqueue(new Callback<ArrayList<TAG>>() {
             @Override
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
@@ -165,14 +109,14 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                 }
             }
 
-            @Override
+            /*@Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
-            }
+            }*/
         });
 
 
@@ -196,7 +140,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("IdTag", idTag);
                                 bundle.putInt("IdAtividade", IdAtividade);
-                                bundle.putParcelableArrayList("listaTarefas", listTags);
                                 Intent intent = new Intent(getApplicationContext(), VinculoTarefaETagActivity.class);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -234,7 +177,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
             Bundle bundle = new Bundle();
             bundle.putInt("IdAtividade", IdAtividade);
-            bundle.putParcelableArrayList("listaTarefas", listTags);
             Intent intent = new Intent(this, RegrasTarefasActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
@@ -244,7 +186,6 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
             Bundle bundle = new Bundle();
             bundle.putInt("IdAtividade", IdAtividade);
-            bundle.putParcelableArrayList("listaTarefas", listTags);
             Intent intent = new Intent(this, AddTarefaActivity.class);
             intent.putExtras(bundle);
 
@@ -253,10 +194,10 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private int descobrePositionArrayListAtiv(int idTag){
-        for (int i = 0; i < listTags.size(); i++ ){
+    private int descobrePositionArrayListAtiv(int idTag) {
+        for (int i = 0; i < listTags.size(); i++) {
             TAG tag = listTags.get(i);
-            if(tag.getId() == idTag){
+            if (tag.getId() == idTag) {
                 return i;
             }
         }

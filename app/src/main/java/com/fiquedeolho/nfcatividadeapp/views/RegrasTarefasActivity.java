@@ -1,6 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listRegras.TarefasListRegrasAdapter;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class RegrasTarefasActivity extends AppCompatActivity {
 
@@ -22,6 +27,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
     private ArrayList<TAG> listTags = new ArrayList<>();
     private ViewHolderRegrasTarefas mViewHolderRegrasTarefas = new ViewHolderRegrasTarefas();
     private TarefasListRegrasAdapter tarefasListRegrasAdapter;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +41,41 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade");
-            listTags = extras.getParcelableArrayList("listaTarefas");
         }
-        SetarRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getListTarefas();
+    }
+
+
+    private void getListTarefas() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<TAG>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
+                listTags = response.body();
+                SetarRecyclerView();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     /**
@@ -56,10 +94,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
 
     private void backToInfTarefas() {
         Intent resultIntent = new Intent(this, InfTarefasActivity.class);
-        resultIntent.putExtra("listaTarefas", listTags);
         resultIntent.putExtra("IdAtividade", IdAtividade);
-        resultIntent.putExtra("backActivityRegras", true);
-        setResult(Activity.RESULT_OK, resultIntent);
         startActivity(resultIntent);
         finish();
     }

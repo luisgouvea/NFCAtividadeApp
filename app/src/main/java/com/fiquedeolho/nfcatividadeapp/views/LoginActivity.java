@@ -102,7 +102,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SavePreferences save = new SavePreferences(contextoLogin);
                 save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
                 Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
-                intent.putExtra("idUsuario", Integer.toString(idUsuario));
                 startActivity(intent);
                 finish();
             }

@@ -18,7 +18,7 @@
     <string name="title_progress_ativ_adicionadas">Buscando atividade(s)</string>
     <string name="title_progress_tarefa_list">Buscando tarefa(s)</string>
     <string name="title_page_inf_tarefas">Informações das tarefas</string>
-    <string name="title_page_regras_tarefas">Regras das tarefas</string>
+    <string name="title_page_regras_tarefas">Defina as características de cada tarefa</string>
     <string name="title_page_precedencia_tarefas">Defina o que vem antes da tarefa</string>
     <string name="concluir_inf_tarefas">CONCLUIR</string>
     <string name="btn_regras_tarefas">DEFINIR REGRAS DAS TAREFAS</string>

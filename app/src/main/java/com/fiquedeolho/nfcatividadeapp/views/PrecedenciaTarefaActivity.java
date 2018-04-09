@@ -33,6 +33,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
     private TAG tagTarget;
     private ViewHolderPrecedenciaTarefas mViewHolderPrecedenciaTarefas = new ViewHolderPrecedenciaTarefas();
     private TarefasListPrecedenciaAdapter tarefasListPrecedenciaAdapter;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,6 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            listTags = extras.getParcelableArrayList("listaTags");
             IdAtividade = extras.getInt("IdAtividade");
             tagTarget = extras.getParcelable("tagTarget");
         }
@@ -56,7 +56,47 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         this.mViewHolderPrecedenciaTarefas.mViewButtonSalvarPrecedencia = findViewById(R.id.btn_salvar_precedencia);
         this.mViewHolderPrecedenciaTarefas.mViewButtonSalvarPrecedencia.setOnClickListener(this);
 
-        SetarRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getListTarefas();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+    private void getListTarefas() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<TAG>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
+                listTags = response.body();
+                SetarRecyclerView();
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     private void SetarRecyclerView() {
@@ -70,7 +110,6 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
             public void onClick(View view) {
                 int id = view.getId();
                 TAG tagClicada = getTagTarget(id); // TAG clicada
-                int positionTagTarget = getPositionTag(tagTarget.getId(), listTags);
                 ArrayList<TAG> listEncTagTarget = tagTarget.getListEncadeamento();
                 int positionTagClicada = getPositionTag(tagClicada.getId(), listEncTagTarget);
                 CheckBox checkBox = (CheckBox) view;
@@ -81,7 +120,6 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
                     listEncTagTarget.remove(positionTagClicada);
                 }
                 tagTarget.setListEncadeamento(listEncTagTarget);
-                listTags.set(positionTagTarget, tagTarget);
             }
         };
 
@@ -145,9 +183,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
 
     private void backToInfTarefas() {
         Intent resultIntent = new Intent(this, RegrasTarefasActivity.class);
-        resultIntent.putExtra("listaTarefas", listTags);
         resultIntent.putExtra("IdAtividade", IdAtividade);
-        setResult(Activity.RESULT_OK, resultIntent);
         startActivity(resultIntent);
         finish();
     }
@@ -161,7 +197,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
     }
 
     private void salvarPrecedencia() {
-        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog = new ProgressDialog(this);
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
@@ -172,9 +208,6 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 Boolean result = response.body();
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
                 backToInfTarefas();
             }
 

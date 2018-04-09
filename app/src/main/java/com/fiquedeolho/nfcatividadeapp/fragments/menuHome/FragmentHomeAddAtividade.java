@@ -19,12 +19,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasActivity;
@@ -44,7 +46,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
 
     private ViewHolderAddAtivHome mViewHolderAddAtivHome = new ViewHolderAddAtivHome();
 
-    private String idUsuario;
+    private int idUsuario;
     private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
     private ArrayList<Atividade> listAtividadeAdicionadas = new ArrayList<Atividade>();
     private ProgressDialog pDialog;
@@ -58,25 +60,28 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         this.mViewHolderAddAtivHome.mViewFloatingActionButton = rootView.findViewById(R.id.btn_addFloatingAction);
         this.mViewHolderAddAtivHome.mViewFloatingActionButton.setOnClickListener(this);
 
+        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd = rootView.findViewById(R.id.status_spinner_atividade_add);
+        ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
+        adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.setAdapter(adp);
+
+        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_add);
+        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd.setOnClickListener(this);
+
         return rootView;
     }
 
     @Override
     public void onStart() {
+        super.onStart();
         pDialog = new ProgressDialog(getActivity());
         pDialog.setTitle(getString(R.string.title_progress_ativ_adicionadas));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
-        Bundle budle = getArguments();
-        if (budle != null) {
-            idUsuario = budle.getString("idUsuario");
-        } else {
-            //TODO REVER ESSA LOGICA DEPOIS ARRUMAR ISSO
-            idUsuario = "1"; //
-        }
+        SavePreferences save = new SavePreferences(getContext());
+        idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
         getAtivAdicionadas();
-        super.onStart();
     }
 
     @Override
@@ -91,12 +96,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
     private void getAtivAdicionadas() {
         AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
         final Call<ArrayList<Atividade>> call = ativiInterface.getAtividadesAdicionadas(this.idUsuario);
-        // TODO: Rever essa logica de Thread, ta gambiarra
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         call.enqueue(new Callback<ArrayList<Atividade>>() {
             @Override
             public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
@@ -117,13 +116,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
     }
 
     public void MontaRestanteTela() {
-        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd = rootView.findViewById(R.id.status_spinner_atividade_add);
-        ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.setAdapter(adp);
-
-        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_add);
-        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd.setOnClickListener(this);
 
         // 1 - Obter a recyclerview
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd = rootView.findViewById(R.id.recyclerViewAtividadeAdd);
@@ -139,14 +131,14 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                 }
             }
 
-            @Override
+            /*@Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE){
                     mViewHolderAddAtivHome.mViewFloatingActionButton.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
-            }
+            }*/
         });
 
         // Implementa o evento de click para passar por parâmetro para a ViewHolder

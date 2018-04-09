@@ -33,7 +33,6 @@ public class VinculoTarefaETagActivity extends Activity {
     NfcAdapter nfcAdapter;
     private int IdAtividade;
     private int IdTag;
-    private ArrayList<TAG> listTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class VinculoTarefaETagActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
-            listTags = extras.getParcelableArrayList("listaTarefas");
             IdTag = extras.getInt("IdTag");
         }
     }
@@ -118,7 +116,6 @@ public class VinculoTarefaETagActivity extends Activity {
                     public void run() {
                         Bundle bundle = new Bundle();
                         bundle.putInt("IdAtividade", IdAtividade);
-                        bundle.putParcelableArrayList("listaTarefas", listTags);
                         Intent intentActivityListTarefas = new Intent(context, InfTarefasActivity.class);
                         intentActivityListTarefas.putExtras(bundle);
                         startActivity(intentActivityListTarefas);
