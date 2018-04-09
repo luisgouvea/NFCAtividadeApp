@@ -154,7 +154,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     nomeAtividadeInput = nomeAtivEle.getText().toString();
                     dataFinalizacaoInput = dataFinalizaEle.getText().toString();
                     addAtividade();
-                    launchHomeScreen();
+                    //launchHomeScreen();
                 }
             }
         });
@@ -256,9 +256,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 Boolean result = response.body();
                 //Log.d("Log de erro request", response.body().toString());
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
+                launchHomeScreen();
             }
 
             @Override
