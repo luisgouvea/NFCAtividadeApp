@@ -20,9 +20,19 @@
         android:layout_marginBottom="50dp"
         android:text="@string/pesquisar_atividade"/>
 
-    <ScrollView
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textListAtividadeVaziaFazerAtiv"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/list_atividades_vazia_home_fazer_ativ"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="wrap_content"
@@ -30,6 +40,7 @@
             android:id="@+id/recyclerViewAtividadeFazer">
         </android.support.v7.widget.RecyclerView>
 
-    </ScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

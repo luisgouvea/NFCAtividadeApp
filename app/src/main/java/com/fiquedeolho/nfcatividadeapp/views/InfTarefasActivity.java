@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -47,6 +49,8 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
          */
         this.mViewHolderInfTarefas.mViewBtnDefinirRegras = findViewById(R.id.btn_definir_regras_tarefas);
         this.mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa = findViewById(R.id.btn_addFloatingAction_add_tarefa);
+        this.mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas = findViewById(R.id.textListTarefaVaziaInfTarefas);
+        this.mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras = findViewById(R.id.linear_contet_btns_inf_tarefas);
 
         /**
          * Comportamento dos botoes
@@ -77,8 +81,12 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
                 listTags = response.body();
-                SetarRecyclerView();
-                //ObservableRecycler();
+                if (listTags == null || listTags.size() == 0) {
+                    mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
+                } else {
+                    mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
+                    SetarRecyclerView();
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -216,5 +224,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         private RecyclerView mViewRecyclerViewInfTarefas;
         private FloatingActionButton mViewFloatingActionButtonAddTarefa;
         private Button mViewBtnDefinirRegras;
+        private TextView mViewTextListTarefaVaziaInfTarefas;
+        private LinearLayout mViewLinearContentBtnDefinirRegras;
     }
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -42,7 +43,7 @@ import retrofit2.Callback;
  * Relacionado a todas as atividades que o usuario logado criou.
  */
 
-public class FragmentHomeAddAtividade extends Fragment implements View.OnClickListener{
+public class FragmentHomeAddAtividade extends Fragment implements View.OnClickListener {
 
     private ViewHolderAddAtivHome mViewHolderAddAtivHome = new ViewHolderAddAtivHome();
 
@@ -67,6 +68,8 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
 
         this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_add);
         this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd.setOnClickListener(this);
+
+        this.mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade = rootView.findViewById(R.id.textListAtividadeVaziaHomeAddAtiv);
 
         return rootView;
     }
@@ -100,7 +103,11 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             @Override
             public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
                 listAtividadeAdicionadas = response.body();
-                MontaRestanteTela();
+                if (listAtividadeAdicionadas == null || listAtividadeAdicionadas.size() == 0) {
+                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade.setVisibility(View.VISIBLE);
+                } else {
+                    MontaRestanteTela();
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -206,10 +213,10 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setLayoutManager(linearLayoutManager);
     }
 
-    private int descobrePositionArrayListAtiv(int idAtividade){
-        for (int i = 0; i < listAtividadeAdicionadas.size(); i++ ){
+    private int descobrePositionArrayListAtiv(int idAtividade) {
+        for (int i = 0; i < listAtividadeAdicionadas.size(); i++) {
             Atividade ativ = listAtividadeAdicionadas.get(i);
-            if(ativ.getId() == idAtividade){
+            if (ativ.getId() == idAtividade) {
                 return i;
             }
         }
@@ -229,5 +236,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         private Spinner mViewSpinnerAtivAdd;
         private RecyclerView mViewRecyclerViewAtividadeAdd;
         private FloatingActionButton mViewFloatingActionButton;
+        private TextView mViewTextListAtividadeVaziaAddAtividade;
     }
 }

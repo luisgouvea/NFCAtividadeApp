@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -60,6 +61,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
         this.mViewHolderExecAtivHome.mVieBtnFiltrarAtivFazer = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_fazer);
         this.mViewHolderExecAtivHome.mVieBtnFiltrarAtivFazer.setOnClickListener(this);
+        this.mViewHolderExecAtivHome.mViewTextListAtividadeVaziaFazerAtividade = rootView.findViewById(R.id.textListAtividadeVaziaFazerAtiv);
 
         return rootView;
     }
@@ -149,10 +151,10 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setLayoutManager(linearLayoutManager);
     }
 
-    private int descobrePositionArrayListAtiv(int idAtividade){
-        for (int i = 0; i < listAtividadeExecutar.size(); i++ ){
+    private int descobrePositionArrayListAtiv(int idAtividade) {
+        for (int i = 0; i < listAtividadeExecutar.size(); i++) {
             Atividade ativ = listAtividadeExecutar.get(i);
-            if(ativ.getId() == idAtividade){
+            if (ativ.getId() == idAtividade) {
                 return i;
             }
         }
@@ -182,7 +184,11 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             @Override
             public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
                 listAtividadeExecutar = response.body();
-                MontaRestanteTela();
+                if (listAtividadeExecutar == null || listAtividadeExecutar.size() == 0) {
+                    mViewHolderExecAtivHome.mViewTextListAtividadeVaziaFazerAtividade.setVisibility(View.VISIBLE);
+                } else {
+                    MontaRestanteTela();
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -205,5 +211,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         private Spinner mViewSpinnerAtivFazer;
         private Button mVieBtnFiltrarAtivFazer;
         private RecyclerView mViewRecyclerViewAtividadeFazer;
+        private TextView mViewTextListAtividadeVaziaFazerAtividade;
     }
 }
