@@ -15,7 +15,9 @@ import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -28,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class VinculoTarefaETagActivity extends Activity {
+public class VinculoTarefaETagActivity extends AppCompatActivity {
 
     NfcAdapter nfcAdapter;
     private int IdAtividade;
@@ -38,10 +40,8 @@ public class VinculoTarefaETagActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // remove title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         setContentView(R.layout.activity_vinculo_tarefa_e_tag);
 
@@ -53,6 +53,27 @@ public class VinculoTarefaETagActivity extends Activity {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
             IdTag = extras.getInt("IdTag");
         }
+    }
+
+    /**
+     Click no botao voltar da activity
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backToInfTarefas();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void backToInfTarefas() {
+        Intent resultIntent = new Intent(this, InfTarefasActivity.class);
+        resultIntent.putExtra("IdAtividade", IdAtividade);
+        startActivity(resultIntent);
+        finish();
     }
 
     @Override

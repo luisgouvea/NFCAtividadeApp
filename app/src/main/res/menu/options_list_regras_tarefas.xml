@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mnu_precedencia_tarefa_regra" android:title="Precedência" />
+    <item android:id="@+id/mnu_horario_tarefa_regra" android:title="Horário" />
+    <item android:id="@+id/mnu_data_tarefa_regra" android:title="Data" />
+</menu>

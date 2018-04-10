@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listRegras.TarefasListRegrasAdapter;
 
 import java.util.ArrayList;
@@ -104,25 +107,47 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         // 1 - Obter a recyclerview
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas = findViewById(R.id.recyclerViewRegrasTarefas);
 
-        // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
+        /**
+         * OnListClickInteractionListenerView interface QUE CRIEI
+         Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
+         Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
+         */
+        OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
-            public void onClick(int id) {
-                TAG tag = getTagTarget(id);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("tagTarget", tag);
-                bundle.putInt("IdAtividade", IdAtividade);
-                bundle.putParcelableArrayList("listaTags", listTags);
+            public void onClick(final View viewTarget) {
+                final int idTag = viewTarget.getId();
+                PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
+                popupMenu.inflate(R.menu.options_list_regras_tarefas);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.mnu_precedencia_tarefa_regra:
+                                TAG tag = getTagTarget(idTag);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable("tagTarget", tag);
+                                bundle.putInt("IdAtividade", IdAtividade);
 
-                Intent intent = new Intent(getApplicationContext(), PrecedenciaTarefaActivity.class);
-                intent.putExtras(bundle);
+                                Intent intent = new Intent(getApplicationContext(), PrecedenciaTarefaActivity.class);
+                                intent.putExtras(bundle);
 
-                startActivity(intent);
+                                startActivity(intent);
+                                break;
+                            case R.id.mnu_data_tarefa_regra:
+
+                                break;
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
             }
         };
 
         // 2 - Definir adapter passando listagem de tarefas e listener
-        tarefasListRegrasAdapter = new TarefasListRegrasAdapter(listTags, listener);
+        tarefasListRegrasAdapter = new TarefasListRegrasAdapter(listTags, listenerOptionsList);
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.setAdapter(tarefasListRegrasAdapter);
 
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));

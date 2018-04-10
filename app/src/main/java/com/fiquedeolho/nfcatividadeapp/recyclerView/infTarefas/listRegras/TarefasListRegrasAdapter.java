@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class TarefasListRegrasAdapter extends RecyclerView.Adapter<TarefasListRe
     private List<TAG> mListTags;
 
     // Interface que define as ações
-    private OnListClickInteractionListener mOnListClickInteractionListener;
+    private OnListClickInteractionListenerView mOnListClickInteractionListenerOptions;
 
-    public TarefasListRegrasAdapter(List<TAG> tags, OnListClickInteractionListener listener){
+    public TarefasListRegrasAdapter(List<TAG> tags, OnListClickInteractionListenerView listenerOptions){
         this.mListTags = tags;
-        this.mOnListClickInteractionListener = listener;
+        this.mOnListClickInteractionListenerOptions = listenerOptions;
     }
 
     /**
@@ -47,7 +48,7 @@ public class TarefasListRegrasAdapter extends RecyclerView.Adapter<TarefasListRe
     @Override
     public void onBindViewHolder(TarefasListRegrasViewHolder holder, int position) {
         TAG tag = this.mListTags.get(position);
-        holder.bindData(tag, this.mOnListClickInteractionListener);
+        holder.bindData(tag, this.mOnListClickInteractionListenerOptions);
     }
 
     @Override

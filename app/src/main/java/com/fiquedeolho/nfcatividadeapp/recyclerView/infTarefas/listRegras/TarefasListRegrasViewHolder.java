@@ -6,13 +6,14 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 public class TarefasListRegrasViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
     private TextView nomeTarefa;
     private TextView palavraChave;
+    private TextView popMenu;
 
     /**
      * Construtor
@@ -21,25 +22,28 @@ public class TarefasListRegrasViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_regra);
         this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_regra);
+        this.popMenu = (TextView) itemView.findViewById(R.id.popMenu_tarefa_regra);
     }
 
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tag, final OnListClickInteractionListener listener ) {
+    public void bindData(final TAG tag, final OnListClickInteractionListenerView listenerOptions ) {
 
         // Altera valor
         this.nomeTarefa.setText(tag.getNome());
         this.palavraChave.setText(tag.getPalavraChave());
 
+        popMenu.setId(tag.getId());
         // Adciona evento de click
-        this.nomeTarefa.setOnClickListener(new View.OnClickListener() {
+        this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /**
-                 * Metodo (onClick) da interface OnListClickInteractionListener,  implementada nesse projeto
+                 * Metodo (onClick) da interface OnListClickInteractionListenerView,  implementada nesse projeto
+                 * Nesse caso, o View eh um TextView
                  */
-                listener.onClick(tag.getId());
+                listenerOptions.onClick(view);
             }
         });
 
