@@ -1,8 +1,10 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -47,7 +49,7 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
 
         NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
         nfcAdapter = manager.getDefaultAdapter();
-
+        checkNFCAtivo();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
@@ -55,6 +57,20 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
         }
     }
 
+    public void checkNFCAtivo(){
+        if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Ops");
+            alertDialog.setMessage("O NFC do dispositivo não está habilitado. \nPor favor, ative.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
     /**
      Click no botao voltar da activity
      */
