@@ -1,5 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -131,6 +132,9 @@ public class InitialNavigationActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_share) {
 
+        }else if (id == R.id.cadastro_tags) {
+            Intent intent = new Intent(this, InfTagsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

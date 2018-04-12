@@ -58,14 +58,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.InfTarefasActivity" />
         </activity>
-        <activity android:name=".views.PrecedenciaTarefaActivity"
+        <activity
+            android:name=".views.PrecedenciaTarefaActivity"
             android:label="@string/title_page_activity_precedencia_tarefa"
             android:parentActivityName=".views.RegrasTarefasActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="views.RegrasTarefasActivity" />
         </activity>
-        <activity android:name=".views.VinculoTarefaETagActivity"></activity>
+        <activity android:name=".views.VinculoTarefaETagActivity" />
+        <activity android:name=".views.InfTagsActivity"></activity>
     </application>
 
 </manifest>
