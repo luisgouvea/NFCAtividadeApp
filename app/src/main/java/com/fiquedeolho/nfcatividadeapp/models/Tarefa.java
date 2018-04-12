@@ -10,6 +10,7 @@ public class Tarefa  implements Parcelable{
 
     private int Id;
     private int IdAtividade;
+    private int IdTag;
     private String Nome;
     private String PalavraChave;
     private ArrayList<Tarefa> listaEncadeamento;
@@ -17,6 +18,7 @@ public class Tarefa  implements Parcelable{
     public Tarefa(Parcel in) {
         Id = in.readInt();
         IdAtividade = in.readInt();
+        IdTag = in.readInt();
         Nome = in.readString();
         PalavraChave = in.readString();
         listaEncadeamento = in.createTypedArrayList(CREATOR);
@@ -50,6 +52,10 @@ public class Tarefa  implements Parcelable{
         return Id;
     }
 
+    public int getIdTag() {
+        return IdTag;
+    }
+
     public int getIdAtividade() {
         return IdAtividade;
     }
@@ -60,6 +66,10 @@ public class Tarefa  implements Parcelable{
 
     public void setId(int id) {
         this.Id = id;
+    }
+
+    public void setIdTag(int idTag) {
+        this.IdTag = idTag;
     }
 
     public void setNome(String nome) {

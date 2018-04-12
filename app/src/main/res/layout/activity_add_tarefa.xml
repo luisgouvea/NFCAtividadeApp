@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linear_main_add_tarefa"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:showIn="com.fiquedeolho.nfcatividadeapp.views.AddTarefaActivity">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_add_tarefa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/linear_content_tarefa_add_nome"
+        android:id="@+id/layoutDotsAddTarefa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            app:hintTextAppearance="@style/TextLabelAtivAdd">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_nomeTarefa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/input_nome_tarefa"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/prata">
     </LinearLayout>
 
-    <RelativeLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relative_content_btn_salvar">
+        android:layout_height="1dp"
+        android:alpha=".5"
+        android:layout_above="@id/layoutDotsAddTarefa"
+        android:background="#90A4AE" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="16dp"
-            android:id="@+id/btn_salvar_tarefa"
-            android:text="Salvar"/>
-    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_next_add_tarefa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:text="PROXIMO"
+        android:textColor="@android:color/white" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_skip_add_tarefa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:text="VOLTAR"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
