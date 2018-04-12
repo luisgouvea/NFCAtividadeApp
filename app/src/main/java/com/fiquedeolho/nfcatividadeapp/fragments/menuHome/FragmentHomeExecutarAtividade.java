@@ -1,14 +1,11 @@
 package com.fiquedeolho.nfcatividadeapp.fragments.menuHome;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +26,6 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
-import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
 
 import java.util.ArrayList;
 
@@ -92,10 +88,8 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                 Bundle bundle = new Bundle();
                 bundle.putInt("IdAtividade", id);
 
-                Intent intent = new Intent(rootView.getContext(), DetailsAtividadeActivity.class);
-                intent.putExtras(bundle);
+                Toast.makeText(getContext(), "//TODO:REVERRR", Toast.LENGTH_LONG).show();
 
-                startActivity(intent);
             }
         };
 

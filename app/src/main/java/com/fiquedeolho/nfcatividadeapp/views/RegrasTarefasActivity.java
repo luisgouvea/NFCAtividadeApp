@@ -13,9 +13,8 @@ import android.view.View;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listRegras.TarefasListRegrasAdapter;
 
@@ -27,7 +26,7 @@ import retrofit2.Callback;
 public class RegrasTarefasActivity extends AppCompatActivity {
 
     private int IdAtividade;
-    private ArrayList<TAG> listTags = new ArrayList<>();
+    private ArrayList<Tarefa> listTarefas = new ArrayList<>();
     private ViewHolderRegrasTarefas mViewHolderRegrasTarefas = new ViewHolderRegrasTarefas();
     private TarefasListRegrasAdapter tarefasListRegrasAdapter;
     private ProgressDialog pDialog;
@@ -60,12 +59,12 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
-        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
-        call.enqueue(new Callback<ArrayList<TAG>>() {
+        TarefaRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
+        final Call<ArrayList<Tarefa>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
-            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
-                listTags = response.body();
+            public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
+                listTarefas = response.body();
                 SetarRecyclerView();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -73,7 +72,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Tarefa>> call, Throwable t) {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -115,7 +114,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
-                final int idTag = viewTarget.getId();
+                final int idTarefa = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_regras_tarefas);
                 popupMenu.show();
@@ -124,9 +123,9 @@ public class RegrasTarefasActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_precedencia_tarefa_regra:
-                                TAG tag = getTagTarget(idTag);
+                                Tarefa tarefa = getTarefaTarget(idTarefa);
                                 Bundle bundle = new Bundle();
-                                bundle.putParcelable("tagTarget", tag);
+                                bundle.putParcelable("tarefaTarget", tarefa);
                                 bundle.putInt("IdAtividade", IdAtividade);
 
                                 Intent intent = new Intent(getApplicationContext(), PrecedenciaTarefaActivity.class);
@@ -147,7 +146,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         };
 
         // 2 - Definir adapter passando listagem de tarefas e listener
-        tarefasListRegrasAdapter = new TarefasListRegrasAdapter(listTags, listenerOptionsList);
+        tarefasListRegrasAdapter = new TarefasListRegrasAdapter(listTarefas, listenerOptionsList);
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.setAdapter(tarefasListRegrasAdapter);
 
         this.mViewHolderRegrasTarefas.mViewRecyclerViewRegrasTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -158,11 +157,11 @@ public class RegrasTarefasActivity extends AppCompatActivity {
     }
 
 
-    private TAG getTagTarget(int idTag){
-        for(int i = 0; i< listTags.size(); i++){
-            TAG tag = listTags.get(i);
-            if(tag.getId() == idTag){
-                return tag;
+    private Tarefa getTarefaTarget(int idTarefa){
+        for(int i = 0; i< listTarefas.size(); i++){
+            Tarefa tarefa = listTarefas.get(i);
+            if(tarefa.getId() == idTarefa){
+                return tarefa;
             }
         }
         return null;

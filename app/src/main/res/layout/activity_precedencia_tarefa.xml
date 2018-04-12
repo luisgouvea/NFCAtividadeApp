@@ -38,7 +38,7 @@
             android:layout_weight="0.25"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:id="@+id/name_tag_target"
+            android:id="@+id/name_tarefa_target"
             android:visibility="gone"
             android:textColor="@color/colorAccent"
             android:textSize="24sp" />

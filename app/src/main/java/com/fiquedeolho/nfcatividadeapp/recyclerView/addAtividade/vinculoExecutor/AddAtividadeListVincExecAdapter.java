@@ -36,10 +36,10 @@ public class AddAtividadeListVincExecAdapter extends RecyclerView.Adapter<AddAti
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View tagView = inflater.inflate(R.layout.activity_row_add_ativ_vinc_exec, parent, false);
+        View tarefaView = inflater.inflate(R.layout.activity_row_add_ativ_vinc_exec, parent, false);
 
         // Passa a ViewHolder
-        return new AddAtividadeListVincExecViewHolder(tagView);
+        return new AddAtividadeListVincExecViewHolder(tarefaView);
     }
 
     /**

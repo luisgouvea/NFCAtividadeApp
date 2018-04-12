@@ -1,6 +1,5 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listPrecedencia.TarefasListPrecedenciaAdapter;
 
@@ -29,8 +28,8 @@ import retrofit2.Callback;
 public class PrecedenciaTarefaActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int IdAtividade;
-    private ArrayList<TAG> listTags = new ArrayList<>();
-    private TAG tagTarget;
+    private ArrayList<Tarefa> listTarefas = new ArrayList<>();
+    private Tarefa tarefaTarget;
     private ViewHolderPrecedenciaTarefas mViewHolderPrecedenciaTarefas = new ViewHolderPrecedenciaTarefas();
     private TarefasListPrecedenciaAdapter tarefasListPrecedenciaAdapter;
     private ProgressDialog pDialog;
@@ -47,11 +46,11 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade");
-            tagTarget = extras.getParcelable("tagTarget");
+            tarefaTarget = extras.getParcelable("tarefaTarget");
         }
-        this.mViewHolderPrecedenciaTarefas.mViewTextNameTagTarget = findViewById(R.id.name_tag_target);
-        this.mViewHolderPrecedenciaTarefas.mViewTextNameTagTarget.setText(tagTarget.getNome());
-        this.mViewHolderPrecedenciaTarefas.mViewTextNameTagTarget.setVisibility(View.VISIBLE);
+        this.mViewHolderPrecedenciaTarefas.mViewTextNameTarefaTarget = findViewById(R.id.name_tarefa_target);
+        this.mViewHolderPrecedenciaTarefas.mViewTextNameTarefaTarget.setText(tarefaTarget.getNome());
+        this.mViewHolderPrecedenciaTarefas.mViewTextNameTarefaTarget.setVisibility(View.VISIBLE);
 
         this.mViewHolderPrecedenciaTarefas.mViewButtonSalvarPrecedencia = findViewById(R.id.btn_salvar_precedencia);
         this.mViewHolderPrecedenciaTarefas.mViewButtonSalvarPrecedencia.setOnClickListener(this);
@@ -78,12 +77,12 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
-        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
-        call.enqueue(new Callback<ArrayList<TAG>>() {
+        TarefaRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
+        final Call<ArrayList<Tarefa>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
-            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
-                listTags = response.body();
+            public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
+                listTarefas = response.body();
                 SetarRecyclerView();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -91,7 +90,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
             }
 
             @Override
-            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Tarefa>> call, Throwable t) {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -109,24 +108,24 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
                 int id = view.getId();
-                TAG tagClicada = getTagTarget(id); // TAG clicada
-                ArrayList<TAG> listEncTagTarget = tagTarget.getListEncadeamento();
-                int positionTagClicada = getPositionTag(tagClicada.getId(), listEncTagTarget);
+                Tarefa tarefaClicada = getTarefaTarget(id); // Tarefa clicada
+                ArrayList<Tarefa> listEncTarefaTarget = tarefaTarget.getListEncadeamento();
+                int positionTarefaClicada = getPositionTarefa(tarefaClicada.getId(), listEncTarefaTarget);
                 CheckBox checkBox = (CheckBox) view;
-                if (checkBox.isChecked() && !listEncTagTarget.contains(tagClicada)) {
-                    listEncTagTarget.add(tagClicada);
+                if (checkBox.isChecked() && !listEncTarefaTarget.contains(tarefaClicada)) {
+                    listEncTarefaTarget.add(tarefaClicada);
                 } else {
                     // usuario desmarcou o checkBox
-                    listEncTagTarget.remove(positionTagClicada);
+                    listEncTarefaTarget.remove(positionTarefaClicada);
                 }
-                tagTarget.setListEncadeamento(listEncTagTarget);
+                tarefaTarget.setListEncadeamento(listEncTarefaTarget);
             }
         };
 
-        ArrayList<TAG> listAux = new ArrayList<TAG>(listTags);
-        listAux = removeTagTarget(listAux);
+        ArrayList<Tarefa> listAux = new ArrayList<Tarefa>(listTarefas);
+        listAux = removeTarefaTarget(listAux);
         // 2 - Definir adapter passando listagem de tarefas e listener
-        tarefasListPrecedenciaAdapter = new TarefasListPrecedenciaAdapter(listAux, tagTarget, listener);
+        tarefasListPrecedenciaAdapter = new TarefasListPrecedenciaAdapter(listAux, tarefaTarget, listener);
         this.mViewHolderPrecedenciaTarefas.mViewRecyclerViewPrecedenciaTarefas.setAdapter(tarefasListPrecedenciaAdapter);
 
         this.mViewHolderPrecedenciaTarefas.mViewRecyclerViewPrecedenciaTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -136,10 +135,10 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         this.mViewHolderPrecedenciaTarefas.mViewRecyclerViewPrecedenciaTarefas.setLayoutManager(linearLayoutManager);
     }
 
-    private ArrayList<TAG> removeTagTarget(ArrayList<TAG> list) {
+    private ArrayList<Tarefa> removeTarefaTarget(ArrayList<Tarefa> list) {
         for (int i = 0; i < list.size(); i++) {
-            TAG tagList = list.get(i);
-            if (tagList.getId() == tagTarget.getId()) {
+            Tarefa tarefaList = list.get(i);
+            if (tarefaList.getId() == tarefaTarget.getId()) {
                 list.remove(i);
                 return list;
             }
@@ -147,20 +146,20 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         return null;
     }
 
-    private TAG getTagTarget(int idTag) {
-        for (int i = 0; i < listTags.size(); i++) {
-            TAG tag = listTags.get(i);
-            if (tag.getId() == idTag) {
-                return tag;
+    private Tarefa getTarefaTarget(int idTarefa) {
+        for (int i = 0; i < listTarefas.size(); i++) {
+            Tarefa tarefa = listTarefas.get(i);
+            if (tarefa.getId() == idTarefa) {
+                return tarefa;
             }
         }
         return null;
     }
 
-    private int getPositionTag(int idTag, ArrayList<TAG> lista) {
+    private int getPositionTarefa(int idTarefa, ArrayList<Tarefa> lista) {
         for (int i = 0; i < lista.size(); i++) {
-            TAG tag = lista.get(i);
-            if (tag.getId() == idTag) {
+            Tarefa tarefa = lista.get(i);
+            if (tarefa.getId() == idTarefa) {
                 return i;
             }
         }
@@ -201,8 +200,8 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
-        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<Boolean> call = tagInterface.setarEncadeamentoTag(tagTarget);
+        TarefaRetrofit tarefaInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
+        final Call<Boolean> call = tarefaInterface.setarEncadeamentoTarefa(tarefaTarget);
 
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -225,7 +224,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
      */
     private class ViewHolderPrecedenciaTarefas {
 
-        private TextView mViewTextNameTagTarget;
+        private TextView mViewTextNameTarefaTarget;
         private RecyclerView mViewRecyclerViewPrecedenciaTarefas;
         private Button mViewButtonSalvarPrecedencia;
     }

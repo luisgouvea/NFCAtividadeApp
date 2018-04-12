@@ -7,8 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
     // Elemento de interface
     private TextView nomeTarefa;
     private TextView palavraChave;
-    private CheckBox antecedeTagTarget;
+    private CheckBox antecedeTarefaTarget;
 
     /**
      * Construtor
@@ -27,21 +26,21 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_precedencia);
         this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_precedencia);
-        this.antecedeTagTarget = (CheckBox) itemView.findViewById(R.id.checkbox_tarefa_precedencia);
+        this.antecedeTarefaTarget = (CheckBox) itemView.findViewById(R.id.checkbox_tarefa_precedencia);
     }
 
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tagDaLista, TAG tagTarget, final OnListClickInteractionListenerView listener) {
+    public void bindData(final Tarefa tarefaDaLista, Tarefa tarefaTarget, final OnListClickInteractionListenerView listener) {
 
         // Altera valor
-        this.nomeTarefa.setText(tagDaLista.getNome());
-        this.palavraChave.setText(tagDaLista.getPalavraChave());
+        this.nomeTarefa.setText(tarefaDaLista.getNome());
+        this.palavraChave.setText(tarefaDaLista.getPalavraChave());
 
-        this.antecedeTagTarget.setId(tagDaLista.getId());
+        this.antecedeTarefaTarget.setId(tarefaDaLista.getId());
         // Adciona evento de click
-        this.antecedeTagTarget.setOnClickListener(new View.OnClickListener() {
+        this.antecedeTarefaTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /**
@@ -51,11 +50,11 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        ArrayList<TAG> listAntecessoras = tagTarget.getListEncadeamento();
+        ArrayList<Tarefa> listAntecessoras = tarefaTarget.getListEncadeamento();
         if (listAntecessoras != null && listAntecessoras.size() > 0) {
-            for (TAG tag : listAntecessoras) {
-                if (tagDaLista.getId() == tag.getId()) {
-                    this.antecedeTagTarget.setChecked(true);
+            for (Tarefa tarefa : listAntecessoras) {
+                if (tarefaTarget.getId() == tarefa.getId()) {
+                    this.antecedeTarefaTarget.setChecked(true);
                     break;
                 }
             }

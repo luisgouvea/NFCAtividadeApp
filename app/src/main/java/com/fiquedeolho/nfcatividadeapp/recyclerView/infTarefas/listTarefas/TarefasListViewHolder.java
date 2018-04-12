@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 public class TarefasListViewHolder extends RecyclerView.ViewHolder {
@@ -28,14 +28,14 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tag, final OnListClickInteractionListenerView listenerOptions ) {
+    public void bindData(final Tarefa tarefa, final OnListClickInteractionListenerView listenerOptions ) {
 
         // Altera valor
-        this.nomeTarefa.setText(tag.getNome());
-        this.palavraChave.setText(tag.getPalavraChave());
+        this.nomeTarefa.setText(tarefa.getNome());
+        this.palavraChave.setText(tarefa.getPalavraChave());
 
 
-        popMenu.setId(tag.getId());
+        popMenu.setId(tarefa.getId());
         // Adciona evento de click
         this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override

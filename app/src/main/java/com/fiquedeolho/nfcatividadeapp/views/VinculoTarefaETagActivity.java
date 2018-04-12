@@ -1,6 +1,5 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -16,27 +15,22 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class VinculoTarefaETagActivity extends AppCompatActivity {
 
     NfcAdapter nfcAdapter;
     private int IdAtividade;
-    private int IdTag;
+    private int IdTarefa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +47,7 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade"); // sempre vem da activity fragExecAtividade
-            IdTag = extras.getInt("IdTag");
+            IdTarefa = extras.getInt("IdTarefa");
         }
     }
 
@@ -195,7 +189,7 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            NdefMessage ndefMessage = createNdefMessage("ID da atividade: " + IdAtividade + " \nID da tag: " + IdTag);
+            NdefMessage ndefMessage = createNdefMessage("ID da atividade: " + IdAtividade + " \nID da tag: " + IdTarefa);
 
             writeNdefMessage(tag, ndefMessage);
         }

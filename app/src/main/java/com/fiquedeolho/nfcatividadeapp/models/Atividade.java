@@ -11,10 +11,10 @@ public class Atividade implements Parcelable {
     private int Id;
     private int IdUsuarioCriador;
     private int IdUsuarioExecutor;
-    private ArrayList<TAG> listTags;
+    private ArrayList<Tarefa> listTarefas;
 
     public Atividade() {
-        listTags = new ArrayList<TAG>();
+        listTarefas = new ArrayList<Tarefa>();
     }
 
 
@@ -24,7 +24,7 @@ public class Atividade implements Parcelable {
         Id = in.readInt();
         IdUsuarioCriador = in.readInt();
         IdUsuarioExecutor = in.readInt();
-        listTags = in.createTypedArrayList(TAG.CREATOR);
+        listTarefas = in.createTypedArrayList(Tarefa.CREATOR);
     }
 
     public static final Creator<Atividade> CREATOR = new Creator<Atividade>() {
@@ -54,8 +54,8 @@ public class Atividade implements Parcelable {
         return Id;
     }
 
-    public ArrayList<TAG> getListTags() {
-        return listTags;
+    public ArrayList<Tarefa> getListTarefas() {
+        return listTarefas;
     }
 
     public int getIdUsuarioCriador() {
@@ -81,8 +81,8 @@ public class Atividade implements Parcelable {
         this.Id = id;
     }
 
-    public void setListTags(ArrayList<TAG> listTags) {
-        this.listTags = listTags;
+    public void setListTarefas(ArrayList<Tarefa> listTarefas) {
+        this.listTarefas = listTarefas;
     }
 
     public void setIdUsuarioCriador(int idUsuarioCriador) {
@@ -105,6 +105,6 @@ public class Atividade implements Parcelable {
         parcel.writeInt(Id);
         parcel.writeInt(IdUsuarioCriador);
         parcel.writeInt(IdUsuarioExecutor);
-        parcel.writeTypedList(listTags);
+        parcel.writeTypedList(listTarefas);
     }
 }

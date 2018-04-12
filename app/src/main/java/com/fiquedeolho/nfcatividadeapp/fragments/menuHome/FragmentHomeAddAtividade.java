@@ -29,7 +29,6 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
-import com.fiquedeolho.nfcatividadeapp.views.DetailsAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasActivity;
 
 import java.util.ArrayList;
@@ -155,10 +154,8 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                 Bundle bundle = new Bundle();
                 bundle.putInt("IdAtividade", id);
 
-                Intent intent = new Intent(rootView.getContext(), DetailsAtividadeActivity.class);
-                intent.putExtras(bundle);
+                Toast.makeText(getContext(), "//TODO:REVERRR", Toast.LENGTH_LONG).show();
 
-                startActivity(intent);
             }
         };
 
@@ -178,7 +175,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.mnu_inf_tag:
+                            case R.id.mnu_inf_tarefa:
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 

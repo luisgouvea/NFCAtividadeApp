@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,21 +68,21 @@ public class AddTarefaActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         if(id == R.id.btn_salvar_tarefa){
-            TAG tag  = new TAG();
-            tag.setNome(this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa.getText().toString());
-            tag.setIdAtividade(IdAtividade);
-            addTarefa(tag);
+            Tarefa tarefa  = new Tarefa();
+            tarefa.setNome(this.mViewHolderAddTarefa.mViewBtnInputNomeTarefa.getText().toString());
+            tarefa.setIdAtividade(IdAtividade);
+            addTarefa(tarefa);
         }
     }
 
-    private void addTarefa(final TAG tag) {
+    private void addTarefa(final Tarefa tarefa) {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setTitle(getString(R.string.title_progress_tarefa_add));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
-        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<Boolean> call = tagInterface.addTag(tag);
+        TarefaRetrofit tarefaInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
+        final Call<Boolean> call = tarefaInterface.addTarefa(tarefa);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {

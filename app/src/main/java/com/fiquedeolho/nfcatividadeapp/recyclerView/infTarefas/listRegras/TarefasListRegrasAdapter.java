@@ -7,21 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
 public class TarefasListRegrasAdapter extends RecyclerView.Adapter<TarefasListRegrasViewHolder> {
 
-    private List<TAG> mListTags;
+    private List<Tarefa> mListTarefa;
 
     // Interface que define as ações
     private OnListClickInteractionListenerView mOnListClickInteractionListenerOptions;
 
-    public TarefasListRegrasAdapter(List<TAG> tags, OnListClickInteractionListenerView listenerOptions){
-        this.mListTags = tags;
+    public TarefasListRegrasAdapter(List<Tarefa> tarefas, OnListClickInteractionListenerView listenerOptions){
+        this.mListTarefa = tarefas;
         this.mOnListClickInteractionListenerOptions = listenerOptions;
     }
 
@@ -36,10 +35,10 @@ public class TarefasListRegrasAdapter extends RecyclerView.Adapter<TarefasListRe
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View tagView = inflater.inflate(R.layout.activity_row_tarefa_regras_list, parent, false);
+        View tarefaView = inflater.inflate(R.layout.activity_row_tarefa_regras_list, parent, false);
 
         // Passa a ViewHolder
-        return new TarefasListRegrasViewHolder(tagView);
+        return new TarefasListRegrasViewHolder(tarefaView);
     }
 
     /**
@@ -47,12 +46,12 @@ public class TarefasListRegrasAdapter extends RecyclerView.Adapter<TarefasListRe
      */
     @Override
     public void onBindViewHolder(TarefasListRegrasViewHolder holder, int position) {
-        TAG tag = this.mListTags.get(position);
-        holder.bindData(tag, this.mOnListClickInteractionListenerOptions);
+        Tarefa tarefa = this.mListTarefa.get(position);
+        holder.bindData(tarefa, this.mOnListClickInteractionListenerOptions);
     }
 
     @Override
     public int getItemCount() {
-        return this.mListTags.size();
+        return this.mListTarefa.size();
     }
 }

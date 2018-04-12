@@ -6,38 +6,35 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class TAG  implements Parcelable{
+public class Tarefa  implements Parcelable{
 
     private int Id;
     private int IdAtividade;
     private String Nome;
     private String PalavraChave;
-    private ArrayList<String> listAntecessores;
-    private ArrayList<TAG> listaEncadeamento;
+    private ArrayList<Tarefa> listaEncadeamento;
 
-    public TAG(Parcel in) {
+    public Tarefa(Parcel in) {
         Id = in.readInt();
         IdAtividade = in.readInt();
         Nome = in.readString();
         PalavraChave = in.readString();
-        listAntecessores = in.createStringArrayList();
         listaEncadeamento = in.createTypedArrayList(CREATOR);
     }
 
-    public static final Creator<TAG> CREATOR = new Creator<TAG>() {
+    public static final Creator<Tarefa> CREATOR = new Creator<Tarefa>() {
         @Override
-        public TAG createFromParcel(Parcel in) {
-            return new TAG(in);
+        public Tarefa createFromParcel(Parcel in) {
+            return new Tarefa(in);
         }
 
         @Override
-        public TAG[] newArray(int size) {
-            return new TAG[size];
+        public Tarefa[] newArray(int size) {
+            return new Tarefa[size];
         }
     };
 
-    public TAG() {
-        listAntecessores = new ArrayList<>();
+    public Tarefa() {
         listaEncadeamento = new ArrayList<>();
     }
 
@@ -57,11 +54,7 @@ public class TAG  implements Parcelable{
         return IdAtividade;
     }
 
-    public ArrayList<String> getListAntecessores() {
-        return this.listAntecessores;
-    }
-
-    public ArrayList<TAG> getListEncadeamento() {
+    public ArrayList<Tarefa> getListEncadeamento() {
         return this.listaEncadeamento;
     }
 
@@ -81,11 +74,7 @@ public class TAG  implements Parcelable{
         this.IdAtividade = idAtividade;
     }
 
-    public void setListAntecessores(ArrayList<String> listAntecessores) {
-        this.listAntecessores = listAntecessores;
-    }
-
-    public void setListEncadeamento(ArrayList<TAG> listaEncadeamento) {
+    public void setListEncadeamento(ArrayList<Tarefa> listaEncadeamento) {
         this.listaEncadeamento = listaEncadeamento;
     }
 
@@ -100,8 +89,6 @@ public class TAG  implements Parcelable{
         parcel.writeInt(IdAtividade);
         parcel.writeString(Nome);
         parcel.writeString(PalavraChave);
-        parcel.writeStringList(listAntecessores);
         parcel.writeTypedList(listaEncadeamento);
-        //parcel.parc(listaEncadeamento);
     }
 }

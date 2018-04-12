@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTarefas.TarefasListAdapter;
 
@@ -32,7 +32,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
     private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
     private int IdAtividade;
-    private ArrayList<TAG> listTags = new ArrayList<>();
+    private ArrayList<Tarefa> listTarefas = new ArrayList<>();
     private TarefasListAdapter tarefasListAdapter;
     private ProgressDialog pDialog;
 
@@ -75,13 +75,13 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
-        TagRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        final Call<ArrayList<TAG>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
-        call.enqueue(new Callback<ArrayList<TAG>>() {
+        TarefaRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
+        final Call<ArrayList<Tarefa>> call = ativiInterface.getTarefasByIdAtividade(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
-            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
-                listTags = response.body();
-                if (listTags == null || listTags.size() == 0) {
+            public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
+                listTarefas = response.body();
+                if (listTarefas == null || listTarefas.size() == 0) {
                     mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
                 } else {
                     mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
@@ -93,7 +93,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             }
 
             @Override
-            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Tarefa>> call, Throwable t) {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -136,7 +136,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
-                final int idTag = viewTarget.getId();
+                final int idTarefa = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_tarefa);
                 popupMenu.show();
@@ -146,7 +146,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                         switch (item.getItemId()) {
                             case R.id.mnu_vinc_tarefa_tag:
                                 Bundle bundle = new Bundle();
-                                bundle.putInt("IdTag", idTag);
+                                bundle.putInt("IdTarefa", idTarefa);
                                 bundle.putInt("IdAtividade", IdAtividade);
                                 Intent intent = new Intent(getApplicationContext(), VinculoTarefaETagActivity.class);
                                 intent.putExtras(bundle);
@@ -154,8 +154,8 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                                 break;
                             case R.id.mnu_deletar_tarefa:
                                 Toast.makeText(getApplicationContext(), "Deletado", Toast.LENGTH_LONG).show();
-                                int positionDeletar = descobrePositionArrayListAtiv(idTag);
-                                listTags.remove(positionDeletar);
+                                int positionDeletar = descobrePositionArrayListAtiv(idTarefa);
+                                listTarefas.remove(positionDeletar);
                                 ObservableRecycler();
                                 break;
                             default:
@@ -168,7 +168,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         };
 
         // 2 - Definir adapter passando listagem de tarefas e listener
-        tarefasListAdapter = new TarefasListAdapter(listTags, listenerOptionsList);
+        tarefasListAdapter = new TarefasListAdapter(listTarefas, listenerOptionsList);
         this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.setAdapter(tarefasListAdapter);
 
         this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -202,10 +202,10 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private int descobrePositionArrayListAtiv(int idTag) {
-        for (int i = 0; i < listTags.size(); i++) {
-            TAG tag = listTags.get(i);
-            if (tag.getId() == idTag) {
+    private int descobrePositionArrayListAtiv(int idTarefa) {
+        for (int i = 0; i < listTarefas.size(); i++) {
+            Tarefa tarefa = listTarefas.get(i);
+            if (tarefa.getId() == idTarefa) {
                 return i;
             }
         }

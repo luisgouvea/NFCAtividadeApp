@@ -7,20 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
+import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.List;
 
 public class TarefasListAdapter extends RecyclerView.Adapter<TarefasListViewHolder> {
 
-    private List<TAG> mListTags;
+    private List<Tarefa> mListTarefas;
 
     // Interface que define as ações
     private OnListClickInteractionListenerView mOnListOptionListener;
 
-    public TarefasListAdapter(List<TAG> tags, OnListClickInteractionListenerView listOptions){
-        this.mListTags = tags;
+    public TarefasListAdapter(List<Tarefa> tarefas, OnListClickInteractionListenerView listOptions){
+        this.mListTarefas = tarefas;
         this.mOnListOptionListener = listOptions;
     }
     /**
@@ -34,10 +34,10 @@ public class TarefasListAdapter extends RecyclerView.Adapter<TarefasListViewHold
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View tagView = inflater.inflate(R.layout.activity_row_tarefa_list, parent, false);
+        View tarefaView = inflater.inflate(R.layout.activity_row_tarefa_list, parent, false);
 
         // Passa a ViewHolder
-        return new TarefasListViewHolder(tagView);
+        return new TarefasListViewHolder(tarefaView);
     }
 
     /**
@@ -45,12 +45,12 @@ public class TarefasListAdapter extends RecyclerView.Adapter<TarefasListViewHold
      */
     @Override
     public void onBindViewHolder(TarefasListViewHolder holder, int position) {
-        TAG tag = this.mListTags.get(position);
-        holder.bindData(tag, this.mOnListOptionListener);
+        Tarefa tarefa = this.mListTarefas.get(position);
+        holder.bindData(tarefa, this.mOnListOptionListener);
     }
 
     @Override
     public int getItemCount() {
-        return this.mListTags.size();
+        return this.mListTarefas.size();
     }
 }
