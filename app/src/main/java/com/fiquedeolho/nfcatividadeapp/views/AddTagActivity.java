@@ -1,11 +1,11 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,17 +21,25 @@ public class AddTagActivity extends AppCompatActivity {
 
     private ViewHolderAddTag mViewHolderAddTag = new ViewHolderAddTag();
     private PagerAddTagAdapter pagerAdapter;
-    private Context context;
     private TextView[] dots;
+    private FragmentAddTagCheck fragCheckNFC;
+    private FragmentAddTagInf fragInf;
+    private String calledActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            calledActivity = extras.getString("calledActivity");
+        }
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        context = this;
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         this.mViewHolderAddTag.mViewPagerAddTag = (ViewPager) findViewById(R.id.view_pager_add_tag);
         this.mViewHolderAddTag.mViewDotsLayout = (LinearLayout) findViewById(R.id.layoutDotsAddTag);
         this.mViewHolderAddTag.mViewBtnSkip = (Button) findViewById(R.id.btn_skip_add_tag);
@@ -61,14 +69,57 @@ public class AddTagActivity extends AppCompatActivity {
                 }
             }
         });
-        FragmentAddTagInf fragInf = new FragmentAddTagInf();
-        FragmentAddTagCheck fragCheck = new FragmentAddTagCheck();
+        // adding bottom dots
+        addBottomDots(0);
+
+        fragInf = new FragmentAddTagInf();
+        fragCheckNFC = new FragmentAddTagCheck();
         pagerAdapter = new PagerAddTagAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(fragCheckNFC);
         pagerAdapter.addFragment(fragInf);
-        pagerAdapter.addFragment(fragCheck);
         this.mViewHolderAddTag.mViewPagerAddTag.setAdapter(pagerAdapter);
         this.mViewHolderAddTag.mViewPagerAddTag.addOnPageChangeListener(viewPagerPageChangeListener);
 
+    }
+
+    /**
+     Click no botao voltar da activity
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backToActivityCall();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void backToActivityCall() {
+        Intent resultIntent = null;
+        switch(calledActivity) {
+            case "infTags":
+                 resultIntent = new Intent(this, InfTagsActivity.class);
+                break;
+
+            case "addTarefa":
+                resultIntent = new Intent(this, AddTarefaActivity.class);
+                break;
+        }
+        startActivity(resultIntent);
+        finish();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        fragCheckNFC.intentNFCTag(intent);
+
+        /**
+         * TODO : CRIAR UMA MANEIRA DE VALIDAR QUE O USUARIO APROXIMOU A TAG AO CELULAR.
+         * Por que se nao, o usuario pode finalizar a criacao da TAG e nao vinculou a TAG em si
+         */
     }
 
     //	viewpager change listener
@@ -111,7 +162,7 @@ public class AddTagActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(45);
             dots[i].setTextColor(colorsInactive[0]);
             this.mViewHolderAddTag.mViewDotsLayout.addView(dots[i]);
         }

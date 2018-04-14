@@ -55,6 +55,26 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
         this.mViewHolderInfTags.mViewFloatingActionButtonAddTag.setOnClickListener(this);
     }
 
+    /**
+     Click no botao voltar da activity
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backToInitialNavigation();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void backToInitialNavigation() {
+        Intent resultIntent = new Intent(this, InitialNavigationActivity.class);
+        startActivity(resultIntent);
+        finish();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -165,6 +185,9 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
         int id = v.getId();
         if (id == R.id.btn_addFloatingAction_add_tag) {
             Intent intent = new Intent(this, AddTagActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("calledActivity", "infTags");
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     }

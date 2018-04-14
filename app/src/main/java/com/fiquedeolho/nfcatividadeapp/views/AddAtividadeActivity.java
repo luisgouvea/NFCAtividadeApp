@@ -206,7 +206,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(45);
             dots[i].setTextColor(colorsInactive[0]);
             this.mViewHolderAddAtividade.mViewDotsLayout.addView(dots[i]);
         }
