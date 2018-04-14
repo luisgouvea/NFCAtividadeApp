@@ -8,10 +8,12 @@ public class TAG implements Parcelable {
 
     private int Id;
     private String Nome;
+    private String PalavraChave;
 
     public TAG(Parcel in) {
         Id = in.readInt();
         Nome = in.readString();
+        PalavraChave = in.readString();
     }
 
     public TAG(){
@@ -38,6 +40,10 @@ public class TAG implements Parcelable {
         return Id;
     }
 
+    public String getPalavraChave() {
+        return PalavraChave;
+    }
+
     public void setId(int id) {
         this.Id = id;
     }
@@ -45,6 +51,8 @@ public class TAG implements Parcelable {
     public void setNome(String nome) {
         this.Nome = nome;
     }
+
+    public void setPalavraChave(String palavraChave){this.PalavraChave = palavraChave;}
 
     @Override
     public int describeContents() {
@@ -55,5 +63,6 @@ public class TAG implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(Id);
         parcel.writeString(Nome);
+        parcel.writeString(PalavraChave);
     }
 }

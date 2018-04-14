@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -15,12 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagCheck;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.pager.addTag.PagerAddTagAdapter;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +38,7 @@ public class AddTagActivity extends AppCompatActivity {
     private String calledActivity;
     private ProgressDialog pDialog;
     private int idTagRandom;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class AddTagActivity extends AppCompatActivity {
 
         Long tsLong = System.currentTimeMillis()/1000;
         idTagRandom = tsLong.intValue();
-
+        context = this;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -83,6 +87,8 @@ public class AddTagActivity extends AppCompatActivity {
                     TAG tag = new TAG();
                     tag.setNome(nomeTagInput);
                     tag.setId(idTagRandom);
+                    SavePreferences save = new SavePreferences(context);
+                    tag.setId(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     addTAG(tag);
                 }
             }
