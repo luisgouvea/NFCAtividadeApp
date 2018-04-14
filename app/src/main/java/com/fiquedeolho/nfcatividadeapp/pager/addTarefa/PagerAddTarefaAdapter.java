@@ -13,13 +13,13 @@ import com.fiquedeolho.nfcatividadeapp.util.Mask;
 /**
  * View pager adapter
  */
-public class PagerAddTarefaAdpter extends PagerAdapter {
+public class PagerAddTarefaAdapter extends PagerAdapter {
 
     private LayoutInflater layoutInflater;
     private int[] layouts;
     private Context mViewContext;
 
-    public PagerAddTarefaAdpter(int [] layouts, Context context) {
+    public PagerAddTarefaAdapter(int [] layouts, Context context) {
         this.layouts = layouts;
         this.mViewContext = context;
     }

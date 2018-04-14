@@ -14,6 +14,7 @@
     <string name="nomeAtividadeAdd">Nome da atividade</string>
     <string name="dtFinalizacaoTarefa">Data de finalização</string>
     <string name="nomeTarefaAdd">Nome da tarefa</string>
+    <string name="nomeTagAdd">Nome da TAG</string>
     <string name="message_progress_dialog">Aguarde...</string>
     <string name="title_progress_aut_login">Autenticando o usuário</string>
     <string name="title_progress_ativ_executar">Buscando atividade(s)</string>

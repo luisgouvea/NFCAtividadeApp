@@ -68,6 +68,7 @@
         </activity>
         <activity android:name=".views.VinculoTarefaETagActivity" />
         <activity android:name=".views.InfTagsActivity" />
+        <activity android:name=".views.AddTagActivity"></activity>
     </application>
 
 </manifest>

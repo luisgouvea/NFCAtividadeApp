@@ -25,7 +25,7 @@ import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
-import com.fiquedeolho.nfcatividadeapp.pager.addTarefa.PagerAddTarefaAdpter;
+import com.fiquedeolho.nfcatividadeapp.pager.addTarefa.PagerAddTarefaAdapter;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTags.TarefasListTagAdapter;
@@ -46,7 +46,7 @@ public class AddTarefaActivity extends AppCompatActivity {
     private TextView[] dots;
     private ArrayList<TAG> listaTags;
     private int[] layouts;
-    private PagerAddTarefaAdpter pagerAdapter;
+    private PagerAddTarefaAdapter pagerAdapter;
     private int idTagVinculada;
     private TarefasListTagAdapter tarefasListTagAdapter;
 
@@ -74,7 +74,7 @@ public class AddTarefaActivity extends AppCompatActivity {
         // add few more layouts if you want
         layouts = new int[]{
                 R.layout.content_add_tarefa_inf,
-                R.layout.content_add_tarefa_list,
+                R.layout.content_add_tarefa_list_tag,
         };
 
         // adding bottom dots
@@ -83,7 +83,7 @@ public class AddTarefaActivity extends AppCompatActivity {
         // making notification bar transparent
         //changeStatusBarColor();
 
-        pagerAdapter = new PagerAddTarefaAdpter(layouts, this);
+        pagerAdapter = new PagerAddTarefaAdapter(layouts, this);
         this.mViewHolderAddTarefa.mViewPagerAddTarefa.setAdapter(pagerAdapter);
         this.mViewHolderAddTarefa.mViewPagerAddTarefa.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -213,6 +213,12 @@ public class AddTarefaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
                 listaTags = response.body();
+
+
+
+                /// TODO: ARRUMAARR SE TAGS VAZIA AVISAR COM TEXTO DE TAG VAZIAS
+
+
                 SetarRecyclerView();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();

@@ -96,6 +96,7 @@ public class Tarefa  implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(Id);
+        parcel.writeInt(IdTag);
         parcel.writeInt(IdAtividade);
         parcel.writeString(Nome);
         parcel.writeString(PalavraChave);

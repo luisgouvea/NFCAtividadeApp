@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -45,8 +46,8 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
         /**
          * Pegando os elementos da Activity
          */
-        this.mViewHolderInfTags.mViewFloatingActionButtonAddTag = findViewById(R.id.btn_addFloatingAction_add_tarefa);
-        this.mViewHolderInfTags.mViewTextListTagVaziaInfTags = findViewById(R.id.textListTarefaVaziaInfTarefas);
+        this.mViewHolderInfTags.mViewFloatingActionButtonAddTag = findViewById(R.id.btn_addFloatingAction_add_tag);
+        this.mViewHolderInfTags.mViewTextListTagVaziaInfTags = findViewById(R.id.textListTagVaziaInfTags);
 
         /**
          * Comportamento dos botoes
@@ -163,14 +164,8 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_addFloatingAction_add_tag) {
-
-            /*Bundle bundle = new Bundle();
-            bundle.putInt("IdAtividade", IdAtividade);
-            Intent intent = new Intent(this, AddTarefaActivity.class);
-            intent.putExtras(bundle);
-
-            startActivity(intent);*/
-            //finish();
+            Intent intent = new Intent(this, AddTagActivity.class);
+            startActivity(intent);
         }
     }
 
