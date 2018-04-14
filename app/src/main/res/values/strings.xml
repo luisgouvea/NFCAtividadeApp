@@ -33,6 +33,7 @@
     <string name="title_page_activity_regras_tarefa">Regras das tarefas</string>
     <string name="title_page_activity_precedencia_tarefa">Precedência da tarefa</string>
     <string name="title_progress_tarefa_add">Criando a tarefa</string>
+    <string name="title_progress_tag_add">Criando a TAG</string>
     <string name="salvar_algo">SALVAR</string>
     <string name="list_tarefas_vazia_inf_tarefas">A Atividade não possui nenhuma tarefa!</string>
     <string name="list_atividades_vazia_home_add_ativ">Você não criou nenhuma atividade ainda!</string>

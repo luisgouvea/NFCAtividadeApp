@@ -39,7 +39,6 @@ public class FragmentAddTagCheck extends Fragment {
 
         NfcManager manager = (NfcManager) getActivity().getSystemService(Context.NFC_SERVICE);
         nfcAdapter = manager.getDefaultAdapter();
-        checkNFCAtivo();
 
         return view;
     }
@@ -146,11 +145,11 @@ public class FragmentAddTagCheck extends Fragment {
 
     }
 
-    public void intentNFCTag(Intent intent){
+    public void intentNFCTag(Intent intent, int idTag){
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            NdefMessage ndefMessage = createNdefMessage("ID da atividade:");
+            NdefMessage ndefMessage = createNdefMessage(String.valueOf(idTag));
 
             writeNdefMessage(tag, ndefMessage);
         }

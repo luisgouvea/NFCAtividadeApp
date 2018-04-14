@@ -1,5 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,13 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagCheck;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
+import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.pager.addTag.PagerAddTagAdapter;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class AddTagActivity extends AppCompatActivity {
 
@@ -25,6 +33,8 @@ public class AddTagActivity extends AppCompatActivity {
     private FragmentAddTagCheck fragCheckNFC;
     private FragmentAddTagInf fragInf;
     private String calledActivity;
+    private ProgressDialog pDialog;
+    private int idTagRandom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,9 @@ public class AddTagActivity extends AppCompatActivity {
         if (extras != null) {
             calledActivity = extras.getString("calledActivity");
         }
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        idTagRandom = tsLong.intValue();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,8 +77,13 @@ public class AddTagActivity extends AppCompatActivity {
                     // move to next screen
                     mViewHolderAddTag.mViewPagerAddTag.setCurrentItem(current);
                 } else {
-                    //Tarefa tarefa = new Tarefa();
-                    //addTarefa(tarefa);
+                    LinearLayout linear = mViewHolderAddTag.mViewPagerAddTag.findViewById(R.id.first_content_linear_layout_add_tag);
+                    EditText nomeTagEle = linear.findViewById(R.id.input_nomeTag);
+                    String nomeTagInput = nomeTagEle.getText().toString();
+                    TAG tag = new TAG();
+                    tag.setNome(nomeTagInput);
+                    tag.setId(idTagRandom);
+                    addTAG(tag);
                 }
             }
         });
@@ -75,11 +93,36 @@ public class AddTagActivity extends AppCompatActivity {
         fragInf = new FragmentAddTagInf();
         fragCheckNFC = new FragmentAddTagCheck();
         pagerAdapter = new PagerAddTagAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragment(fragCheckNFC);
         pagerAdapter.addFragment(fragInf);
+        pagerAdapter.addFragment(fragCheckNFC);
         this.mViewHolderAddTag.mViewPagerAddTag.setAdapter(pagerAdapter);
         this.mViewHolderAddTag.mViewPagerAddTag.addOnPageChangeListener(viewPagerPageChangeListener);
 
+    }
+
+
+    private void addTAG(final TAG tag) {
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setTitle(getString(R.string.title_progress_tag_add));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.show();
+        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
+        final Call<Boolean> call = tagInterface.addTag(tag);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                Boolean result = response.body();
+                backToActivityCall();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     /**
@@ -114,7 +157,7 @@ public class AddTagActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        fragCheckNFC.intentNFCTag(intent);
+        fragCheckNFC.intentNFCTag(intent, idTagRandom);
 
         /**
          * TODO : CRIAR UMA MANEIRA DE VALIDAR QUE O USUARIO APROXIMOU A TAG AO CELULAR.
@@ -132,6 +175,7 @@ public class AddTagActivity extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == 1) {
                 // last page. make button text to GOT IT
+                fragCheckNFC.checkNFCAtivo();
                 mViewHolderAddTag.mViewBtnNext.setText(getString(R.string.concluido));
                 mViewHolderAddTag.mViewBtnSkip.setVisibility(View.GONE);
             } else {
