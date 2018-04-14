@@ -1,63 +1,34 @@
 package com.fiquedeolho.nfcatividadeapp.pager.addTarefa;
 
-import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
-import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.util.Mask;
+import java.util.ArrayList;
 
 /**
  * View pager adapter
  */
-public class PagerAddTarefaAdapter extends PagerAdapter {
+public class PagerAddTarefaAdapter extends FragmentPagerAdapter {
 
-    private LayoutInflater layoutInflater;
-    private int[] layouts;
-    private Context mViewContext;
+    private final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
 
-    public PagerAddTarefaAdapter(int [] layouts, Context context) {
-        this.layouts = layouts;
-        this.mViewContext = context;
+    public PagerAddTarefaAdapter(FragmentManager manager) {
+        super(manager);
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) mViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View view = layoutInflater.inflate(layouts[position], container, false);
-
-        switch (position) {
-            case 0:
-                EditText dataFinalizaElement = view.findViewById(R.id.input_data_finalizacao_tarefa);
-                dataFinalizaElement.addTextChangedListener(Mask.insert("##/##/####", dataFinalizaElement));
-                break;
-            case 1:
-                //Algo dos layouts
-                break;
-        }
-        container.addView(view);
-
-        return view;
+    public void addFragment(Fragment fragment) {
+        mFragments.add(fragment);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return layouts.length;
+        return mFragments.size();
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object obj) {
-        return view == obj;
-    }
-
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        View view = (View) object;
-        container.removeView(view);
+    public Fragment getItem(int position) {
+        return mFragments.get(position);
     }
 }

@@ -20,35 +20,28 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
+import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaVincTag;
+import com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity.ActivityCommunicator;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.pager.addTarefa.PagerAddTarefaAdapter;
-import com.fiquedeolho.nfcatividadeapp.models.TAG;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
-import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTags.TarefasListTagAdapter;
-import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AddTarefaActivity extends AppCompatActivity {
+public class AddTarefaActivity extends AppCompatActivity implements ActivityCommunicator {
 
     private ViewHolderAddTarefa mViewHolderAddTarefa = new ViewHolderAddTarefa();
-    private ViewHolderVincTag mViewHolderVincTag = new ViewHolderVincTag();
     private int IdAtividade;
     private ProgressDialog pDialog;
     private Context context;
     private TextView[] dots;
-    private ArrayList<TAG> listaTags;
-    private int[] layouts;
     private PagerAddTarefaAdapter pagerAdapter;
     private int idTagVinculada;
-    private TarefasListTagAdapter tarefasListTagAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +53,6 @@ public class AddTarefaActivity extends AppCompatActivity {
             IdAtividade = extras.getInt("IdAtividade");
         }
 
-        ListAllTagsAddTarefaVincTag();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         context = this;
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
@@ -70,20 +62,18 @@ public class AddTarefaActivity extends AppCompatActivity {
         this.mViewHolderAddTarefa.mViewBtnNext = (Button) findViewById(R.id.btn_next_add_tarefa);
 
 
-        // layouts of all welcome sliders
-        // add few more layouts if you want
-        layouts = new int[]{
-                R.layout.content_add_tarefa_inf,
-                R.layout.content_add_tarefa_list_tag,
-        };
-
         // adding bottom dots
         addBottomDots(0);
 
         // making notification bar transparent
         //changeStatusBarColor();
 
-        pagerAdapter = new PagerAddTarefaAdapter(layouts, this);
+        FragmentAddTagInf fragInf = new FragmentAddTagInf();
+        FragmentAddTarefaVincTag fragVincTag = new FragmentAddTarefaVincTag();
+        pagerAdapter = new PagerAddTarefaAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(fragInf);
+        pagerAdapter.addFragment(fragVincTag);
+
         this.mViewHolderAddTarefa.mViewPagerAddTarefa.setAdapter(pagerAdapter);
         this.mViewHolderAddTarefa.mViewPagerAddTarefa.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -101,7 +91,7 @@ public class AddTarefaActivity extends AppCompatActivity {
                 // checking for last page
                 // if last page home screen will be launched
                 int current = getItem(+1);
-                if (current < layouts.length) {
+                if (current < 2) {
                     // move to next screen
                     mViewHolderAddTarefa.mViewPagerAddTarefa.setCurrentItem(current);
                 } else {
@@ -130,7 +120,7 @@ public class AddTarefaActivity extends AppCompatActivity {
             addBottomDots(position);
 
             // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
+            if (position == 1) {
                 // last page. make button text to GOT IT
                 mViewHolderAddTarefa.mViewBtnNext.setText(getString(R.string.concluido));
                 mViewHolderAddTarefa.mViewBtnSkip.setVisibility(View.GONE);
@@ -153,7 +143,7 @@ public class AddTarefaActivity extends AppCompatActivity {
     };
 
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        dots = new TextView[2];
 
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -197,83 +187,6 @@ public class AddTarefaActivity extends AppCompatActivity {
         }
     }
 
-
-    private void ListAllTagsAddTarefaVincTag() {
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-        //pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
-        pDialog.setMessage(getString(R.string.message_progress_dialog));
-        pDialog.show();
-        TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        SavePreferences save = new SavePreferences(this);
-
-        final Call<ArrayList<TAG>> call = tagInterface.getTagsByIdUsuario(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
-
-        call.enqueue(new Callback<ArrayList<TAG>>() {
-            @Override
-            public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
-                listaTags = response.body();
-
-                if (listaTags == null || listaTags.size() == 0) {
-                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa = mViewHolderAddTarefa.mViewPagerAddTarefa.findViewById(R.id.textListTagVaziaAddTarefa);
-                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa.setVisibility(View.VISIBLE);
-                } else {
-                    SetarRecyclerView();
-                }
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<TAG>> call, Throwable t) {
-                if (pDialog != null && pDialog.isShowing()) {
-                    pDialog.dismiss();
-                }
-            }
-        });
-    }
-
-    private void SetarRecyclerView() {
-
-        // 1 - Obter a recyclerview
-        this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag = findViewById(R.id.recyclerViewAddTarefaVincTag);
-
-        // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
-            @Override
-            public void onClick(int id) {
-                if (idTagVinculada != 0) {
-                    RecyclerView re = mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag;
-                    RadioButton radio = re.findViewById(idTagVinculada);
-                    radio.setChecked(false);
-                }
-                TAG tag = getTagTarget(id);
-                idTagVinculada = tag.getId();
-            }
-        };
-
-        // 2 - Definir adapter passando listagem de tarefas e listener
-        tarefasListTagAdapter = new TarefasListTagAdapter(listaTags, listener);
-        this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag.setAdapter(tarefasListTagAdapter);
-
-        this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
-
-        // 3 - Definir um layout
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag.setLayoutManager(linearLayoutManager);
-    }
-
-    private TAG getTagTarget(int idTag) {
-        for (int i = 0; i < listaTags.size(); i++) {
-            TAG tag = listaTags.get(i);
-            if (tag.getId() == idTag) {
-                return tag;
-            }
-        }
-        return null;
-    }
-
     private void addTarefa(final Tarefa tarefa) {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -305,6 +218,11 @@ public class AddTarefaActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void passDataToActivity(int id) {
+        idTagVinculada = id;
+    }
+
     /**
      * ViewHolder dos elementos
      */
@@ -316,9 +234,4 @@ public class AddTarefaActivity extends AppCompatActivity {
         private Button mViewBtnSkip;
     }
 
-    private class ViewHolderVincTag {
-
-        private RecyclerView mViewRecyclerViewAddTarefaVincTag;
-        private TextView mViewTextListTagVaziaAddTarefa;
-    }
 }
