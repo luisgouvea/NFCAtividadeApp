@@ -88,7 +88,7 @@ public class AddTagActivity extends AppCompatActivity {
                     tag.setNome(nomeTagInput);
                     tag.setId(idTagRandom);
                     SavePreferences save = new SavePreferences(context);
-                    tag.setId(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
+                    tag.setIdUsuario(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     addTAG(tag);
                 }
             }

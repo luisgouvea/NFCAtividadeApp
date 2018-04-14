@@ -4,7 +4,9 @@ package com.fiquedeolho.nfcatividadeapp.fragments.addTarefa;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,17 +26,18 @@ import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTags.TarefasListTagAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.views.AddTagActivity;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class FragmentAddTarefaVincTag  extends Fragment{
+public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickListener{
 
     private int idTagVinculada;
     private TarefasListTagAdapter tarefasListTagAdapter;
-    private ViewHolderVincTag mViewHolderVincTag;
+    private ViewHolderVincTag mViewHolderVincTag = new ViewHolderVincTag();
     private ArrayList<TAG> listaTags;
     private ProgressDialog pDialog;
     private ActivityCommunicator activityCommunicator;
@@ -43,6 +46,9 @@ public class FragmentAddTarefaVincTag  extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_add_tarefa_list_tag, container, false);
+        ListAllTagsAddTarefaVincTag();
+        this.mViewHolderVincTag.mViewBtnFloatingActionAddTag = view.findViewById(R.id.btn_addFloatingAction_add_tarefa_add_tag);
+        this.mViewHolderVincTag.mViewBtnFloatingActionAddTag.setOnClickListener(this);
         return view;
     }
 
@@ -124,10 +130,23 @@ public class FragmentAddTarefaVincTag  extends Fragment{
         return null;
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if(id == R.id.btn_addFloatingAction_add_tarefa_add_tag){
+            Intent intent = new Intent(getActivity(), AddTagActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("calledActivity", "addTarefa");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+
     private class ViewHolderVincTag {
 
         private RecyclerView mViewRecyclerViewAddTarefaVincTag;
         private TextView mViewTextListTagVaziaAddTarefa;
+        private FloatingActionButton mViewBtnFloatingActionAddTag;
     }
 
 

@@ -7,11 +7,13 @@ import android.os.Parcelable;
 public class TAG implements Parcelable {
 
     private int Id;
+    private int IdUsuario;
     private String Nome;
     private String PalavraChave;
 
     public TAG(Parcel in) {
         Id = in.readInt();
+        IdUsuario = in.readInt();
         Nome = in.readString();
         PalavraChave = in.readString();
     }
@@ -44,8 +46,14 @@ public class TAG implements Parcelable {
         return PalavraChave;
     }
 
+    public int getIdUsuario(){return IdUsuario;}
+
     public void setId(int id) {
         this.Id = id;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.IdUsuario = idUsuario;
     }
 
     public void setNome(String nome) {
@@ -63,6 +71,7 @@ public class TAG implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(Id);
         parcel.writeString(Nome);
+        parcel.writeInt(IdUsuario);
         parcel.writeString(PalavraChave);
     }
 }
