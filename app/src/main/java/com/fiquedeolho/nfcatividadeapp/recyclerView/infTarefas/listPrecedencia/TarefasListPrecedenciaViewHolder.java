@@ -16,7 +16,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
     private TextView nomeTarefa;
-    private TextView palavraChave;
+    private TextView comentario;
     private CheckBox antecedeTarefaTarget;
 
     /**
@@ -25,7 +25,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
     public TarefasListPrecedenciaViewHolder(View itemView) {
         super(itemView);
         this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa_precedencia);
-        this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_precedencia);
+        this.comentario = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa_precedencia);
         this.antecedeTarefaTarget = (CheckBox) itemView.findViewById(R.id.checkbox_tarefa_precedencia);
     }
 
@@ -36,7 +36,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
 
         // Altera valor
         this.nomeTarefa.setText(tarefaDaLista.getNome());
-        this.palavraChave.setText(tarefaDaLista.getPalavraChave());
+        this.comentario.setText(tarefaDaLista.getComentario());
 
         this.antecedeTarefaTarget.setId(tarefaDaLista.getId());
         // Adciona evento de click

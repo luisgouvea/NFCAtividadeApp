@@ -12,7 +12,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
 
     // Elemento de interface
     private TextView nomeTarefa;
-    private TextView palavraChave;
+    private TextView comentario;
     private TextView popMenu;
 
     /**
@@ -21,7 +21,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
     public TarefasListViewHolder(View itemView) {
         super(itemView);
         this.nomeTarefa = (TextView) itemView.findViewById(R.id.text_title_nome_tarefa);
-        this.palavraChave = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa);
+        this.comentario = (TextView) itemView.findViewById(R.id.text_subtitle_nome_tarefa);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionListTarefa);
     }
 
@@ -32,7 +32,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
 
         // Altera valor
         this.nomeTarefa.setText(tarefa.getNome());
-        this.palavraChave.setText(tarefa.getPalavraChave());
+        this.comentario.setText(tarefa.getComentario());
 
 
         popMenu.setId(tarefa.getId());
