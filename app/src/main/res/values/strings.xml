@@ -39,7 +39,7 @@
     <string name="list_atividades_vazia_home_add_ativ">Você não criou nenhuma atividade ainda!</string>
     <string name="list_atividades_vazia_home_fazer_ativ">Você não possuí nenhuma atividade para realizar!</string>
     <string name="title_page_inf_tags">Gerenciamento de TAG(s)</string>
-    <string name="list_tags_vazia_inf_tags">Não há TAG criada.</string>
+    <string name="list_tags_vazia">Não há TAG criada.</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>

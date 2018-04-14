@@ -214,12 +214,12 @@ public class AddTarefaActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
                 listaTags = response.body();
 
-
-
-                /// TODO: ARRUMAARR SE TAGS VAZIA AVISAR COM TEXTO DE TAG VAZIAS
-
-
-                SetarRecyclerView();
+                if (listaTags == null || listaTags.size() == 0) {
+                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa = mViewHolderAddTarefa.mViewPagerAddTarefa.findViewById(R.id.textListTagVaziaAddTarefa);
+                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa.setVisibility(View.VISIBLE);
+                } else {
+                    SetarRecyclerView();
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -319,5 +319,6 @@ public class AddTarefaActivity extends AppCompatActivity {
     private class ViewHolderVincTag {
 
         private RecyclerView mViewRecyclerViewAddTarefaVincTag;
+        private TextView mViewTextListTagVaziaAddTarefa;
     }
 }

@@ -6,12 +6,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/linear_content_add_tarefa_vinc_tag">
+        android:id="@+id/linear_content_add_tarefa_vinc_tag"
+        android:orientation="vertical"
+        android:weightSum="1.00">
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            android:layout_height="0dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_weight="0.90">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textListTagVaziaAddTarefa"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="@string/list_tags_vazia"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewAddTarefaVincTag"
