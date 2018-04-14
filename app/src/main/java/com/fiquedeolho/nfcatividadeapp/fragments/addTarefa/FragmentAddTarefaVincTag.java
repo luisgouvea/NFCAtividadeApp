@@ -57,6 +57,18 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
         // 1 - Obter a recyclerview
         this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag = getActivity().findViewById(R.id.recyclerViewAddTarefaVincTag);
 
+        this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && mViewHolderVincTag.mViewBtnFloatingActionAddTag.getVisibility() == View.VISIBLE) {
+                    mViewHolderVincTag.mViewBtnFloatingActionAddTag.hide();
+                } else if (dy < 0 && mViewHolderVincTag.mViewBtnFloatingActionAddTag.getVisibility() != View.VISIBLE) {
+                    mViewHolderVincTag.mViewBtnFloatingActionAddTag.show();
+                }
+            }
+        });
+
         // Implementa o evento de click para passar por parâmetro para a ViewHolder
         OnListClickInteractionListener listener = new OnListClickInteractionListener() {
             @Override

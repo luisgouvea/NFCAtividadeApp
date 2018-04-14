@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,19 +13,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
+import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaInf;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaVincTag;
 import com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity.ActivityCommunicator;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.pager.addTarefa.PagerAddTarefaAdapter;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +62,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         // making notification bar transparent
         //changeStatusBarColor();
 
-        FragmentAddTagInf fragInf = new FragmentAddTagInf();
+        FragmentAddTarefaInf fragInf = new FragmentAddTarefaInf();
         FragmentAddTarefaVincTag fragVincTag = new FragmentAddTarefaVincTag();
         pagerAdapter = new PagerAddTarefaAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(fragInf);
