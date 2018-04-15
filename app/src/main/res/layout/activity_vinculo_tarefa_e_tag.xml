@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:text="Aproxime a sua TAG NFC ao dispositvo"/>
+            android:text="@string/message_aproxime_tag_ao_disp"/>
 
     </LinearLayout>
 

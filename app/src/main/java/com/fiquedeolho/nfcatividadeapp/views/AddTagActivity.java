@@ -35,7 +35,6 @@ public class AddTagActivity extends AppCompatActivity {
     private TextView[] dots;
     private FragmentAddTagCheck fragCheckNFC;
     private FragmentAddTagInf fragInf;
-    private String calledActivity;
     private ProgressDialog pDialog;
     private int idTagRandom;
     private Context context;
@@ -44,11 +43,6 @@ public class AddTagActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            calledActivity = extras.getString("calledActivity");
-        }
 
         Long tsLong = System.currentTimeMillis()/1000;
         idTagRandom = tsLong.intValue();

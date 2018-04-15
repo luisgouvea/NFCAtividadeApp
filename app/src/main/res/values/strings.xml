@@ -42,4 +42,8 @@
     <string name="list_tags_vazia">Não há TAG criada.</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="message_aproxime_tag_ao_disp">Aproxime a sua TAG NFC ao dispositvo</string>
 </resources>

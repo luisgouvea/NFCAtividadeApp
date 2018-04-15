@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.fragments.menuHome;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogCheckNFCRead;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
@@ -26,6 +28,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.views.InitialNavigationActivity;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
     private ProgressDialog pDialog;
     private View rootView;
     private AtividadeListAdpter atividadeListAdapter;
+    private DialogCheckNFCRead dialogCheck;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         this.mViewHolderExecAtivHome.mVieBtnFiltrarAtivFazer.setOnClickListener(this);
         this.mViewHolderExecAtivHome.mViewTextListAtividadeVaziaFazerAtividade = rootView.findViewById(R.id.textListAtividadeVaziaFazerAtiv);
 
+         dialogCheck = DialogCheckNFCRead.newInstance();
         return rootView;
     }
 
@@ -109,11 +114,16 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.mnu_item_save:
-                                Toast.makeText(getContext(), "Salvo", Toast.LENGTH_LONG).show();
+                            case R.id.mnu_item_realizar_check_atividade:
+                                //Toast.makeText(getContext(), "Realizar Check", Toast.LENGTH_LONG).show();
+
+                                //dialogCheck.checkNFCAtivo((InitialNavigationActivity)getActivity());
+                                dialogCheck.setActivity((InitialNavigationActivity)getActivity());
+                                // Create the fragment and show it as a dialog.
+                                dialogCheck.show(getFragmentManager(), "dialog");
                                 break;
                             case R.id.mnu_item_delete:
-                                Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Remover", Toast.LENGTH_LONG).show();
                                 int positionDeletar = descobrePositionArrayListAtiv(idAtividade);
                                 listAtividadeExecutar.remove(positionDeletar);
                                 ObservableRecycler();
@@ -157,6 +167,10 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
     private void ObservableRecycler() {
         atividadeListAdapter.notifyDataSetChanged();
+    }
+
+    public void intentNFCTag(Intent intent){
+        dialogCheck.intentNFCTag(intent);
     }
 
     @Override

@@ -46,11 +46,13 @@ public class InitialNavigationActivity extends AppCompatActivity
         private TabLayout mViewTabLayuot;
     }
 
+    private FragmentHomeExecutarAtividade fragExecuteAtiv;
+
     private Fragment[] setFragments(Bundle budle) {
 
         Fragment fragAddAtiv = new FragmentHomeAddAtividade();
         fragAddAtiv.setArguments(budle);
-        Fragment fragExecuteAtiv = new FragmentHomeExecutarAtividade();
+        fragExecuteAtiv = new FragmentHomeExecutarAtividade();
         fragExecuteAtiv.setArguments(budle);
         return new Fragment[]{
                 fragAddAtiv,
@@ -88,6 +90,12 @@ public class InitialNavigationActivity extends AppCompatActivity
 
         this.mViewHolderInitialHome.mViewTabLayuot = findViewById(R.id.tab_layout_initial);
         this.mViewHolderInitialHome.mViewTabLayuot.setupWithViewPager(this.mViewHolderInitialHome.mViewPagerTableInitial);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        fragExecuteAtiv.intentNFCTag(intent);
     }
 
     @Override
