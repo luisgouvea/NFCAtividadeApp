@@ -29,7 +29,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
-import com.fiquedeolho.nfcatividadeapp.views.InfTarefasActivity;
+import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
 
 import java.util.ArrayList;
 
@@ -170,7 +170,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             public void onClick(final View viewTarget) {
                 final int idAtividade = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(getContext(), viewTarget);
-                popupMenu.inflate(R.menu.options_list_ativ_adicionadas);
+                popupMenu.inflate(R.menu.options_list_ativ_criador);
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -180,7 +180,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 
-                                Intent intent = new Intent(rootView.getContext(), InfTarefasActivity.class);
+                                Intent intent = new Intent(rootView.getContext(), InfTarefasCriadorActivity.class);
                                 intent.putExtras(bundle);
 
                                 startActivity(intent);

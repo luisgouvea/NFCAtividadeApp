@@ -28,7 +28,6 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
-import com.fiquedeolho.nfcatividadeapp.views.InitialNavigationActivity;
 
 import java.util.ArrayList;
 
@@ -108,12 +107,21 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             public void onClick(final View viewTarget) {
                 final int idAtividade = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(getContext(), viewTarget);
-                popupMenu.inflate(R.menu.options_list_ativ_executar);
+                popupMenu.inflate(R.menu.options_list_ativ_executor);
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+                            case R.id.mnu_item_inf_tarefa_executor:
+                                /*Bundle bundle = new Bundle();
+                                bundle.putInt("IdAtividade", idAtividade);
+
+                                Intent intent = new Intent(rootView.getContext(), InfTarefasCriadorActivity.class);
+                                intent.putExtras(bundle);
+
+                                startActivity(intent);*/
+                                break;
                             case R.id.mnu_item_realizar_check_atividade:
                                 // Create the fragment and show it as a dialog.
                                 dialogCheck.show(getFragmentManager(), "dialog");

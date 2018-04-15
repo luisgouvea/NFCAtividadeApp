@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class InfTarefasActivity extends AppCompatActivity implements View.OnClickListener {
+public class InfTarefasCriadorActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ViewHolderInfTarefas mViewHolderInfTarefas = new ViewHolderInfTarefas();
+    private ViewHolderInfTarefasCriador mViewHolderInfTarefasCriador = new ViewHolderInfTarefasCriador();
     private int IdAtividade;
     private ArrayList<Tarefa> listTarefas = new ArrayList<>();
     private TarefasListAdapter tarefasListAdapter;
@@ -39,7 +39,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inf_tarefas);
+        setContentView(R.layout.activity_inf_tarefas_criador);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,16 +47,16 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
         /**
          * Pegando os elementos da Activity
          */
-        this.mViewHolderInfTarefas.mViewBtnDefinirRegras = findViewById(R.id.btn_definir_regras_tarefas);
-        this.mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa = findViewById(R.id.btn_addFloatingAction_add_tarefa);
-        this.mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas = findViewById(R.id.textListTarefaVaziaInfTarefas);
-        this.mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras = findViewById(R.id.linear_contet_btns_inf_tarefas);
+        this.mViewHolderInfTarefasCriador.mViewBtnDefinirRegras = findViewById(R.id.btn_definir_regras_tarefas);
+        this.mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa = findViewById(R.id.btn_addFloatingAction_add_tarefa);
+        this.mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas = findViewById(R.id.textListTarefaVaziaInfTarefas);
+        this.mViewHolderInfTarefasCriador.mViewLinearContentBtnDefinirRegras = findViewById(R.id.linear_contet_btns_inf_tarefas);
 
         /**
          * Comportamento dos botoes
          */
-        this.mViewHolderInfTarefas.mViewBtnDefinirRegras.setOnClickListener(this);
-        this.mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.setOnClickListener(this);
+        this.mViewHolderInfTarefasCriador.mViewBtnDefinirRegras.setOnClickListener(this);
+        this.mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.setOnClickListener(this);
     }
 
     @Override
@@ -82,10 +82,10 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
                 listTarefas = response.body();
                 if (listTarefas == null || listTarefas.size() == 0) {
-                    mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
+                    mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
                 } else {
-                    mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.GONE);
-                    mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
+                    mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.GONE);
+                    mViewHolderInfTarefasCriador.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
                     SetarRecyclerView();
                 }
                 if (pDialog != null && pDialog.isShowing()) {
@@ -105,16 +105,16 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     private void SetarRecyclerView() {
 
         // 1 - Obter a recyclerview
-        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas = findViewById(R.id.recyclerViewInfTarefas);
+        this.mViewHolderInfTarefasCriador.mViewRecyclerViewInfTarefas = findViewById(R.id.recyclerViewInfTarefas);
 
-        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        this.mViewHolderInfTarefasCriador.mViewRecyclerViewInfTarefas.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.getVisibility() == View.VISIBLE) {
-                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.hide();
-                } else if (dy < 0 && mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.getVisibility() != View.VISIBLE) {
-                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.show();
+                if (dy > 0 && mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.getVisibility() == View.VISIBLE) {
+                    mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.hide();
+                } else if (dy < 0 && mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.getVisibility() != View.VISIBLE) {
+                    mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.show();
                 }
             }
 
@@ -122,7 +122,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    mViewHolderInfTarefas.mViewFloatingActionButtonAddTarefa.show();
+                    mViewHolderInfTarefasCriador.mViewFloatingActionButtonAddTarefa.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }*/
@@ -139,7 +139,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
             public void onClick(final View viewTarget) {
                 final int idTarefa = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
-                popupMenu.inflate(R.menu.options_list_tarefa);
+                popupMenu.inflate(R.menu.options_list_tarefa_criador);
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -170,13 +170,13 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
 
         // 2 - Definir adapter passando listagem de tarefas e listener
         tarefasListAdapter = new TarefasListAdapter(listTarefas, listenerOptionsList);
-        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.setAdapter(tarefasListAdapter);
+        this.mViewHolderInfTarefasCriador.mViewRecyclerViewInfTarefas.setAdapter(tarefasListAdapter);
 
-        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+        this.mViewHolderInfTarefasCriador.mViewRecyclerViewInfTarefas.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
 
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        this.mViewHolderInfTarefas.mViewRecyclerViewInfTarefas.setLayoutManager(linearLayoutManager);
+        this.mViewHolderInfTarefasCriador.mViewRecyclerViewInfTarefas.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -220,7 +220,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
     /**
      * ViewHolder dos elementos
      */
-    private class ViewHolderInfTarefas {
+    private class ViewHolderInfTarefasCriador {
 
         private RecyclerView mViewRecyclerViewInfTarefas;
         private FloatingActionButton mViewFloatingActionButtonAddTarefa;

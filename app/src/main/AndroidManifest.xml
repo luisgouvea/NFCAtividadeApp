@@ -35,7 +35,7 @@
             android:name=".views.InitialNavigationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".views.InfTarefasActivity"
+            android:name=".views.InfTarefasCriadorActivity"
             android:label="@string/title_page_activity_inf_tarefas"
             android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
@@ -45,18 +45,18 @@
         <activity
             android:name=".views.AddTarefaActivity"
             android:label="@string/title_page_activity_add_tarefa"
-            android:parentActivityName=".views.InfTarefasActivity">
+            android:parentActivityName=".views.InfTarefasCriadorActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="views.InfTarefasActivity" />
+                android:value=".views.InfTarefasCriadorActivity" />
         </activity>
         <activity
             android:name=".views.RegrasTarefasActivity"
             android:label="@string/title_page_activity_regras_tarefa"
-            android:parentActivityName=".views.InfTarefasActivity">
+            android:parentActivityName=".views.InfTarefasCriadorActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="views.InfTarefasActivity" />
+                android:value=".views.InfTarefasCriadorActivity" />
         </activity>
         <activity
             android:name=".views.PrecedenciaTarefaActivity"

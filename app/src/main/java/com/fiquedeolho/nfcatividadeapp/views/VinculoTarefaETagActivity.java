@@ -80,7 +80,7 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
     }
 
     private void backToInfTarefas() {
-        Intent resultIntent = new Intent(this, InfTarefasActivity.class);
+        Intent resultIntent = new Intent(this, InfTarefasCriadorActivity.class);
         resultIntent.putExtra("IdAtividade", IdAtividade);
         startActivity(resultIntent);
         finish();
@@ -147,7 +147,7 @@ public class VinculoTarefaETagActivity extends AppCompatActivity {
                     public void run() {
                         Bundle bundle = new Bundle();
                         bundle.putInt("IdAtividade", IdAtividade);
-                        Intent intentActivityListTarefas = new Intent(context, InfTarefasActivity.class);
+                        Intent intentActivityListTarefas = new Intent(context, InfTarefasCriadorActivity.class);
                         intentActivityListTarefas.putExtras(bundle);
                         startActivity(intentActivityListTarefas);
                     }

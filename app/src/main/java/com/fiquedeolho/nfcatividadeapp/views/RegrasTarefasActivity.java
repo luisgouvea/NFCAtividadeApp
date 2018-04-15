@@ -95,7 +95,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
     }
 
     private void backToInfTarefas() {
-        Intent resultIntent = new Intent(this, InfTarefasActivity.class);
+        Intent resultIntent = new Intent(this, InfTarefasCriadorActivity.class);
         resultIntent.putExtra("IdAtividade", IdAtividade);
         startActivity(resultIntent);
         finish();

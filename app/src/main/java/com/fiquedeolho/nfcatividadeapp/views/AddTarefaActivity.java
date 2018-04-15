@@ -210,7 +210,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     }
 
     private void backToInfTarefas() {
-        Intent resultIntent = new Intent(this, InfTarefasActivity.class);
+        Intent resultIntent = new Intent(this, InfTarefasCriadorActivity.class);
         resultIntent.putExtra("IdAtividade", IdAtividade);
         startActivity(resultIntent);
         finish();
