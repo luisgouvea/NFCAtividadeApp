@@ -115,10 +115,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_item_realizar_check_atividade:
-                                //Toast.makeText(getContext(), "Realizar Check", Toast.LENGTH_LONG).show();
-
-                                //dialogCheck.checkNFCAtivo((InitialNavigationActivity)getActivity());
-                                dialogCheck.setActivity((InitialNavigationActivity)getActivity());
                                 // Create the fragment and show it as a dialog.
                                 dialogCheck.show(getFragmentManager(), "dialog");
                                 break;

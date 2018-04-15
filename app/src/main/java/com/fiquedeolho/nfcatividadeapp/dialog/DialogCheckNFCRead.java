@@ -4,19 +4,19 @@ package com.fiquedeolho.nfcatividadeapp.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.Display;
@@ -25,11 +25,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.views.InitialNavigationActivity;
+
+import java.io.UnsupportedEncodingException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class DialogCheckNFCRead extends DialogFragment {
@@ -97,6 +104,12 @@ public class DialogCheckNFCRead extends DialogFragment {
         disableForegroundDispatchSystem();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        disableForegroundDispatchSystem();
+    }
+
     private void enableForegroundDispatchSystem() {
 
         Intent intent = new Intent(getContext(), InitialNavigationActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
@@ -114,34 +127,55 @@ public class DialogCheckNFCRead extends DialogFragment {
 
     public void intentNFCTag(Intent intent){
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Ndef ndef = Ndef.get(tag);
-            onNfcDetected(ndef);
+            Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+
+            if(parcelables != null && parcelables.length > 0)
+            {
+                readTextFromMessage((NdefMessage) parcelables[0]);
+            }else{
+                Toast.makeText(getActivity(), "Não foi possivel ler a TAG!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    public void onNfcDetected(Ndef ndef){
-        readFromNFC(ndef);
+    private void readTextFromMessage(NdefMessage ndefMessage) {
+
+        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+
+        if(ndefRecords != null && ndefRecords.length>0){
+
+            NdefRecord ndefRecord = ndefRecords[0];
+
+            String tagContent = getTextFromNdefRecord(ndefRecord);
+
+            Log.d("Teste", tagContent);
+            addAtividade(Integer.valueOf(tagContent));
+            //Toast.makeText(this, "Conteúdo Lido!", Toast.LENGTH_SHORT).show();
+        }else
+        {
+            //Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    private void readFromNFC(Ndef ndef) {
-
+    public String getTextFromNdefRecord(NdefRecord ndefRecord)
+    {
+        String tagContent = null;
         try {
-            ndef.connect();
-            NdefMessage ndefMessage = ndef.getNdefMessage();
-            String message = new String(ndefMessage.getRecords()[0].getPayload());
-            Log.d("TAG", "readFromNFC: "+message);
-            mTvMessage.setText(message);
-            ndef.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            byte[] payload = ndefRecord.getPayload();
+            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            int languageSize = payload[0] & 0063;
+            tagContent = new String(payload, languageSize + 1,
+                    payload.length - languageSize - 1, textEncoding);
+        } catch (UnsupportedEncodingException e) {
+            Log.e("getTextFromNdefRecord", e.getMessage(), e);
         }
+        return tagContent;
     }
 
     public void checkNFCAtivo(){
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivityTarget()).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Ops");
             alertDialog.setMessage("O NFC do dispositivo não está habilitado. \nPor favor, ative.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -154,12 +188,43 @@ public class DialogCheckNFCRead extends DialogFragment {
         }
     }
 
-    public void setActivity(InitialNavigationActivity activity){
-        this.activity = activity;
-    }
+    private Boolean addAtividade(int idTag) {
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Aguarde");
+        pDialog.show();
+        AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
 
+        final Call<Boolean> call = atividadeInterface.realizarCheck(idTag);
 
-    public InitialNavigationActivity getActivityTarget(){
-        return this.activity;
+        call.enqueue(new Callback<Boolean>() {
+
+            @Override
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                Boolean result = response.body();
+                if(result){
+                    Toast.makeText(getActivity(), "É um check correto!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Não é um check correto!", Toast.LENGTH_SHORT).show();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (pDialog != null && pDialog.isShowing()) {
+                            pDialog.dismiss();
+                        }
+                        dismiss();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+        return true;
     }
 }

@@ -18,4 +18,7 @@ public interface AtividadeRetrofit {
 
     @POST("/api/Atividade/criarAtividade")
     Call<Boolean> criarAtividade(@Body Atividade ativ);
+
+    @POST("/api/Atividade/realizarCheck")
+    Call<Boolean> realizarCheck(@Body int idTag);
 }
