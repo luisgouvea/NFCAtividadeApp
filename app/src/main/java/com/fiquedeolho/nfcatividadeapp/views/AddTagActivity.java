@@ -106,6 +106,13 @@ public class AddTagActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(pDialog != null && pDialog.isShowing()){
+            pDialog.dismiss();
+        }
+    }
 
     private void addTAG(final TAG tag) {
         pDialog = new ProgressDialog(this);
@@ -119,7 +126,7 @@ public class AddTagActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 Boolean result = response.body();
-                backToActivityCall();
+                finish();
             }
 
             @Override
@@ -138,26 +145,11 @@ public class AddTagActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                backToActivityCall();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void backToActivityCall() {
-        Intent resultIntent = null;
-        switch(calledActivity) {
-            case "infTags":
-                 resultIntent = new Intent(this, InfTagsActivity.class);
-                break;
-
-            case "addTarefa":
-                resultIntent = new Intent(this, AddTarefaActivity.class);
-                break;
-        }
-        startActivity(resultIntent);
-        finish();
     }
 
     @Override

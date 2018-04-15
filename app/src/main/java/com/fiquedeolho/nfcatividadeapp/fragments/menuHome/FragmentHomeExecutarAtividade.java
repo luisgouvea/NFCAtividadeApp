@@ -181,6 +181,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                 if (listAtividadeExecutar == null || listAtividadeExecutar.size() == 0) {
                     mViewHolderExecAtivHome.mViewTextListAtividadeVaziaFazerAtividade.setVisibility(View.VISIBLE);
                 } else {
+                    mViewHolderExecAtivHome.mViewTextListAtividadeVaziaFazerAtividade.setVisibility(View.GONE);
                     MontaRestanteTela();
                 }
                 if (pDialog != null && pDialog.isShowing()) {

@@ -36,6 +36,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     private TextView[] dots;
     private PagerAddTarefaAdapter pagerAdapter;
     private int idTagVinculada;
+    private FragmentAddTarefaVincTag fragVincTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,8 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         // adding bottom dots
         addBottomDots(0);
 
-        // making notification bar transparent
-        //changeStatusBarColor();
-
         FragmentAddTarefaInf fragInf = new FragmentAddTarefaInf();
-        FragmentAddTarefaVincTag fragVincTag = new FragmentAddTarefaVincTag();
+        fragVincTag = new FragmentAddTarefaVincTag();
         pagerAdapter = new PagerAddTarefaAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(fragInf);
         pagerAdapter.addFragment(fragVincTag);
@@ -104,6 +102,12 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         });
 
         //getList de usuarios no banco
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        fragVincTag.ListAllTagsAddTarefaVincTag(this);
     }
 
     //	viewpager change listener

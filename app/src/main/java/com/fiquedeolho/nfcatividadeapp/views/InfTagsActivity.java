@@ -98,6 +98,7 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
                 if (listTags == null || listTags.size() == 0) {
                     mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.VISIBLE);
                 } else {
+                    mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.GONE);
                     SetarRecyclerView();
                 }
                 if (pDialog != null && pDialog.isShowing()) {

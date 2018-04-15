@@ -84,6 +84,7 @@ public class InfTarefasActivity extends AppCompatActivity implements View.OnClic
                 if (listTarefas == null || listTarefas.size() == 0) {
                     mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
                 } else {
+                    mViewHolderInfTarefas.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.GONE);
                     mViewHolderInfTarefas.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
                     SetarRecyclerView();
                 }

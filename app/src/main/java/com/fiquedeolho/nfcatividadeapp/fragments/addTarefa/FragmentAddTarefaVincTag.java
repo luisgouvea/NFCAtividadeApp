@@ -1,7 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.fragments.addTarefa;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +26,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTags.TarefasListTagAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddTagActivity;
+import com.fiquedeolho.nfcatividadeapp.views.AddTarefaActivity;
 
 import java.util.ArrayList;
 
@@ -46,8 +46,8 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_add_tarefa_list_tag, container, false);
-        ListAllTagsAddTarefaVincTag();
         this.mViewHolderVincTag.mViewBtnFloatingActionAddTag = view.findViewById(R.id.btn_addFloatingAction_add_tarefa_add_tag);
+        this.mViewHolderVincTag.mViewTextListTagVaziaAddTarefa = view.findViewById(R.id.textListTagVaziaAddTarefa);
         this.mViewHolderVincTag.mViewBtnFloatingActionAddTag.setOnClickListener(this);
         return view;
     }
@@ -96,14 +96,14 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
         this.mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag.setLayoutManager(linearLayoutManager);
     }
 
-    private void ListAllTagsAddTarefaVincTag() {
-        pDialog = new ProgressDialog(getActivity());
+    public void ListAllTagsAddTarefaVincTag(AddTarefaActivity addTarefaActivity) {
+        pDialog = new ProgressDialog(addTarefaActivity);
         pDialog.setCancelable(false);
-        //pDialog.setTitle(getString(R.string.title_progress_tarefa_list));
-        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        //pDialog.setMessage(getString(R.string.message_progress_dialog)); ISSO DA ERRO
+        pDialog.setMessage("Aguarde...");
         pDialog.show();
         TagRetrofit tagInterface = BaseUrlRetrofit.retrofit.create(TagRetrofit.class);
-        SavePreferences save = new SavePreferences(getActivity());
+        SavePreferences save = new SavePreferences(addTarefaActivity);
 
         final Call<ArrayList<TAG>> call = tagInterface.getTagsByIdUsuario(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
 
@@ -111,11 +111,10 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
             @Override
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
                 listaTags = response.body();
-
                 if (listaTags == null || listaTags.size() == 0) {
-                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa = getActivity().findViewById(R.id.textListTagVaziaAddTarefa);
                     mViewHolderVincTag.mViewTextListTagVaziaAddTarefa.setVisibility(View.VISIBLE);
                 } else {
+                    mViewHolderVincTag.mViewTextListTagVaziaAddTarefa.setVisibility(View.GONE);
                     SetarRecyclerView();
                 }
                 if (pDialog != null && pDialog.isShowing()) {
@@ -147,9 +146,6 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
         int id = v.getId();
         if(id == R.id.btn_addFloatingAction_add_tarefa_add_tag){
             Intent intent = new Intent(getActivity(), AddTagActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("calledActivity", "addTarefa");
-            intent.putExtras(bundle);
             startActivity(intent);
         }
     }

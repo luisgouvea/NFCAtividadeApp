@@ -105,6 +105,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                 if (listAtividadeAdicionadas == null || listAtividadeAdicionadas.size() == 0) {
                     mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade.setVisibility(View.VISIBLE);
                 } else {
+                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade.setVisibility(View.GONE);
                     MontaRestanteTela();
                 }
                 if (pDialog != null && pDialog.isShowing()) {

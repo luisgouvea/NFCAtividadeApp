@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Login" />
+                android:hint="Login"
+                android:text="luis"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -43,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:text="123"
                 android:hint="Senha"/>
         </android.support.design.widget.TextInputLayout>
 
