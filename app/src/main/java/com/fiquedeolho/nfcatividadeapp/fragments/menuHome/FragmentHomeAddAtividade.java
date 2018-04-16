@@ -29,6 +29,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
+import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
 
 import java.util.ArrayList;
@@ -172,18 +173,26 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                 PopupMenu popupMenu = new PopupMenu(getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_ativ_criador);
                 popupMenu.show();
+                final Bundle bundle = new Bundle();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_inf_tarefa:
-                                Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 
                                 Intent intent = new Intent(rootView.getContext(), InfTarefasCriadorActivity.class);
                                 intent.putExtras(bundle);
 
                                 startActivity(intent);
+                                break;
+                            case R.id.mnu_item_registro_check_nfc_criador:
+                                bundle.putInt("IdAtividade", idAtividade);
+
+                                Intent intentRegistroCheck = new Intent(rootView.getContext(), InfCheckNFCActivity.class);
+                                intentRegistroCheck.putExtras(bundle);
+
+                                startActivity(intentRegistroCheck);
                                 break;
                             case R.id.mnu_deletar_ativ:
                                 Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();

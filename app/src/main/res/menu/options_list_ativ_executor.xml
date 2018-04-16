@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/mnu_item_inf_tarefa_executor" android:title="Tarefa(s) da Atividade" />
+    <item android:id="@+id/mnu_item_registro_check_nfc_executor" android:title="Registro de Check NFC" />
     <item android:id="@+id/mnu_item_realizar_check_atividade" android:title="Realizar Check" />
     <item android:id="@+id/mnu_item_delete" android:title="Delete" />
 </menu>

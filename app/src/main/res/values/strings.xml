@@ -24,6 +24,8 @@
     <string name="title_page_inf_tarefas">Informações das tarefas</string>
     <string name="title_page_regras_tarefas">Defina as características de cada tarefa</string>
     <string name="title_page_precedencia_tarefas">Defina o que vem antes da tarefa</string>
+    <string name="title_page_inf_tags">Gerenciamento de TAG(s)</string>
+    <string name="title_page_registro_nfc">Registro de check NFC</string>
     <string name="concluir_inf_tarefas">CONCLUIR</string>
     <string name="btn_regras_tarefas">DEFINIR REGRAS DAS TAREFAS</string>
     <string name="input_nome_tarefa">Nome da Tarefa</string>
@@ -38,8 +40,8 @@
     <string name="list_tarefas_vazia_inf_tarefas">A Atividade não possui nenhuma tarefa!</string>
     <string name="list_atividades_vazia_home_add_ativ">Você não criou nenhuma atividade ainda!</string>
     <string name="list_atividades_vazia_home_fazer_ativ">Você não possuí nenhuma atividade para realizar!</string>
-    <string name="title_page_inf_tags">Gerenciamento de TAG(s)</string>
     <string name="list_tags_vazia">Não há TAG criada.</string>
+    <string name="list_check_vazia">Não há registro de check.</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 

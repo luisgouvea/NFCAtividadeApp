@@ -28,6 +28,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
 
 import java.util.ArrayList;
@@ -110,18 +111,26 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                 PopupMenu popupMenu = new PopupMenu(getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_ativ_executor);
                 popupMenu.show();
+                final Bundle bundle = new Bundle();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_item_inf_tarefa_executor:
-                                Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 
                                 Intent intent = new Intent(rootView.getContext(), InfTarefasExecutorActivity.class);
                                 intent.putExtras(bundle);
 
                                 startActivity(intent);
+                                break;
+                            case R.id.mnu_item_registro_check_nfc_executor:
+                                bundle.putInt("IdAtividade", idAtividade);
+
+                                Intent intentRegistroCheck = new Intent(rootView.getContext(), InfCheckNFCActivity.class);
+                                intentRegistroCheck.putExtras(bundle);
+
+                                startActivity(intentRegistroCheck);
                                 break;
                             case R.id.mnu_item_realizar_check_atividade:
                                 // Create the fragment and show it as a dialog.
@@ -136,13 +145,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                             default:
                                 break;
                         }
-                        /*Bundle bundle = new Bundle();
-                        bundle.putInt("IdAtividade", idOptionsDocs);
-
-                        Intent intent = new Intent(rootView.getContext(), DetailsAtividadeActivity.class);
-                        intent.putExtras(bundle);
-
-                        startActivity(intent);*/
                         return true;
                     }
                 });
