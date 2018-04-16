@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface AtividadeRetrofit {
     @POST("/api/Atividade/getAtivExecutar")
@@ -19,6 +23,6 @@ public interface AtividadeRetrofit {
     @POST("/api/Atividade/criarAtividade")
     Call<Boolean> criarAtividade(@Body Atividade ativ);
 
-    @POST("/api/Atividade/realizarCheck")
-    Call<Boolean> realizarCheck(@Body int idTag);
+    @GET("/api/Atividade/realizarCheck")
+    Call<Boolean> realizarCheck(@Query("idTagCheck") int idTagCheck, @Query("idTarefa") int idTarefa);
 }

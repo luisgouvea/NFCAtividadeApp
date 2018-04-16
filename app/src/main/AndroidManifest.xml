@@ -68,7 +68,15 @@
         </activity>
         <activity android:name=".views.VinculoTarefaETagActivity" />
         <activity android:name=".views.InfTagsActivity" />
-        <activity android:name=".views.AddTagActivity"></activity>
+        <activity android:name=".views.AddTagActivity" />
+        <activity
+            android:name=".views.InfTarefasExecutorActivity"
+            android:label="@string/title_page_activity_inf_tarefas"
+            android:parentActivityName=".views.InitialNavigationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.InitialNavigationActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutLinearInfTarefasExecutor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.30"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:id="@+id/linear_content_title_inf_tarefas_executor">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_tarefas_list"
+            android:layout_weight="0.50"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.50"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorAccent"
+            android:text="@string/title_page_inf_tarefas"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.70"
+        android:id="@+id/linear_content_recycler_inf_tarefas_executor">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textListTarefaVaziaInfTarefasExecutor"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="@string/list_tarefas_vazia_inf_tarefas"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewInfTarefasExecutor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </android.support.design.widget.CoordinatorLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -92,11 +92,11 @@ public class InitialNavigationActivity extends AppCompatActivity
         this.mViewHolderInitialHome.mViewTabLayuot.setupWithViewPager(this.mViewHolderInitialHome.mViewPagerTableInitial);
     }
 
-    @Override
+    /*@Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         fragExecuteAtiv.intentNFCTag(intent);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InitialNavigationActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -43,7 +44,7 @@ public class DialogCheckNFCRead extends DialogFragment {
 
     private NfcAdapter nfcAdapter;
     private TextView mTvMessage;
-    private InitialNavigationActivity activity;
+    private int idTarefa;
 
     public static DialogCheckNFCRead newInstance() {
 
@@ -53,7 +54,7 @@ public class DialogCheckNFCRead extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dialog_realizar_check_atividade,container,false);
+        View view = inflater.inflate(R.layout.dialog_realizar_check_atividade, container, false);
         initViews(view);
 
         NfcManager manager = (NfcManager) getActivity().getSystemService(Context.NFC_SERVICE);
@@ -112,7 +113,7 @@ public class DialogCheckNFCRead extends DialogFragment {
 
     private void enableForegroundDispatchSystem() {
 
-        Intent intent = new Intent(getContext(), InitialNavigationActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        Intent intent = new Intent(getContext(), InfTarefasExecutorActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
 
@@ -125,14 +126,14 @@ public class DialogCheckNFCRead extends DialogFragment {
         nfcAdapter.disableForegroundDispatch(getActivity());
     }
 
-    public void intentNFCTag(Intent intent){
+    public void intentNFCTag(Intent intent, int idTarefa) {
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+            this.idTarefa = idTarefa;
             Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
-            if(parcelables != null && parcelables.length > 0)
-            {
+            if (parcelables != null && parcelables.length > 0) {
                 readTextFromMessage((NdefMessage) parcelables[0]);
-            }else{
+            } else {
                 Toast.makeText(getActivity(), "Não foi possivel ler a TAG!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -142,24 +143,22 @@ public class DialogCheckNFCRead extends DialogFragment {
 
         NdefRecord[] ndefRecords = ndefMessage.getRecords();
 
-        if(ndefRecords != null && ndefRecords.length>0){
+        if (ndefRecords != null && ndefRecords.length > 0) {
 
             NdefRecord ndefRecord = ndefRecords[0];
 
             String tagContent = getTextFromNdefRecord(ndefRecord);
 
             Log.d("Teste", tagContent);
-            addAtividade(Integer.valueOf(tagContent));
+            realizarCheck(Integer.valueOf(tagContent));
             //Toast.makeText(this, "Conteúdo Lido!", Toast.LENGTH_SHORT).show();
-        }else
-        {
+        } else {
             //Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public String getTextFromNdefRecord(NdefRecord ndefRecord)
-    {
+    public String getTextFromNdefRecord(NdefRecord ndefRecord) {
         String tagContent = null;
         try {
             byte[] payload = ndefRecord.getPayload();
@@ -173,7 +172,7 @@ public class DialogCheckNFCRead extends DialogFragment {
         return tagContent;
     }
 
-    public void checkNFCAtivo(){
+    public void checkNFCAtivo() {
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) {
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Ops");
@@ -188,31 +187,30 @@ public class DialogCheckNFCRead extends DialogFragment {
         }
     }
 
-    private Boolean addAtividade(int idTag) {
+    private Boolean realizarCheck(int idTag) {
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Aguarde");
         pDialog.show();
         AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
 
-        final Call<Boolean> call = atividadeInterface.realizarCheck(idTag);
+        final Call<Boolean> call = atividadeInterface.realizarCheck(idTag, idTarefa);
 
         call.enqueue(new Callback<Boolean>() {
 
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 Boolean result = response.body();
-                if(result){
+                if (result) {
                     Toast.makeText(getActivity(), "É um check correto!", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Toast.makeText(getActivity(), "Não é um check correto!", Toast.LENGTH_SHORT).show();
+                }
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (pDialog != null && pDialog.isShowing()) {
-                            pDialog.dismiss();
-                        }
                         dismiss();
                     }
                 }, 2000);

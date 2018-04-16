@@ -28,6 +28,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
 
 import java.util.ArrayList;
 
@@ -114,13 +115,13 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_item_inf_tarefa_executor:
-                                /*Bundle bundle = new Bundle();
+                                Bundle bundle = new Bundle();
                                 bundle.putInt("IdAtividade", idAtividade);
 
-                                Intent intent = new Intent(rootView.getContext(), InfTarefasCriadorActivity.class);
+                                Intent intent = new Intent(rootView.getContext(), InfTarefasExecutorActivity.class);
                                 intent.putExtras(bundle);
 
-                                startActivity(intent);*/
+                                startActivity(intent);
                                 break;
                             case R.id.mnu_item_realizar_check_atividade:
                                 // Create the fragment and show it as a dialog.
@@ -173,9 +174,9 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         atividadeListAdapter.notifyDataSetChanged();
     }
 
-    public void intentNFCTag(Intent intent){
+    /*public void intentNFCTag(Intent intent){
         dialogCheck.intentNFCTag(intent);
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
