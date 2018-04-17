@@ -22,7 +22,4 @@ public interface AtividadeRetrofit {
 
     @POST("/api/Atividade/criarAtividade")
     Call<Boolean> criarAtividade(@Body Atividade ativ);
-
-    @GET("/api/Atividade/realizarCheck")
-    Call<Boolean> realizarCheck(@Query("idTagCheck") int idTagCheck, @Query("idTarefa") int idTarefa);
 }

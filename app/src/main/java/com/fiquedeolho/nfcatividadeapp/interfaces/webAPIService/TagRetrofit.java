@@ -16,4 +16,7 @@ public interface TagRetrofit {
 
     @POST("/api/Tag/getTagsByIdUsuario")
     Call<ArrayList<TAG>> getTagsByIdUsuario(@Body int idUsuario);
+
+    @POST("/api/Tag/getDetalhesTag")
+    Call<TAG> getDetalhesTag(@Body int idTarefa);
 }

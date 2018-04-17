@@ -29,10 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaCheckRetrofit;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
-import com.fiquedeolho.nfcatividadeapp.views.InitialNavigationActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -191,9 +190,9 @@ public class DialogCheckNFCRead extends DialogFragment {
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Aguarde");
         pDialog.show();
-        AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+        TarefaCheckRetrofit tarefaCheckInterface = BaseUrlRetrofit.retrofit.create(TarefaCheckRetrofit.class);
 
-        final Call<Boolean> call = atividadeInterface.realizarCheck(idTag, idTarefa);
+        final Call<Boolean> call = tarefaCheckInterface.realizarCheck(idTag, idTarefa);
 
         call.enqueue(new Callback<Boolean>() {
 

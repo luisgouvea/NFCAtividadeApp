@@ -141,17 +141,22 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_tarefa_criador);
                 popupMenu.show();
+                final Bundle bundle = new Bundle();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_vinc_tarefa_tag:
-                                Bundle bundle = new Bundle();
                                 bundle.putInt("IdTarefa", idTarefa);
                                 bundle.putInt("IdAtividade", IdAtividade);
                                 Intent intent = new Intent(getApplicationContext(), VinculoTarefaETagActivity.class);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+                                break;
+                            case R.id.mnu_item_detalhes_tarefa:
+                                DetalhesTarefaActivity.idTarefa = idTarefa;
+                                Intent intentDetalhesTarefa = new Intent(getApplicationContext(), DetalhesTarefaActivity.class);
+                                startActivity(intentDetalhesTarefa);
                                 break;
                             case R.id.mnu_deletar_tarefa:
                                 Toast.makeText(getApplicationContext(), "Deletado", Toast.LENGTH_LONG).show();

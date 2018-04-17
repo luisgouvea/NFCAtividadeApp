@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/mnu_vinc_tarefa_tag" android:title="Vincular Tarefa a TAG" />
-    <item android:id="@+id/mnu_deletar_tarefa" android:title="Deletar" />
+    <item android:id="@+id/mnu_item_detalhes_tarefa" android:title="Detalhes" />
+    <item android:id="@+id/mnu_deletar_tarefa" android:title="Remover" />
 </menu>

@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.AtividadeTarefaCheck;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
 
 import java.util.List;
 
 public class RegistroCheckListAdapter extends RecyclerView.Adapter<RegistroCheckListViewHolder> {
 
-    private List<AtividadeTarefaCheck> mListAtividadeTarefaCheck;
+    private List<TarefaCheck> mListAtividadeTarefaCheck;
 
-    public RegistroCheckListAdapter(List<AtividadeTarefaCheck> checks){
+    public RegistroCheckListAdapter(List<TarefaCheck> checks){
         this.mListAtividadeTarefaCheck = checks;
     }
     /**
@@ -30,7 +30,7 @@ public class RegistroCheckListAdapter extends RecyclerView.Adapter<RegistroCheck
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View tagView = inflater.inflate(R.layout.activity_row_tag_list, parent, false);
+        View tagView = inflater.inflate(R.layout.activity_row_tarefa_check_list, parent, false);
 
         // Passa a ViewHolder
         return new RegistroCheckListViewHolder(tagView);
@@ -41,7 +41,7 @@ public class RegistroCheckListAdapter extends RecyclerView.Adapter<RegistroCheck
      */
     @Override
     public void onBindViewHolder(RegistroCheckListViewHolder holder, int position) {
-        AtividadeTarefaCheck ativTarefaCheck = this.mListAtividadeTarefaCheck.get(position);
+        TarefaCheck ativTarefaCheck = this.mListAtividadeTarefaCheck.get(position);
         holder.bindData(ativTarefaCheck);
     }
 

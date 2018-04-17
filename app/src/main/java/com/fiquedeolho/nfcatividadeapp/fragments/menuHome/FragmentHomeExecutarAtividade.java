@@ -132,16 +132,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
                                 startActivity(intentRegistroCheck);
                                 break;
-                            case R.id.mnu_item_realizar_check_atividade:
-                                // Create the fragment and show it as a dialog.
-                                dialogCheck.show(getFragmentManager(), "dialog");
-                                break;
-                            case R.id.mnu_item_delete:
-                                Toast.makeText(getContext(), "Remover", Toast.LENGTH_LONG).show();
-                                int positionDeletar = descobrePositionArrayListAtiv(idAtividade);
-                                listAtividadeExecutar.remove(positionDeletar);
-                                ObservableRecycler();
-                                break;
                             default:
                                 break;
                         }
@@ -161,24 +151,6 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setLayoutManager(linearLayoutManager);
     }
-
-    private int descobrePositionArrayListAtiv(int idAtividade) {
-        for (int i = 0; i < listAtividadeExecutar.size(); i++) {
-            Atividade ativ = listAtividadeExecutar.get(i);
-            if (ativ.getId() == idAtividade) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    private void ObservableRecycler() {
-        atividadeListAdapter.notifyDataSetChanged();
-    }
-
-    /*public void intentNFCTag(Intent intent){
-        dialogCheck.intentNFCTag(intent);
-    }*/
 
     @Override
     public void onClick(View view) {
