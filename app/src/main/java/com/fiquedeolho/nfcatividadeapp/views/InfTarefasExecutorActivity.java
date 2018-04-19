@@ -121,6 +121,11 @@ public class InfTarefasExecutorActivity extends AppCompatActivity {
                                 idTarefa = idTarefaTarget;
                                 dialogCheck.show(getSupportFragmentManager(), "dialog");
                                 break;
+                            case R.id.mnu_item_detalhes_tarefa_executor:
+                                DetalhesTarefaActivity.idTarefa = idTarefaTarget;
+                                Intent intentDetalhesTarefa = new Intent(getApplicationContext(), DetalhesTarefaActivity.class);
+                                startActivity(intentDetalhesTarefa);
+                                break;
                             default:
                                 break;
                         }
