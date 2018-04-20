@@ -170,12 +170,6 @@ public class AddAtividadeActivity extends AppCompatActivity {
         SavePreferences save = new SavePreferences(this);
 
         final Call<ArrayList<Usuario>> call = ativiInterface.listAllUsuarios(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
-        // TODO: Rever essa logica de Thread, ta gambiarra
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         call.enqueue(new Callback<ArrayList<Usuario>>() {
             @Override
             public void onResponse(Call<ArrayList<Usuario>> call, retrofit2.Response<ArrayList<Usuario>> response) {
