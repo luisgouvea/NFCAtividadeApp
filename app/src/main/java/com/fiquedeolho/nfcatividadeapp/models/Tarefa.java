@@ -13,7 +13,10 @@ public class Tarefa  implements Parcelable{
     private int IdTag;
     private String Nome;
     private String Comentario;
-    private ArrayList<Tarefa> listaEncadeamento;
+    private Boolean IniciaFluxo;
+    private Boolean FinalizaFluxo;
+    private ArrayList<TarefaPrecedente> listaAntecessoras;
+    private ArrayList<TarefaSucessora> listaSucessoras;
 
     public Tarefa(Parcel in) {
         Id = in.readInt();
@@ -21,7 +24,8 @@ public class Tarefa  implements Parcelable{
         IdTag = in.readInt();
         Nome = in.readString();
         Comentario = in.readString();
-        listaEncadeamento = in.createTypedArrayList(CREATOR);
+        listaAntecessoras = in.createTypedArrayList(CREATORLISTANTECESSORAS);
+        listaSucessoras = in.createTypedArrayList(CREATORLISTSUCESSORAS);
     }
 
     public static final Creator<Tarefa> CREATOR = new Creator<Tarefa>() {
@@ -36,8 +40,32 @@ public class Tarefa  implements Parcelable{
         }
     };
 
+    public static final Creator<TarefaPrecedente> CREATORLISTANTECESSORAS = new Creator<TarefaPrecedente>() {
+        @Override
+        public TarefaPrecedente createFromParcel(Parcel in) {
+            return new TarefaPrecedente(in);
+        }
+
+        @Override
+        public TarefaPrecedente[] newArray(int size) {
+            return new TarefaPrecedente[size];
+        }
+    };
+
+    public static final Creator<TarefaSucessora> CREATORLISTSUCESSORAS = new Creator<TarefaSucessora>() {
+        @Override
+        public TarefaSucessora createFromParcel(Parcel in) {
+            return new TarefaSucessora(in);
+        }
+
+        @Override
+        public TarefaSucessora[] newArray(int size) {
+            return new TarefaSucessora[size];
+        }
+    };
+
     public Tarefa() {
-        listaEncadeamento = new ArrayList<>();
+        listaAntecessoras = new ArrayList<>(); listaSucessoras = new ArrayList<>();
     }
 
     public String getNome() {
@@ -60,10 +88,6 @@ public class Tarefa  implements Parcelable{
         return IdAtividade;
     }
 
-    public ArrayList<Tarefa> getListEncadeamento() {
-        return this.listaEncadeamento;
-    }
-
     public void setId(int id) {
         this.Id = id;
     }
@@ -84,8 +108,36 @@ public class Tarefa  implements Parcelable{
         this.IdAtividade = idAtividade;
     }
 
-    public void setListEncadeamento(ArrayList<Tarefa> listaEncadeamento) {
-        this.listaEncadeamento = listaEncadeamento;
+    public Boolean getIniciaFluxo() {
+        return IniciaFluxo;
+    }
+
+    public void setIniciaFluxo(Boolean iniciaFluxo) {
+        IniciaFluxo = iniciaFluxo;
+    }
+
+    public Boolean getFinalizaFluxo() {
+        return FinalizaFluxo;
+    }
+
+    public void setFinalizaFluxo(Boolean finalizaFluxo) {
+        FinalizaFluxo = finalizaFluxo;
+    }
+
+    public ArrayList<TarefaPrecedente> getListAntecessoras() {
+        return this.listaAntecessoras;
+    }
+
+    public void setListAntecessoras(ArrayList<TarefaPrecedente> listaAntecessoras) {
+        this.listaAntecessoras = listaAntecessoras;
+    }
+
+    public ArrayList<TarefaSucessora> getListSucessoras() {
+        return this.listaSucessoras;
+    }
+
+    public void setListSucessoras(ArrayList<TarefaSucessora> listaSucessoras) {
+        this.listaSucessoras = listaSucessoras;
     }
 
     @Override
@@ -100,6 +152,9 @@ public class Tarefa  implements Parcelable{
         parcel.writeInt(IdAtividade);
         parcel.writeString(Nome);
         parcel.writeString(Comentario);
-        parcel.writeTypedList(listaEncadeamento);
+        parcel.writeByte((byte) (IniciaFluxo ? 1 : 0));
+        parcel.writeByte((byte) (FinalizaFluxo ? 1 : 0));
+        parcel.writeTypedList(listaAntecessoras);
+        parcel.writeTypedList(listaSucessoras);
     }
 }

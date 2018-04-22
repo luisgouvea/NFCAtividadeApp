@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaPrecedente;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        ArrayList<Tarefa> listAntecessoras = tarefaTarget.getListEncadeamento();
+        ArrayList<TarefaPrecedente> listAntecessoras = tarefaTarget.getListAntecessoras();
         if (listAntecessoras != null && listAntecessoras.size() > 0) {
             for (Tarefa tarefaAntecessora : listAntecessoras) {
                 if (tarefaDaLista.getId() == tarefaAntecessora.getId()) {

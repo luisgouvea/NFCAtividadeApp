@@ -18,6 +18,7 @@ import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaFluxoRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaPrecedente;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listPrecedencia.TarefasListPrecedenciaAdapter;
 
@@ -110,16 +111,16 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
             public void onClick(View view) {
                 int id = view.getId();
                 Tarefa tarefaClicada = getTarefaTarget(id); // Tarefa clicada
-                ArrayList<Tarefa> listEncTarefaTarget = tarefaTarget.getListEncadeamento();
+                ArrayList<TarefaPrecedente> listEncTarefaTarget = tarefaTarget.getListAntecessoras();
                 int positionTarefaClicada = getPositionTarefa(tarefaClicada.getId(), listEncTarefaTarget);
                 CheckBox checkBox = (CheckBox) view;
                 if (checkBox.isChecked() && !listEncTarefaTarget.contains(tarefaClicada)) {
-                    listEncTarefaTarget.add(tarefaClicada);
+                    listEncTarefaTarget.add((TarefaPrecedente) tarefaClicada);
                 } else {
                     // usuario desmarcou o checkBox
                     listEncTarefaTarget.remove(positionTarefaClicada);
                 }
-                tarefaTarget.setListEncadeamento(listEncTarefaTarget);
+                tarefaTarget.setListAntecessoras(listEncTarefaTarget);
             }
         };
 
@@ -157,9 +158,9 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         return null;
     }
 
-    private int getPositionTarefa(int idTarefa, ArrayList<Tarefa> lista) {
+    private int getPositionTarefa(int idTarefa, ArrayList<TarefaPrecedente> lista) {
         for (int i = 0; i < lista.size(); i++) {
-            Tarefa tarefa = lista.get(i);
+            TarefaPrecedente tarefa = lista.get(i);
             if (tarefa.getId() == idTarefa) {
                 return i;
             }
