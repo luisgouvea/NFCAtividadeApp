@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaFluxoRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
@@ -200,8 +201,8 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
-        TarefaRetrofit tarefaInterface = BaseUrlRetrofit.retrofit.create(TarefaRetrofit.class);
-        final Call<Boolean> call = tarefaInterface.setarEncadeamentoTarefa(tarefaTarget);
+        TarefaFluxoRetrofit tarefaFluxoInterface = BaseUrlRetrofit.retrofit.create(TarefaFluxoRetrofit.class);
+        final Call<Boolean> call = tarefaFluxoInterface.setarFluxoTarefa(tarefaTarget);
 
         call.enqueue(new Callback<Boolean>() {
             @Override

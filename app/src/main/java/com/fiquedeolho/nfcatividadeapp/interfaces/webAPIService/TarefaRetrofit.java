@@ -14,7 +14,4 @@ public interface TarefaRetrofit {
 
     @POST("/api/Tarefa/addTarefa")
     Call<Boolean> addTarefa(@Body Tarefa tarefa);
-
-    @POST("/api/Tarefa/setarEncadeamentoTarefa")
-    Call<Boolean> setarEncadeamentoTarefa(@Body  Tarefa tarefaTarget);
 }
