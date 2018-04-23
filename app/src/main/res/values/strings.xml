@@ -45,4 +45,5 @@
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="message_aproxime_tag_ao_disp">Aproxime a sua TAG NFC ao dispositvo</string>
+    <string name="repet_tarefa_add_ativ">Repetição de Tarefas</string>
 </resources>

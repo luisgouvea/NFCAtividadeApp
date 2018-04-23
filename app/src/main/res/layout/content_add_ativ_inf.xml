@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/first_content_linear_layout_add_ativ"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <!--<ScrollView
@@ -15,50 +15,78 @@
 
     </ScrollView>-->
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linear_layout_nome_ativ_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="10dp"
-        android:id="@+id/linear_layout_nome_ativ_add">
+        android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             app:hintTextAppearance="@style/TextLabelAtivAdd">
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_nomeAtividade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/nomeAtividadeAdd"/>
+                android:hint="@string/nomeAtividadeAdd"
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/second_content_linear_layout_add_ativ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/second_content_linear_layout_add_ativ">
+        android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             app:hintTextAppearance="@style/TextLabelAtivAdd">
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_data_finalizacao_ativ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="@string/dtFinalizacaoAtiv"/>
+                android:hint="@string/dtFinalizacaoAtiv"
+                android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/third_content_linear_layout_add_ativ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/text_repeticao_tarefa_ativ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repet_tarefa_add_ativ"
+                android:textSize="19sp"
+                android:textColor="@color/textInputLayoutDefault"/>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_toEndOf="@+id/text_repeticao_tarefa_ativ"/>
+        </RelativeLayout>
     </LinearLayout>
 
 
