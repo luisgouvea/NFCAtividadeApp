@@ -84,7 +84,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="60dp"
                 android:layout_toEndOf="@+id/text_repeticao_tarefa_ativ"/>
         </RelativeLayout>
     </LinearLayout>
