@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/first_content_linear_layout_add_tarefa"
+    android:id="@+id/content_main_linear_layout_add_tarefa"
     android:orientation="vertical">
 
     <LinearLayout
@@ -51,4 +51,65 @@
                 android:hint="@string/dtFinalizacaoTarefa"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/third_content_linear_layout_add_tarefa">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_inicio_tarefa_add_tarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Iniciar fluxo"
+                android:textColor="@color/textInputLayoutDefault"
+                android:textSize="19sp" />
+
+            <Switch
+                android:id="@+id/iniciaFluxoAddTarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="75dp"
+                android:layout_toEndOf="@+id/text_inicio_tarefa_add_tarefa" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/fourth_content_linear_layout_add_tarefa">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_fim_tarefa_add_tarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finalizar fluxo"
+                android:textColor="@color/textInputLayoutDefault"
+                android:textSize="19sp" />
+
+            <Switch
+                android:id="@+id/finalizaFluxoAddTarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_toEndOf="@+id/text_fim_tarefa_add_tarefa" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

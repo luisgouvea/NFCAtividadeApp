@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -65,8 +66,6 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private AddAtividadeListVincExecAdapter addAtivVincExecAdpter;
     private int[] layouts;
     private ProgressDialog pDialog;
-    private String dataFinalizacaoInput;
-    private String nomeAtividadeInput;
     private Context context;
     private ArrayList<Usuario> listUsuExecutores;
     private int idUsuarioVinc;
@@ -95,8 +94,6 @@ public class AddAtividadeActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ListAllUsuarioAddAtivVincExecutor();
         setContentView(R.layout.activity_add_atividade);
-        dataFinalizacaoInput = null;
-        nomeAtividadeInput = null;
         context = this;
         /*getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
@@ -147,11 +144,32 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     pDialog.setMessage("Aguarde, criando atividade...");
                     pDialog.show();
                     LinearLayout linear = mViewHolderAddAtividade.mViewPagerAddAtividade.findViewById(R.id.first_content_linear_layout_add_ativ);
+
+                    /**
+                     * GET ELEMENTOS
+                     */
                     EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
                     EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
-                    nomeAtividadeInput = nomeAtivEle.getText().toString();
-                    dataFinalizacaoInput = dataFinalizaEle.getText().toString();
-                    addAtividade();
+                    Switch repeticaoTarefaEle = linear.findViewById(R.id.repeticao_tarefa_add_atividade);
+
+                    /**
+                    * SET ELEMENTOS
+                    */
+                    String nomeAtividadeInput = nomeAtivEle.getText().toString();
+                    String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
+                    Boolean repetirTarefa = repeticaoTarefaEle.isChecked();
+
+                    /**
+                     * CRIA ATIVIDADE
+                     */
+                    SavePreferences shared = new SavePreferences(context);
+                    Atividade atividade = new Atividade();
+                    atividade.setNome(nomeAtividadeInput);
+                    //atividade.setDataFinalizacao(dataFinalizacaoInput);
+                    atividade.setRepetirTarefa(repetirTarefa);
+                    atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
+                    atividade.setIdUsuarioExecutor(idUsuarioVinc);
+                    addAtividade(atividade);
                     //launchHomeScreen();
                 }
             }
@@ -232,15 +250,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean addAtividade() {
+    private Boolean addAtividade(Atividade atividade) {
         AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
-        SavePreferences shared = new SavePreferences(this);
-
-        Atividade atividade = new Atividade();
-        atividade.setNome(nomeAtividadeInput);
-        atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
-        atividade.setIdUsuarioExecutor(idUsuarioVinc);
-
         final Call<Boolean> call = atividadeInterface.criarAtividade(atividade);
 
         call.enqueue(new Callback<Boolean>() {

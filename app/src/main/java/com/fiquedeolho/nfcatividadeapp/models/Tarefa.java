@@ -24,6 +24,8 @@ public class Tarefa  implements Parcelable{
         IdTag = in.readInt();
         Nome = in.readString();
         Comentario = in.readString();
+        IniciaFluxo = in.readByte() != 0;
+        FinalizaFluxo = in.readByte() != 0;
         listaAntecessoras = in.createTypedArrayList(CREATORLISTANTECESSORAS);
         listaSucessoras = in.createTypedArrayList(CREATORLISTSUCESSORAS);
     }

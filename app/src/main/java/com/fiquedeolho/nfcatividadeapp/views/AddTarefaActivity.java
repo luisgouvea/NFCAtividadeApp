@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -87,13 +88,32 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
                     // move to next screen
                     mViewHolderAddTarefa.mViewPagerAddTarefa.setCurrentItem(current);
                 } else {
-                    Tarefa tarefa = new Tarefa();
-                    LinearLayout linear = mViewHolderAddTarefa.mViewPagerAddTarefa.findViewById(R.id.first_content_linear_layout_add_tarefa);
+                    LinearLayout linear = mViewHolderAddTarefa.mViewPagerAddTarefa.findViewById(R.id.content_main_linear_layout_add_tarefa);
+
+                    /**
+                     * GET ELEMENTOS
+                     */
                     EditText nomeTarefaEle = linear.findViewById(R.id.input_nomeTarefa);
                     EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_tarefa);
+                    Switch iniciaFluxoEle = linear.findViewById(R.id.iniciaFluxoAddTarefa);
+                    Switch finalizaFluxoEle = linear.findViewById(R.id.finalizaFluxoAddTarefa);
+
+                    /**
+                     * SET ELEMENTOS
+                     */
                     String nomeAtividadeInput = nomeTarefaEle.getText().toString();
                     String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
+                    Boolean iniciaFluxo = iniciaFluxoEle.isChecked();
+                    Boolean finalizaFluxo = finalizaFluxoEle.isChecked();
+
+                    /**
+                     * CRIA TAREFA
+                     */
+                    Tarefa tarefa = new Tarefa();
                     tarefa.setNome(nomeAtividadeInput);
+                    //tarefa.setDataFinalizacao();
+                    tarefa.setIniciaFluxo(iniciaFluxo);
+                    tarefa.setFinalizaFluxo(finalizaFluxo);
                     tarefa.setIdAtividade(IdAtividade);
                     tarefa.setIdTag(idTagVinculada);
                     addTarefa(tarefa);

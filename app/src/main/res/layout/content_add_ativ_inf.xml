@@ -82,6 +82,7 @@
                 android:textColor="@color/textInputLayoutDefault"/>
 
             <Switch
+                android:id="@+id/repeticao_tarefa_add_atividade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
