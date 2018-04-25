@@ -6,9 +6,12 @@ import android.os.Parcelable;
 public class TarefaSucessora extends Tarefa {
 
     private int IdTarefaProxima;
+    private int IdTarefaTarget;
 
     public TarefaSucessora(Parcel in) {
         super();
+        IdTarefaProxima = in.readInt();
+        IdTarefaTarget = in.readInt();
     }
 
     public TarefaSucessora(){
@@ -33,5 +36,13 @@ public class TarefaSucessora extends Tarefa {
 
     public void setIdTarefaProxima(int idTarefaProxima) {
         IdTarefaProxima = idTarefaProxima;
+    }
+
+    public int getIdTarefaTarget() {
+        return IdTarefaTarget;
+    }
+
+    public void setIdTarefaTarget(int idTarefaTarget) {
+        IdTarefaTarget = idTarefaTarget;
     }
 }

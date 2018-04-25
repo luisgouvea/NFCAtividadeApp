@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TarefaHistoricoCheck;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
 
 import java.util.List;
 
 public class RegistroCheckListAdapter extends RecyclerView.Adapter<RegistroCheckListViewHolder> {
 
-    private List<TarefaHistoricoCheck> mListAtividadeTarefaHistoricoCheck;
+    private List<TarefaCheck> mListAtividadeTarefaHistoricoCheck;
 
-    public RegistroCheckListAdapter(List<TarefaHistoricoCheck> checks){
+    public RegistroCheckListAdapter(List<TarefaCheck> checks){
         this.mListAtividadeTarefaHistoricoCheck = checks;
     }
     /**
@@ -41,7 +41,7 @@ public class RegistroCheckListAdapter extends RecyclerView.Adapter<RegistroCheck
      */
     @Override
     public void onBindViewHolder(RegistroCheckListViewHolder holder, int position) {
-        TarefaHistoricoCheck ativTarefaHistoricoCheck = this.mListAtividadeTarefaHistoricoCheck.get(position);
+        TarefaCheck ativTarefaHistoricoCheck = this.mListAtividadeTarefaHistoricoCheck.get(position);
         holder.bindData(ativTarefaHistoricoCheck);
     }
 

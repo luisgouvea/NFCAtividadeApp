@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaCheckRetrofit;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.models.TarefaHistoricoCheck;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infCheckNFC.RegistroCheckListAdapter;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import retrofit2.Callback;
 public class InfCheckNFCActivity extends AppCompatActivity {
 
     private ViewHolderInfCheck mViewHolderInfCheck = new ViewHolderInfCheck();
-    private ArrayList<TarefaHistoricoCheck> listaCheck;
+    private ArrayList<TarefaCheck> listaCheck;
     private RegistroCheckListAdapter registroCheckListAdapter;
     private ProgressDialog pDialog;
     private int IdAtividade;
@@ -53,10 +53,10 @@ public class InfCheckNFCActivity extends AppCompatActivity {
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.show();
         TarefaCheckRetrofit tarefaCheckInterface = BaseUrlRetrofit.retrofit.create(TarefaCheckRetrofit.class);
-        final Call<ArrayList<TarefaHistoricoCheck>> call = tarefaCheckInterface.getAllRegistroCheckNFC(this.IdAtividade);
-        call.enqueue(new Callback<ArrayList<TarefaHistoricoCheck>>() {
+        final Call<ArrayList<TarefaCheck>> call = tarefaCheckInterface.getAllRegistroCheckNFC(this.IdAtividade);
+        call.enqueue(new Callback<ArrayList<TarefaCheck>>() {
             @Override
-            public void onResponse(Call<ArrayList<TarefaHistoricoCheck>> call, retrofit2.Response<ArrayList<TarefaHistoricoCheck>> response) {
+            public void onResponse(Call<ArrayList<TarefaCheck>> call, retrofit2.Response<ArrayList<TarefaCheck>> response) {
                 listaCheck = response.body();
                 if (listaCheck == null || listaCheck.size() == 0) {
                     mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck.setVisibility(View.VISIBLE);
@@ -70,7 +70,7 @@ public class InfCheckNFCActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<TarefaHistoricoCheck>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<TarefaCheck>> call, Throwable t) {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }

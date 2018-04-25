@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.models.TarefaHistoricoCheck;
+import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
 
 public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
 
@@ -24,7 +24,7 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TarefaHistoricoCheck ativTarefaHistoricoCheck) {
+    public void bindData(final TarefaCheck ativTarefaHistoricoCheck) {
 
         // Altera valor
         this.nomeTarefa.setText(ativTarefaHistoricoCheck.getNome());

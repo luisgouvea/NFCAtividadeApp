@@ -114,8 +114,11 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
                 ArrayList<TarefaPrecedente> listEncTarefaTarget = tarefaTarget.getListAntecessoras();
                 int positionTarefaClicada = getPositionTarefa(tarefaClicada.getId(), listEncTarefaTarget);
                 CheckBox checkBox = (CheckBox) view;
-                if (checkBox.isChecked() && !listEncTarefaTarget.contains(tarefaClicada)) {
-                    listEncTarefaTarget.add((TarefaPrecedente) tarefaClicada);
+                if (checkBox.isChecked() && !containsTarefaPrecedente(tarefaClicada.getId())) {
+                    TarefaPrecedente tarefaPrecedente = new TarefaPrecedente();
+                    tarefaPrecedente.setIdTarefaAntecessora(tarefaClicada.getId());
+                    tarefaPrecedente.setIdTarefaTarget(tarefaTarget.getId());
+                    listEncTarefaTarget.add(tarefaPrecedente);
                 } else {
                     // usuario desmarcou o checkBox
                     listEncTarefaTarget.remove(positionTarefaClicada);
@@ -135,6 +138,17 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         this.mViewHolderPrecedenciaTarefas.mViewRecyclerViewPrecedenciaTarefas.setLayoutManager(linearLayoutManager);
+    }
+
+    private boolean containsTarefaPrecedente(int idTarefa) {
+        ArrayList<TarefaPrecedente> list = tarefaTarget.getListAntecessoras();
+        for (int i = 0; i < list.size(); i++) {
+            TarefaPrecedente tarefaPrecedente = list.get(i);
+            if (tarefaPrecedente.getId() == idTarefa) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private ArrayList<Tarefa> removeTarefaTarget(ArrayList<Tarefa> list) {
