@@ -175,7 +175,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
     private int getPositionTarefa(int idTarefa, ArrayList<TarefaPrecedente> lista) {
         for (int i = 0; i < lista.size(); i++) {
             TarefaPrecedente tarefa = lista.get(i);
-            if (tarefa.getId() == idTarefa) {
+            if (tarefa.getIdTarefaAntecessora() == idTarefa) {
                 return i;
             }
         }

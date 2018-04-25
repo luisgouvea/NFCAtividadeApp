@@ -53,8 +53,8 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
 
         ArrayList<TarefaPrecedente> listAntecessoras = tarefaTarget.getListAntecessoras();
         if (listAntecessoras != null && listAntecessoras.size() > 0) {
-            for (Tarefa tarefaAntecessora : listAntecessoras) {
-                if (tarefaDaLista.getId() == tarefaAntecessora.getId()) {
+            for (TarefaPrecedente tarefaAntecessora : listAntecessoras) {
+                if (tarefaDaLista.getId() == tarefaAntecessora.getIdTarefaAntecessora()) {
                     this.antecedeTarefaTarget.setChecked(true);
                     break;
                 }
