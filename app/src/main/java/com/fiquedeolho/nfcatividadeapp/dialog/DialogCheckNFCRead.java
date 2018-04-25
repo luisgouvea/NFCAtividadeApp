@@ -44,6 +44,8 @@ public class DialogCheckNFCRead extends DialogFragment {
     private NfcAdapter nfcAdapter;
     private TextView mTvMessage;
     private int idTarefa;
+    private DialogCheckNFCReadOk dialogNFCOk;
+    private DialogCheckNFCReadFail dialogNFCFail;
 
     public static DialogCheckNFCRead newInstance() {
 
@@ -58,6 +60,9 @@ public class DialogCheckNFCRead extends DialogFragment {
 
         NfcManager manager = (NfcManager) getActivity().getSystemService(Context.NFC_SERVICE);
         nfcAdapter = manager.getDefaultAdapter();
+
+        dialogNFCOk = DialogCheckNFCReadOk.newInstance();
+        dialogNFCFail = DialogCheckNFCReadFail.newInstance();
 
         return view;
     }
@@ -192,18 +197,13 @@ public class DialogCheckNFCRead extends DialogFragment {
         pDialog.show();
         TarefaCheckRetrofit tarefaCheckInterface = BaseUrlRetrofit.retrofit.create(TarefaCheckRetrofit.class);
 
-        final Call<Boolean> call = tarefaCheckInterface.realizarCheck(idTag, idTarefa);
+        final Call<String[]> call = tarefaCheckInterface.realizarCheck(idTag, idTarefa);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<String[]>() {
 
             @Override
-            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                Boolean result = response.body();
-                if (result) {
-                    Toast.makeText(getActivity(), "É um check correto!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "Não é um check correto!", Toast.LENGTH_SHORT).show();
-                }
+            public void onResponse(Call<String[]> call, retrofit2.Response<String[]> response) {
+                final String[] result = response.body();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -211,12 +211,19 @@ public class DialogCheckNFCRead extends DialogFragment {
                     @Override
                     public void run() {
                         dismiss();
+
+                        if(result[0].equals("invalido")){
+                            dialogNFCFail.setValuesDialogFail(result[1], result[2]);
+                            dialogNFCFail.show(getFragmentManager(), "dialog");
+                        }else{
+                            dialogNFCOk.show(getFragmentManager(), "dialog");
+                        }
                     }
                 }, 2000);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<String[]> call, Throwable t) {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }

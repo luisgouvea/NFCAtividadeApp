@@ -9,6 +9,7 @@
     <color name="prata">#90A4AE</color>
     <color name="row_recyclerView">#E0E0E0</color>
     <color name="textInputLayoutDefault">#9E9E9E</color>
+    <color name="vermelho_default">#F44336</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

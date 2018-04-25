@@ -17,6 +17,6 @@ public interface TarefaCheckRetrofit {
     Call<ArrayList<TarefaCheck>> getAllRegistroCheckNFC(@Body int idAtividade);
 
     @GET("/api/TarefaCheck/realizarCheck")
-    Call<Boolean> realizarCheck(@Query("idTagCheck") int idTagCheck, @Query("idTarefa") int idTarefa);
+    Call<String[]> realizarCheck(@Query("idTagCheck") int idTagCheck, @Query("idTarefa") int idTarefa);
 
 }
