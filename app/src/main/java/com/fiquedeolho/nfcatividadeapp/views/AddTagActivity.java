@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagCheck;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
 import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
@@ -25,6 +26,7 @@ import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.pager.addTag.PagerAddTagAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
+import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -38,6 +40,7 @@ public class AddTagActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private int idTagRandom;
     private Context context;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class AddTagActivity extends AppCompatActivity {
         this.mViewHolderAddTag.mViewBtnSkip = (Button) findViewById(R.id.btn_skip_add_tag);
         this.mViewHolderAddTag.mViewBtnNext = (Button) findViewById(R.id.btn_next_add_tag);
 
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         this.mViewHolderAddTag.mViewBtnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,8 +123,17 @@ public class AddTagActivity extends AppCompatActivity {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                Boolean result = response.body();
-                finish();
+                if(response.code() == 200) {
+                    finish();
+                }else{
+                    pDialog.dismiss();
+                    try {
+                        dialogDefaultErro.setTextErro(response.errorBody().string().toString());
+                    } catch (IOException e) {
+                        dialogDefaultErro.setTextErro("Ocorreu um erro para adicionar a TAG");
+                    }
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                }
             }
 
             @Override
