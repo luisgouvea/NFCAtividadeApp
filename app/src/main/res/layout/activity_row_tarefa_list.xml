@@ -13,18 +13,41 @@
 
     <TextView
         android:id="@+id/text_title_nome_tarefa"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="#000000"
-        android:textSize="16dp"
+        android:textColor="@color/preto_default"
+        android:textSize="20sp"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/text_subtitle_nome_tarefa"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_title_nome_tarefa"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/text_subtitle_nome_tarefa">
+
+        <TextView
+            android:id="@+id/text_status_execucao_tarefa"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/image_check_executado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_nfc_ok"
+            android:layout_marginLeft="10dp"
+            android:tint="@color/colorAccent"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

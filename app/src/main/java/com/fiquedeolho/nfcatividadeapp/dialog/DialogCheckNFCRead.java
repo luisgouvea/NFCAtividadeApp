@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.dialog;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -46,6 +47,7 @@ public class DialogCheckNFCRead extends DialogFragment {
     private int idTarefa;
     private DialogCheckNFCReadOk dialogNFCOk;
     private DialogCheckNFCReadFail dialogNFCFail;
+    private Activity activityAtual;
 
     public static DialogCheckNFCRead newInstance() {
 
@@ -210,16 +212,15 @@ public class DialogCheckNFCRead extends DialogFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        dismiss();
-
-                        if(result[0].equals("invalido")){
-                            dialogNFCFail.setValuesDialogFail(result[1], result[2]);
+                        if (result[0].equals("invalido")) {
+                            dialogNFCFail.setValuesDialogFail(result[1], result[2], DialogCheckNFCRead.this);
                             dialogNFCFail.show(getFragmentManager(), "dialog");
-                        }else{
+                        } else {
+                            dialogNFCOk.setValuesDialogOk(DialogCheckNFCRead.this);
                             dialogNFCOk.show(getFragmentManager(), "dialog");
                         }
                     }
-                }, 2000);
+                }, 800);
             }
 
             @Override
@@ -230,5 +231,16 @@ public class DialogCheckNFCRead extends DialogFragment {
             }
         });
         return true;
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((DialogInterface.OnDismissListener) this.activityAtual).onDismiss(dialog);
+    }
+
+    public void voltarParaListagem() {
+        dismiss();
+        this.activityAtual = getActivity();
     }
 }

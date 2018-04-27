@@ -2,6 +2,8 @@ package com.fiquedeolho.nfcatividadeapp.views;
 
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class InfTarefasExecutorActivity extends AppCompatActivity {
+public class InfTarefasExecutorActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
     private ViewHolderInfTarefasExecutor mViewHolderInfTarefasExecutor = new ViewHolderInfTarefasExecutor();
     private int IdAtividade;
@@ -144,6 +146,11 @@ public class InfTarefasExecutorActivity extends AppCompatActivity {
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         this.mViewHolderInfTarefasExecutor.mViewRecyclerViewInfTarefasExecutor.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        getListTarefas();
     }
 
     /**

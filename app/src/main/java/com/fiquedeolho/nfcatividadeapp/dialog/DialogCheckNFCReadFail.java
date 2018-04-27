@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.dialog;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +11,12 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 
-public class DialogCheckNFCReadFail extends DialogFragment{
+public class DialogCheckNFCReadFail extends DialogFragment {
 
     private ViewHolderDialogNFCFail mViewHolderDialogNFCFail = new ViewHolderDialogNFCFail();
     private String textCausaErroCheckFail;
     private String textSolucaoErroCheckFail;
+    private DialogCheckNFCRead dialogRead;
 
     public static DialogCheckNFCReadFail newInstance() {
 
@@ -33,21 +35,27 @@ public class DialogCheckNFCReadFail extends DialogFragment{
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null)
-        {
+        if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
 
-    public void setValuesDialogFail(String textoCausaErro, String textoSolucaoErro) {
+    public void setValuesDialogFail(String textoCausaErro, String textoSolucaoErro, DialogCheckNFCRead dialogRead) {
         this.textCausaErroCheckFail = textoCausaErro;
         this.textSolucaoErroCheckFail = textoSolucaoErro;
+        this.dialogRead = dialogRead;
+    }
+
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        this.dialogRead.voltarParaListagem();
     }
 
     /**

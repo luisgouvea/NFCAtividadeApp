@@ -11,6 +11,7 @@ public class Tarefa  implements Parcelable{
     private int Id;
     private int IdAtividade;
     private int IdTag;
+    private int IdStatusExecucao;
     private String Nome;
     private String Comentario;
     private Boolean IniciaFluxo;
@@ -22,6 +23,7 @@ public class Tarefa  implements Parcelable{
         Id = in.readInt();
         IdAtividade = in.readInt();
         IdTag = in.readInt();
+        IdStatusExecucao = in.readInt();
         Nome = in.readString();
         Comentario = in.readString();
         IniciaFluxo = in.readByte() != 0;
@@ -126,6 +128,14 @@ public class Tarefa  implements Parcelable{
         FinalizaFluxo = finalizaFluxo;
     }
 
+    public int getIdStatusExecucao() {
+        return IdStatusExecucao;
+    }
+
+    public void setIdStatusExecucao(int idStatusExecucao) {
+        IdStatusExecucao = idStatusExecucao;
+    }
+
     public ArrayList<TarefaPrecedente> getListAntecessoras() {
         return this.listaAntecessoras;
     }
@@ -152,6 +162,7 @@ public class Tarefa  implements Parcelable{
         parcel.writeInt(Id);
         parcel.writeInt(IdTag);
         parcel.writeInt(IdAtividade);
+        parcel.writeInt(IdStatusExecucao);
         parcel.writeString(Nome);
         parcel.writeString(Comentario);
         parcel.writeByte((byte) (IniciaFluxo ? 1 : 0));
