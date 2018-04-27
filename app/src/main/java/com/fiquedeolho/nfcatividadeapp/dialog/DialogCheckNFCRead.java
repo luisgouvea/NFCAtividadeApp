@@ -216,7 +216,7 @@ public class DialogCheckNFCRead extends DialogFragment {
                             dialogNFCFail.setValuesDialogFail(result[1], result[2], DialogCheckNFCRead.this);
                             dialogNFCFail.show(getFragmentManager(), "dialog");
                         } else {
-                            dialogNFCOk.setValuesDialogOk(DialogCheckNFCRead.this);
+                            dialogNFCOk.setValuesDialogOk(result[1], DialogCheckNFCRead.this);
                             dialogNFCOk.show(getFragmentManager(), "dialog");
                         }
                     }
