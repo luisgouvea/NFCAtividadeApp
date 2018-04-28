@@ -115,6 +115,7 @@ public class DialogCheckNFCRead extends DialogFragment {
     @Override
     public void onStop() {
         super.onStop();
+        dismiss();
         disableForegroundDispatchSystem();
     }
 

@@ -60,6 +60,7 @@ public class TarefaCheck extends Tarefa {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
         parcel.writeInt(IdTarefaCheck);
         parcel.writeInt(IdStatusCheckNFC);
         parcel.writeLong(DataExecucao != null ? DataExecucao.getTime() : -1 );

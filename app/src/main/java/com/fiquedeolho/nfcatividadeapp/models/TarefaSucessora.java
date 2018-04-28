@@ -52,6 +52,7 @@ public class TarefaSucessora extends Tarefa {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
         parcel.writeInt(IdTarefaSucedente);
         parcel.writeInt(IdTarefaProxima);
     }

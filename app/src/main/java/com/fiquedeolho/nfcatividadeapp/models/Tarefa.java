@@ -8,16 +8,16 @@ import java.util.ArrayList;
 
 public class Tarefa  implements Parcelable{
 
-    private int IdTarefa;
-    private int IdAtividade;
-    private int IdTag;
-    private int IdStatusExecucao;
-    private String Nome;
-    private String Comentario;
-    private Boolean IniciaFluxo;
-    private Boolean FinalizaFluxo;
-    private ArrayList<TarefaPrecedente> listaAntecessoras;
-    private ArrayList<TarefaSucessora> listaSucessoras;
+    public int IdTarefa;
+    public int IdAtividade;
+    public int IdTag;
+    public int IdStatusExecucao;
+    public String Nome;
+    public String Comentario;
+    public Boolean IniciaFluxo;
+    public Boolean FinalizaFluxo;
+    public ArrayList<TarefaPrecedente> listaAntecessoras;
+    public ArrayList<TarefaSucessora> listaSucessoras;
 
     public Tarefa(Parcel in) {
         IdTarefa = in.readInt();
