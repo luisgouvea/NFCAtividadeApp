@@ -3,6 +3,7 @@ package com.fiquedeolho.nfcatividadeapp.recyclerView.infCheckNFC;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -12,6 +13,9 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
 
     // Elemento de interface
     private TextView nomeTarefa;
+    private TextView textStatusExecucaoCheck;
+    private ImageView imageStatusCheckValido;
+    private ImageView imageStatusCheckInvalido;
 
     /**
      * Construtor
@@ -19,14 +23,24 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
     public RegistroCheckListViewHolder(View itemView) {
         super(itemView);
         this.nomeTarefa = itemView.findViewById(R.id.text_nome_tarefa_check);
+        this.textStatusExecucaoCheck = itemView.findViewById(R.id.text_status_check_nfc);
+        this.imageStatusCheckValido = itemView.findViewById(R.id.image_check_valido);
+        this.imageStatusCheckInvalido = itemView.findViewById(R.id.image_check_invalido);
     }
 
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TarefaCheck ativTarefaHistoricoCheck) {
+    public void bindData(TarefaCheck ativTarefaHistoricoCheck) {
 
         // Altera valor
         this.nomeTarefa.setText(ativTarefaHistoricoCheck.getNome());
+        if(ativTarefaHistoricoCheck.getIdStatusCheckNFC() == 1){ //  CHECK INVALIDO
+            this.textStatusExecucaoCheck.setText("Check inválido");
+            this.imageStatusCheckInvalido.setVisibility(View.VISIBLE);
+        }else{
+            this.textStatusExecucaoCheck.setText("Check válido");
+            this.imageStatusCheckValido.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -19,4 +19,36 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/text_nome_tarefa_check">
+
+        <TextView
+            android:id="@+id/text_status_check_nfc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/image_check_valido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_nfc_ok"
+            android:layout_marginLeft="10dp"
+            android:tint="@color/colorAccent"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/image_check_invalido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_nfc_fail"
+            android:layout_marginLeft="10dp"
+            android:tint="@color/vermelho_default"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 </RelativeLayout>
