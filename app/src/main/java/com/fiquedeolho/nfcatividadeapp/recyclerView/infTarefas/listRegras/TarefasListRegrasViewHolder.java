@@ -34,7 +34,7 @@ public class TarefasListRegrasViewHolder extends RecyclerView.ViewHolder {
         this.nomeTarefa.setText(tarefa.getNome());
         this.comentario.setText(tarefa.getComentario());
 
-        popMenu.setId(tarefa.getId());
+        popMenu.setId(tarefa.getIdTarefa());
         // Adciona evento de click
         this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override

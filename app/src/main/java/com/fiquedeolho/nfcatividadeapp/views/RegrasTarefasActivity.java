@@ -160,7 +160,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
     private Tarefa getTarefaTarget(int idTarefa){
         for(int i = 0; i< listTarefas.size(); i++){
             Tarefa tarefa = listTarefas.get(i);
-            if(tarefa.getId() == idTarefa){
+            if(tarefa.getIdTarefa() == idTarefa){
                 return tarefa;
             }
         }

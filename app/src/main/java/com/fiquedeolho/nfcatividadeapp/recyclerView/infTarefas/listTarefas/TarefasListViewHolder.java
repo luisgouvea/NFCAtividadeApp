@@ -47,7 +47,7 @@ public class TarefasListViewHolder extends RecyclerView.ViewHolder {
         }
 
 
-        popMenu.setId(tarefa.getId());
+        popMenu.setId(tarefa.getIdTarefa());
         // Adciona evento de click
         this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override

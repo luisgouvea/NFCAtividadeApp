@@ -7,10 +7,15 @@ import java.util.Date;
 
 public class TarefaCheck extends Tarefa {
 
+    private int IdTarefaCheck;
+    private int IdStatusCheckNFC;
     private Date DataExecucao;
 
     public TarefaCheck(Parcel in) {
-        super();
+        super(in);
+        IdStatusCheckNFC = in.readInt();
+        IdTarefaCheck = in.readInt();
+        DataExecucao = (java.util.Date) in.readSerializable();
     }
 
     public TarefaCheck(){
@@ -29,11 +34,34 @@ public class TarefaCheck extends Tarefa {
         }
     };
 
+    public int getIdTarefaCheck() {
+        return IdTarefaCheck;
+    }
+
+    public void setIdTarefaCheck(int idTarefaCheck) {
+        IdTarefaCheck = idTarefaCheck;
+    }
+
+    public int getIdStatusCheckNFC() {
+        return IdStatusCheckNFC;
+    }
+
+    public void setIdStatusCheckNFC(int idStatusCheckNFC) {
+        IdStatusCheckNFC = idStatusCheckNFC;
+    }
+
     public Date getDataExecucao() {
         return DataExecucao;
     }
 
     public void setDataExecucao(Date dataExecucao) {
         DataExecucao = dataExecucao;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(IdTarefaCheck);
+        parcel.writeInt(IdStatusCheckNFC);
+        parcel.writeLong(DataExecucao != null ? DataExecucao.getTime() : -1 );
     }
 }

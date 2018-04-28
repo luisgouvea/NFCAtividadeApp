@@ -39,7 +39,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
         this.nomeTarefa.setText(tarefaDaLista.getNome());
         this.comentario.setText(tarefaDaLista.getComentario());
 
-        this.antecedeTarefaTarget.setId(tarefaDaLista.getId());
+        this.antecedeTarefaTarget.setId(tarefaDaLista.getIdTarefa());
         // Adciona evento de click
         this.antecedeTarefaTarget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class TarefasListPrecedenciaViewHolder extends RecyclerView.ViewHolder {
         ArrayList<TarefaPrecedente> listAntecessoras = tarefaTarget.getListAntecessoras();
         if (listAntecessoras != null && listAntecessoras.size() > 0) {
             for (TarefaPrecedente tarefaAntecessora : listAntecessoras) {
-                if (tarefaDaLista.getId() == tarefaAntecessora.getIdTarefaAntecessora()) {
+                if (tarefaDaLista.getIdTarefa() == tarefaAntecessora.getIdTarefaAntecessora()) {
                     this.antecedeTarefaTarget.setChecked(true);
                     break;
                 }

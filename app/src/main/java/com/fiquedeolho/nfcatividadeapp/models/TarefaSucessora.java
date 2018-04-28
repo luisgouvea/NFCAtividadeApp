@@ -9,8 +9,9 @@ public class TarefaSucessora extends Tarefa {
     private int IdTarefaSucedente; // PK
 
     public TarefaSucessora(Parcel in) {
-        super();
+        super(in);
         IdTarefaProxima = in.readInt();
+        IdTarefaSucedente = in.readInt();
     }
 
     public TarefaSucessora(){
@@ -47,5 +48,11 @@ public class TarefaSucessora extends Tarefa {
 
     public void setIdTarefaSucedente(int idTarefaSucedente) {
         IdTarefaSucedente = idTarefaSucedente;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(IdTarefaSucedente);
+        parcel.writeInt(IdTarefaProxima);
     }
 }

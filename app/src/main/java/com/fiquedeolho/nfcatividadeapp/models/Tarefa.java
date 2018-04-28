@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Tarefa  implements Parcelable{
 
-    private int Id;
+    private int IdTarefa;
     private int IdAtividade;
     private int IdTag;
     private int IdStatusExecucao;
@@ -20,7 +20,7 @@ public class Tarefa  implements Parcelable{
     private ArrayList<TarefaSucessora> listaSucessoras;
 
     public Tarefa(Parcel in) {
-        Id = in.readInt();
+        IdTarefa = in.readInt();
         IdAtividade = in.readInt();
         IdTag = in.readInt();
         IdStatusExecucao = in.readInt();
@@ -80,8 +80,8 @@ public class Tarefa  implements Parcelable{
         return Comentario;
     }
 
-    public int getId() {
-        return Id;
+    public int getIdTarefa() {
+        return IdTarefa;
     }
 
     public int getIdTag() {
@@ -92,8 +92,8 @@ public class Tarefa  implements Parcelable{
         return IdAtividade;
     }
 
-    public void setId(int id) {
-        this.Id = id;
+    public void setIdTarefa(int idTarefa) {
+        this.IdTarefa = idTarefa;
     }
 
     public void setIdTag(int idTag) {
@@ -159,7 +159,7 @@ public class Tarefa  implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(Id);
+        parcel.writeInt(IdTarefa);
         parcel.writeInt(IdTag);
         parcel.writeInt(IdAtividade);
         parcel.writeInt(IdStatusExecucao);

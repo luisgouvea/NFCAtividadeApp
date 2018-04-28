@@ -112,12 +112,12 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
                 int id = view.getId();
                 Tarefa tarefaClicada = getTarefaTarget(id); // Tarefa clicada
                 ArrayList<TarefaPrecedente> listEncTarefaTarget = tarefaTarget.getListAntecessoras();
-                int positionTarefaClicada = getPositionTarefa(tarefaClicada.getId(), listEncTarefaTarget);
+                int positionTarefaClicada = getPositionTarefa(tarefaClicada.getIdTarefa(), listEncTarefaTarget);
                 CheckBox checkBox = (CheckBox) view;
-                if (checkBox.isChecked() && !containsTarefaPrecedente(tarefaClicada.getId())) {
+                if (checkBox.isChecked() && !containsTarefaPrecedente(tarefaClicada.getIdTarefa())) {
                     TarefaPrecedente tarefaPrecedente = new TarefaPrecedente();
-                    tarefaPrecedente.setIdTarefaAntecessora(tarefaClicada.getId());
-                    tarefaPrecedente.setId(tarefaTarget.getId()); // id_tarefa_target
+                    tarefaPrecedente.setIdTarefaAntecessora(tarefaClicada.getIdTarefa());
+                    tarefaPrecedente.setIdTarefa(tarefaTarget.getIdTarefa()); // id_tarefa_target
                     listEncTarefaTarget.add(tarefaPrecedente);
                 } else {
                     // usuario desmarcou o checkBox
@@ -144,7 +144,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         ArrayList<TarefaPrecedente> list = tarefaTarget.getListAntecessoras();
         for (int i = 0; i < list.size(); i++) {
             TarefaPrecedente tarefaPrecedente = list.get(i);
-            if (tarefaPrecedente.getId() == idTarefa) {
+            if (tarefaPrecedente.getIdTarefa() == idTarefa) {
                 return true;
             }
         }
@@ -154,7 +154,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
     private ArrayList<Tarefa> removeTarefaTarget(ArrayList<Tarefa> list) {
         for (int i = 0; i < list.size(); i++) {
             Tarefa tarefaList = list.get(i);
-            if (tarefaList.getId() == tarefaTarget.getId()) {
+            if (tarefaList.getIdTarefa() == tarefaTarget.getIdTarefa()) {
                 list.remove(i);
                 return list;
             }
@@ -165,7 +165,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
     private Tarefa getTarefaTarget(int idTarefa) {
         for (int i = 0; i < listTarefas.size(); i++) {
             Tarefa tarefa = listTarefas.get(i);
-            if (tarefa.getId() == idTarefa) {
+            if (tarefa.getIdTarefa() == idTarefa) {
                 return tarefa;
             }
         }

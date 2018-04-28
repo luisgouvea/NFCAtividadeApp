@@ -211,7 +211,7 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
     private int descobrePositionArrayListAtiv(int idTarefa) {
         for (int i = 0; i < listTarefas.size(); i++) {
             Tarefa tarefa = listTarefas.get(i);
-            if (tarefa.getId() == idTarefa) {
+            if (tarefa.getIdTarefa() == idTarefa) {
                 return i;
             }
         }
