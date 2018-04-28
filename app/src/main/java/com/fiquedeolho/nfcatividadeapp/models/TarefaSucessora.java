@@ -6,12 +6,11 @@ import android.os.Parcelable;
 public class TarefaSucessora extends Tarefa {
 
     private int IdTarefaProxima;
-    private int IdTarefaTarget;
+    private int IdTarefaSucedente; // PK
 
     public TarefaSucessora(Parcel in) {
         super();
         IdTarefaProxima = in.readInt();
-        IdTarefaTarget = in.readInt();
     }
 
     public TarefaSucessora(){
@@ -38,11 +37,15 @@ public class TarefaSucessora extends Tarefa {
         IdTarefaProxima = idTarefaProxima;
     }
 
-    public int getIdTarefaTarget() {
-        return IdTarefaTarget;
+    /**
+     * PK da tabela TarefaSucessora
+     * @return ID da tarefa sucessora
+     */
+    public int getIdTarefaSucedente() {
+        return IdTarefaSucedente;
     }
 
-    public void setIdTarefaTarget(int idTarefaTarget) {
-        IdTarefaTarget = idTarefaTarget;
+    public void setIdTarefaSucedente(int idTarefaSucedente) {
+        IdTarefaSucedente = idTarefaSucedente;
     }
 }

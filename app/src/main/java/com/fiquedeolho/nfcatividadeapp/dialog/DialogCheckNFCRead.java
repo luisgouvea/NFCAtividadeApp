@@ -65,6 +65,7 @@ public class DialogCheckNFCRead extends DialogFragment {
 
         dialogNFCOk = DialogCheckNFCReadOk.newInstance();
         dialogNFCFail = DialogCheckNFCReadFail.newInstance();
+        this.activityAtual = getActivity();
 
         return view;
     }
@@ -241,6 +242,5 @@ public class DialogCheckNFCRead extends DialogFragment {
 
     public void voltarParaListagem() {
         dismiss();
-        this.activityAtual = getActivity();
     }
 }

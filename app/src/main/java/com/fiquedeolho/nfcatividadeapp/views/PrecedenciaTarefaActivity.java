@@ -117,7 +117,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
                 if (checkBox.isChecked() && !containsTarefaPrecedente(tarefaClicada.getId())) {
                     TarefaPrecedente tarefaPrecedente = new TarefaPrecedente();
                     tarefaPrecedente.setIdTarefaAntecessora(tarefaClicada.getId());
-                    tarefaPrecedente.setIdTarefaTarget(tarefaTarget.getId());
+                    tarefaPrecedente.setId(tarefaTarget.getId()); // id_tarefa_target
                     listEncTarefaTarget.add(tarefaPrecedente);
                 } else {
                     // usuario desmarcou o checkBox
