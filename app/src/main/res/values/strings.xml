@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NFCAtividadeApp</string>
+    <string name="app_name">NFC Task Manager</string>
     <string name="fazer_login">Fazer Login</string>
     <string name="tarefas_criadas">Tarefas Criadas</string>
     <string name="tarefas_executar">Tarefas para fazer</string>
