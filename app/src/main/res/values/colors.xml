@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2196F3</color>
+
+    <!--variacao 1-->
+    <!--<color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#26A69A</color>
+    <color name="window_background">#F5F5F5</color>-->
+
+    <!--variacao 2-->
+    <!--<color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#1b1b1b</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="window_background">#F5F5F5</color>-->
+
+    <!--variacao 3-->
+    <!--<color name="colorPrimary">#37474f</color>
+    <color name="colorPrimaryDark">#102027</color>
+    <color name="colorAccent">#26A69A</color>
+    <color name="window_background">#F5F5F5</color>-->
+
+    <!--variacao 4-->
+    <color name="colorPrimary">#37474f</color>
+    <color name="colorPrimaryDark">#102027</color>
+    <color name="colorAccent">#f57f17</color>
     <color name="window_background">#F5F5F5</color>
+
+    <!--Padrao site-->
+    <!--<color name="colorPrimary">#2196F3</color>-->
+    <!--<color name="colorPrimaryDark">#1976D2</color>-->
+    <!--<color name="colorAccent">#FFC107</color>-->
+    <!--<color name="window_background">#F5F5F5</color>-->
+
     <color name="dot_dark_screen1">#000</color>
     <color name="dot_light_screen1">#FFF</color>
     <color name="metalico">#263238</color>
