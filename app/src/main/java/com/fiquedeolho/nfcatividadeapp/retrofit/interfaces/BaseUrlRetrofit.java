@@ -1,4 +1,4 @@
-package com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService;
+package com.fiquedeolho.nfcatividadeapp.retrofit.interfaces;
 
 import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 import com.google.gson.Gson;

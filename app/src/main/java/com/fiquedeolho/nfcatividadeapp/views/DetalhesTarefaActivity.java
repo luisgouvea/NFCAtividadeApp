@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 
 import retrofit2.Call;

@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listRegras.TarefasListRegrasAdapter;

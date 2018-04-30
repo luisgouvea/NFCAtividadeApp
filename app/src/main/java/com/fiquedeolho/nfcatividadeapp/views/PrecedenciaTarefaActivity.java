@@ -14,9 +14,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaFluxoRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaFluxoRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.models.TarefaPrecedente;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;

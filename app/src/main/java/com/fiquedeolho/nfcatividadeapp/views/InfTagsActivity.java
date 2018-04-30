@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infTags.TagListAdapter;

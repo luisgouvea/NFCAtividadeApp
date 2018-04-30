@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaCheckRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaCheckRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infCheckNFC.RegistroCheckListAdapter;
 

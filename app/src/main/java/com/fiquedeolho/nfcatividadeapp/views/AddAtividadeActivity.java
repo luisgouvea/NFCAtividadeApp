@@ -27,30 +27,17 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.Volley;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.UsuarioRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.models.Usuario;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.addAtividade.vinculoExecutor.AddAtividadeListVincExecAdapter;
-import com.fiquedeolho.nfcatividadeapp.util.ConstantsURIAPI;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.util.Mask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

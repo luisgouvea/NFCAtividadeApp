@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.AtividadeRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;

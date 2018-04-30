@@ -20,8 +20,8 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaInf;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaVincTag;
 import com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity.ActivityCommunicator;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TarefaRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
 import com.fiquedeolho.nfcatividadeapp.pager.addTarefa.PagerAddTarefaAdapter;
 

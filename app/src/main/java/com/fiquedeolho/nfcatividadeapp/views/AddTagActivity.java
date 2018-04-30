@@ -20,21 +20,16 @@ import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagCheck;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTag.FragmentAddTagInf;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.BaseUrlRetrofit;
-import com.fiquedeolho.nfcatividadeapp.interfaces.webAPIService.TagRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
+import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.pager.addTag.PagerAddTagAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
-import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 
 public class AddTagActivity extends AppCompatActivity {
 
@@ -133,17 +128,8 @@ public class AddTagActivity extends AppCompatActivity {
                     finish();
                 }else{
                     pDialog.dismiss();
-                    try {
-                        Converter<ResponseBody, APIError> converter =
-                                BaseUrlRetrofit.retrofit
-                                        .responseBodyConverter(APIError.class, new Annotation[0]);
-
-                        APIError error = converter.convert(response.errorBody());
-
-                        dialogDefaultErro.setTextErro(error.message());
-                    } catch (IOException e) {
-                        dialogDefaultErro.setTextErro("Ocorreu um erro para adicionar a TAG");
-                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
                     dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
                 }
             }
