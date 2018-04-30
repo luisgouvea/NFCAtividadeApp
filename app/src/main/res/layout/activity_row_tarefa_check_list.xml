@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_check_nfc_ok"
             android:layout_marginLeft="10dp"
-            android:tint="@color/colorAccent"
+            android:tint="@color/verde_default"
             android:visibility="gone"/>
 
         <ImageView
