@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
@@ -19,6 +22,7 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
     private ViewHolderDetalhesTarefa mViewHolderDetalhesTarefa = new ViewHolderDetalhesTarefa();
     private ProgressDialog pDialog;
     public  static int idTarefa;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,19 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        dialogDefaultErro = DialogDefaultErro.newInstance();
         getDetalhesTAG();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     private void getDetalhesTAG() {
@@ -43,8 +58,18 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
         call.enqueue(new Callback<TAG>() {
             @Override
             public void onResponse(Call<TAG> call, retrofit2.Response<TAG> response) {
-                TAG tag = response.body();
-                mViewHolderDetalhesTarefa.mViewHolderInputNomeTag.setText(tag.getNome());
+                if(response.code() == 200) {
+                    TAG tag = response.body();
+                    mViewHolderDetalhesTarefa.mViewHolderInputNomeTag.setText(tag.getNome());
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -55,6 +80,8 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

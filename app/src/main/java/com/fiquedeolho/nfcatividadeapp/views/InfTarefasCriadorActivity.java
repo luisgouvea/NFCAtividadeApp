@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
@@ -35,6 +38,7 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
     private ArrayList<Tarefa> listTarefas = new ArrayList<>();
     private TarefasListAdapter tarefasListAdapter;
     private ProgressDialog pDialog;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         /**
          * Pegando os elementos da Activity
@@ -69,6 +75,17 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
         getListTarefas();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
+    }
+
     private void getListTarefas() {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -80,13 +97,23 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
         call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
             public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
-                listTarefas = response.body();
-                if (listTarefas == null || listTarefas.size() == 0) {
-                    mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
-                } else {
-                    mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.GONE);
-                    mViewHolderInfTarefasCriador.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
-                    SetarRecyclerView();
+                if(response.code() == 200) {
+                    listTarefas = response.body();
+                    if (listTarefas == null || listTarefas.size() == 0) {
+                        mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.VISIBLE);
+                    } else {
+                        mViewHolderInfTarefasCriador.mViewTextListTarefaVaziaInfTarefas.setVisibility(View.GONE);
+                        mViewHolderInfTarefasCriador.mViewLinearContentBtnDefinirRegras.setVisibility(View.VISIBLE);
+                        SetarRecyclerView();
+                    }
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
                 }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -98,6 +125,8 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
@@ -34,6 +37,7 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<TAG> listTags = new ArrayList<>();
     private TagListAdapter tagsListAdapter;
     private ProgressDialog pDialog;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,8 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         /**
          * Pegando os elementos da Activity
@@ -53,6 +59,17 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
          * Comportamento dos botoes
          */
         this.mViewHolderInfTags.mViewFloatingActionButtonAddTag.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     /**
@@ -94,12 +111,22 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
         call.enqueue(new Callback<ArrayList<TAG>>() {
             @Override
             public void onResponse(Call<ArrayList<TAG>> call, retrofit2.Response<ArrayList<TAG>> response) {
-                listTags = response.body();
-                if (listTags == null || listTags.size() == 0) {
-                    mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.VISIBLE);
-                } else {
-                    mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.GONE);
-                    SetarRecyclerView();
+                if(response.code() == 200) {
+                    listTags = response.body();
+                    if (listTags == null || listTags.size() == 0) {
+                        mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.VISIBLE);
+                    } else {
+                        mViewHolderInfTags.mViewTextListTagVaziaInfTags.setVisibility(View.GONE);
+                        SetarRecyclerView();
+                    }
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
                 }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -111,6 +138,8 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

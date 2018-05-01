@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
@@ -30,6 +33,7 @@ public class RegrasTarefasActivity extends AppCompatActivity {
     private ViewHolderRegrasTarefas mViewHolderRegrasTarefas = new ViewHolderRegrasTarefas();
     private TarefasListRegrasAdapter tarefasListRegrasAdapter;
     private ProgressDialog pDialog;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -52,6 +58,16 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         getListTarefas();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
+    }
 
     private void getListTarefas() {
         pDialog = new ProgressDialog(this);
@@ -64,8 +80,18 @@ public class RegrasTarefasActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
             public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
-                listTarefas = response.body();
-                SetarRecyclerView();
+                if(response.code() == 200) {
+                    listTarefas = response.body();
+                    SetarRecyclerView();
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
@@ -76,6 +102,8 @@ public class RegrasTarefasActivity extends AppCompatActivity {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

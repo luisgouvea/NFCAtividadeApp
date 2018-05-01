@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaCheckRetrofit;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
@@ -48,6 +50,7 @@ public class DialogCheckNFCRead extends DialogFragment {
     private DialogCheckNFCReadOk dialogNFCOk;
     private DialogCheckNFCReadFail dialogNFCFail;
     private Activity activityAtual;
+    private DialogDefaultErro dialogDefaultErro;
 
     public static DialogCheckNFCRead newInstance() {
 
@@ -65,6 +68,8 @@ public class DialogCheckNFCRead extends DialogFragment {
 
         dialogNFCOk = DialogCheckNFCReadOk.newInstance();
         dialogNFCFail = DialogCheckNFCReadFail.newInstance();
+        dialogDefaultErro = DialogDefaultErro.newInstance();
+
         this.activityAtual = getActivity();
 
         return view;
@@ -117,6 +122,9 @@ public class DialogCheckNFCRead extends DialogFragment {
         super.onStop();
         dismiss();
         disableForegroundDispatchSystem();
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     private void enableForegroundDispatchSystem() {
@@ -207,22 +215,29 @@ public class DialogCheckNFCRead extends DialogFragment {
 
             @Override
             public void onResponse(Call<String[]> call, retrofit2.Response<String[]> response) {
-                final String[] result = response.body();
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (result[0].equals("invalido")) {
-                            dialogNFCFail.setValuesDialogFail(result[1], result[2], DialogCheckNFCRead.this);
-                            dialogNFCFail.show(getFragmentManager(), "dialog");
-                        } else {
-                            dialogNFCOk.setValuesDialogOk(result[1], DialogCheckNFCRead.this);
-                            dialogNFCOk.show(getFragmentManager(), "dialog");
+                if(response.code() == 200) {
+                    final String[] result = response.body();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (result[0].equals("invalido")) {
+                                dialogNFCFail.setValuesDialogFail(result[1], result[2], DialogCheckNFCRead.this);
+                                dialogNFCFail.show(getFragmentManager(), "dialog");
+                            } else {
+                                dialogNFCOk.setValuesDialogOk(result[1], DialogCheckNFCRead.this);
+                                dialogNFCOk.show(getFragmentManager(), "dialog");
+                            }
                         }
-                    }
-                }, 800);
+                    }, 800);
+                }
+                else{
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getFragmentManager(),"dialog");
+                }
             }
 
             @Override
@@ -230,6 +245,8 @@ public class DialogCheckNFCRead extends DialogFragment {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getFragmentManager(),"dialog");
             }
         });
         return true;

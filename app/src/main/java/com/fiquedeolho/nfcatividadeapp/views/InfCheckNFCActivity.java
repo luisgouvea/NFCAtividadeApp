@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaCheckRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
@@ -28,6 +31,7 @@ public class InfCheckNFCActivity extends AppCompatActivity {
     private RegistroCheckListAdapter registroCheckListAdapter;
     private ProgressDialog pDialog;
     private int IdAtividade;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,20 @@ public class InfCheckNFCActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        dialogDefaultErro = DialogDefaultErro.newInstance();
         this.mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck = findViewById(R.id.textListAtividadeTarefaCheckRegistroCheck);
         getListChecks();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     private void getListChecks() {
@@ -57,12 +72,22 @@ public class InfCheckNFCActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<TarefaCheck>>() {
             @Override
             public void onResponse(Call<ArrayList<TarefaCheck>> call, retrofit2.Response<ArrayList<TarefaCheck>> response) {
-                listaCheck = response.body();
-                if (listaCheck == null || listaCheck.size() == 0) {
-                    mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck.setVisibility(View.VISIBLE);
-                } else {
-                    mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck.setVisibility(View.GONE);
-                    SetarRecyclerView();
+                if(response.code() == 200) {
+                    listaCheck = response.body();
+                    if (listaCheck == null || listaCheck.size() == 0) {
+                        mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck.setVisibility(View.VISIBLE);
+                    } else {
+                        mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck.setVisibility(View.GONE);
+                        SetarRecyclerView();
+                    }
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
                 }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -74,6 +99,8 @@ public class InfCheckNFCActivity extends AppCompatActivity {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

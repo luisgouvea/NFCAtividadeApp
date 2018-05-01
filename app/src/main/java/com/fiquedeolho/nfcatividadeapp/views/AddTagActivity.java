@@ -111,6 +111,9 @@ public class AddTagActivity extends AppCompatActivity {
         if(pDialog != null && pDialog.isShowing()){
             pDialog.dismiss();
         }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     private void addTAG(final TAG tag) {
@@ -127,7 +130,9 @@ public class AddTagActivity extends AppCompatActivity {
                 if(response.code() == 200) {
                     finish();
                 }else{
-                    pDialog.dismiss();
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
                     APIError error = ErrorUtils.parseError(response);
                     dialogDefaultErro.setTextErro(error.message());
                     dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
@@ -139,6 +144,8 @@ public class AddTagActivity extends AppCompatActivity {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

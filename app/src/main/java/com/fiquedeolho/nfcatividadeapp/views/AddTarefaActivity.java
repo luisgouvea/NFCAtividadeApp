@@ -17,9 +17,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaInf;
 import com.fiquedeolho.nfcatividadeapp.fragments.addTarefa.FragmentAddTarefaVincTag;
 import com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity.ActivityCommunicator;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
@@ -38,6 +41,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     private PagerAddTarefaAdapter pagerAdapter;
     private int idTagVinculada;
     private FragmentAddTarefaVincTag fragVincTag;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         this.mViewHolderAddTarefa.mViewBtnSkip = (Button) findViewById(R.id.btn_skip_add_tarefa);
         this.mViewHolderAddTarefa.mViewBtnNext = (Button) findViewById(R.id.btn_next_add_tarefa);
 
-
+        dialogDefaultErro = DialogDefaultErro.newInstance();
         // adding bottom dots
         addBottomDots(0);
 
@@ -189,6 +193,9 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
         }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     /**
@@ -216,8 +223,17 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                Boolean result = response.body();
-                backToInfTarefas();
+                if(response.code() == 200){
+                    backToInfTarefas();
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                }
             }
 
             @Override
@@ -225,6 +241,8 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

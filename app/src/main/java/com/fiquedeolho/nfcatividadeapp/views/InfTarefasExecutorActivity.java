@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogCheckNFCRead;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Tarefa;
@@ -35,6 +38,7 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
     private DialogCheckNFCRead dialogCheck;
     private int idTarefa;
     private TarefasListAdapter tarefasListAdapter;
+    private DialogDefaultErro dialogDefaultErro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dialogCheck = DialogCheckNFCRead.newInstance();
+
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         this.mViewHolderInfTarefasExecutor.mViewTextListTarefaVaziaInfTarefasExecutor = findViewById(R.id.textListTarefaVaziaInfTarefasExecutor);
     }
@@ -64,6 +70,17 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
         dialogCheck.intentNFCTag(intent, idTarefa);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
+    }
+
     private void getListTarefas() {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -75,12 +92,22 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
         call.enqueue(new Callback<ArrayList<Tarefa>>() {
             @Override
             public void onResponse(Call<ArrayList<Tarefa>> call, retrofit2.Response<ArrayList<Tarefa>> response) {
-                listTarefas = response.body();
-                if (listTarefas == null || listTarefas.size() == 0) {
-                    mViewHolderInfTarefasExecutor.mViewTextListTarefaVaziaInfTarefasExecutor.setVisibility(View.VISIBLE);
-                } else {
-                    mViewHolderInfTarefasExecutor.mViewTextListTarefaVaziaInfTarefasExecutor.setVisibility(View.GONE);
-                    SetarRecyclerView();
+                if(response.code() == 200) {
+                    listTarefas = response.body();
+                    if (listTarefas == null || listTarefas.size() == 0) {
+                        mViewHolderInfTarefasExecutor.mViewTextListTarefaVaziaInfTarefasExecutor.setVisibility(View.VISIBLE);
+                    } else {
+                        mViewHolderInfTarefasExecutor.mViewTextListTarefaVaziaInfTarefasExecutor.setVisibility(View.GONE);
+                        SetarRecyclerView();
+                    }
+                }
+                else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
                 }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -92,6 +119,8 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
     }

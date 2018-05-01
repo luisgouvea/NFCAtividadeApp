@@ -29,6 +29,9 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
@@ -56,6 +59,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private Context context;
     private ArrayList<Usuario> listUsuExecutores;
     private int idUsuarioVinc;
+    private DialogDefaultErro dialogDefaultErro;
 
     /**
      * ViewHolder dos elementos
@@ -90,6 +94,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtividade.mViewBtnSkip = (Button) findViewById(R.id.btn_skip_add_atividade);
         this.mViewHolderAddAtividade.mViewBtnNext = (Button) findViewById(R.id.btn_next_add_atividade);
 
+        dialogDefaultErro = DialogDefaultErro.newInstance();
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -235,6 +240,9 @@ public class AddAtividadeActivity extends AppCompatActivity {
         if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
         }
+        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+            dialogDefaultErro.dismiss();
+        }
     }
 
     private Boolean addAtividade(Atividade atividade) {
@@ -244,9 +252,16 @@ public class AddAtividadeActivity extends AppCompatActivity {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                Boolean result = response.body();
-                //Log.d("Log de erro request", response.body().toString());
-                launchHomeScreen();
+                if(response.code() == 200){
+                    launchHomeScreen();
+                }else{
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                    APIError error = ErrorUtils.parseError(response);
+                    dialogDefaultErro.setTextErro(error.message());
+                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                }
             }
 
             @Override
@@ -254,6 +269,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
+                dialogDefaultErro.setTextErro(t.getMessage());
+                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
             }
         });
         return true;
