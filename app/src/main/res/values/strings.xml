@@ -39,6 +39,7 @@
     <string name="salvar_algo">SALVAR</string>
     <string name="list_tarefas_vazia_inf_tarefas">A Atividade não possui nenhuma tarefa!</string>
     <string name="list_atividades_vazia_home_add_ativ">Você não criou nenhuma atividade ainda!</string>
+    <string name="list_atividades_vazia_filtro_home">Nenhum resultado encontrado!</string>
     <string name="list_atividades_vazia_home_fazer_ativ">Você não possuí nenhuma atividade para realizar!</string>
     <string name="list_tags_vazia">Não há TAG criada.</string>
     <string name="list_check_vazia">Não há registro de check NFC.</string>

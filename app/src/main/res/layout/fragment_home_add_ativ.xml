@@ -39,7 +39,8 @@
 
 
             <LinearLayout
-                android:layout_weight="0.30"
+                android:layout_weight="0.38"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
@@ -49,20 +50,20 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
-                    android:src="@drawable/ic_date_calendar" />
+                    android:src="@drawable/ic_traffic_light" />
 
                 <Spinner
                     android:id="@+id/status_spinner_atividade_add"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.70" />
+                    android:layout_weight="0.70"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="0.30"
+                android:layout_weight="0.38"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="1.0">
 
@@ -72,33 +73,17 @@
                     android:layout_weight="0.30"
                     android:src="@drawable/ic_date_calendar" />
 
-                <Spinner
-                    android:id="@+id/statusfff_spinner_atividade_add"
+                <EditText
+                    android:id="@+id/data_criacao_add_ativ"
+                    android:layout_weight="0.70"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.70" />
+                    android:focusable="false"
+                    android:textSize="15.3sp"
+                    android:textColorHint="@android:color/black"
+                    android:hint="Data de criação"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_weight="0.30"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="1.0">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.30"
-                    android:src="@drawable/ic_date_calendar" />
-
-                <Spinner
-                    android:id="@+id/statusfffdddd_spinner_atividade_add"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -140,6 +125,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/list_atividades_vazia_home_add_ativ"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textListAtividadeVaziaFiltroHomeAddAtiv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/list_atividades_vazia_filtro_home"
                 android:textSize="16sp"
                 android:visibility="gone" />
 

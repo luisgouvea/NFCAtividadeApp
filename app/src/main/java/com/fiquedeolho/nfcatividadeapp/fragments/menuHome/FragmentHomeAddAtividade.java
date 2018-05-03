@@ -11,16 +11,19 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.models.FiltroPesquisaHome;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
@@ -28,11 +31,16 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.util.Mask;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,10 +74,21 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
         this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.setAdapter(adp);
 
+        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade = rootView.findViewById(R.id.data_criacao_add_ativ);
+        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade));
+        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
+
         this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_add);
         this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd.setOnClickListener(this);
 
         this.mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade = rootView.findViewById(R.id.textListAtividadeVaziaHomeAddAtiv);
+
+        this.mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade = rootView.findViewById(R.id.textListAtividadeVaziaFiltroHomeAddAtiv);
 
         return rootView;
     }
@@ -93,7 +112,69 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         if (id == R.id.btn_addFloatingAction) {
             Intent intent = new Intent(view.getContext(), AddAtividadeActivity.class);
             startActivity(intent);
+        } else if (id == R.id.btn_filtrar_atividade_add) {
+            filtrarAtividades();
         }
+    }
+
+    private void filtrarAtividades() {
+        int idStatusAtividade = this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.getSelectedItemPosition();
+        String dataCriacao = this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.getText().toString();
+
+        FiltroPesquisaHome filtro = new FiltroPesquisaHome();
+        if (idStatusAtividade != 0) {
+            filtro.setIdStatusAtividade(idStatusAtividade);
+        }
+        if (!dataCriacao.isEmpty()) {
+            DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
+            Date date = null;
+            try {
+                date = (Date) formatter.parse(dataCriacao);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            filtro.setDataCriacao(date);
+        }
+        SavePreferences save = new SavePreferences(getContext());
+        int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+        filtro.setIdUsuario(idUsuario);
+        requestFiltro(filtro);
+
+    }
+
+    private void requestFiltro(FiltroPesquisaHome filtro) {
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        //pDialog.setTitle(getString(R.string.title_progress_ativ_adicionadas));
+        pDialog.setMessage(getString(R.string.message_progress_dialog));
+        pDialog.setCancelable(false);
+        pDialog.show();
+        AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+        final Call<ArrayList<Atividade>> call = ativiInterface.filtrarAtividadesAdicionar(filtro);
+        call.enqueue(new Callback<ArrayList<Atividade>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
+                listAtividadeAdicionadas = response.body();
+                if (listAtividadeAdicionadas == null || listAtividadeAdicionadas.size() == 0) {
+                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade.setVisibility(View.VISIBLE);
+                    mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setVisibility(View.GONE);
+                } else {
+                    mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setVisibility(View.VISIBLE);
+                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade.setVisibility(View.GONE);
+                    atividadeListAdapter.notifyDataSetChanged();
+                    //MontaRestanteTela();
+                }
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Atividade>> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+            }
+        });
     }
 
     private void getAtivAdicionadas() {
@@ -244,5 +325,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         private RecyclerView mViewRecyclerViewAtividadeAdd;
         private FloatingActionButton mViewFloatingActionButton;
         private TextView mViewTextListAtividadeVaziaAddAtividade;
+        private TextView mViewTextListAtividadeVaziaFiltroAddAtividade;
+        private EditText mViewEditTextDataCriacaoAddAtividade;
     }
 }
