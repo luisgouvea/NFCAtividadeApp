@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/actionbar_notification"
+        android:icon="@drawable/actionbar_notification_icon"
+        android:title="Notificacoes"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/help_tutorial"
         android:icon="@drawable/ic_help_menu_main"
         android:title="Tutorial ajuda"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/logout_app"
+        android:icon="@drawable/ic_logout_to_app"
+        android:title="Logout App"
         app:showAsAction="ifRoom"/>
 </menu>

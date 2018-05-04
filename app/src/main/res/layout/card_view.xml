@@ -3,8 +3,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="16dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -20,29 +20,20 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/text_title_nome_ativ"
-                android:layout_width="match_parent"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:textColor="#000000"
-                android:textSize="16dp"
+                android:text="Hello"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/text_subtitle_desc_ativ"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_title_nome_ativ" />
-
-            <TextView
-                android:id="@+id/txtOptionAtivAdd"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="&#8942;"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:layout_below="@+id/textView"
+                android:layout_marginTop="10dp"
+                android:text="world" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

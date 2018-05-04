@@ -1,6 +1,9 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,6 +24,7 @@ import android.view.WindowManager;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeExecutarAtividade;
+import com.fiquedeolho.nfcatividadeapp.util.BadgeDrawable;
 
 public class InitialNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -114,7 +118,27 @@ public class InitialNavigationActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.content_menu, menu);
+        setCountNotificacao(this, "9", menu);
         return true;
+    }
+
+    public void setCountNotificacao(Context context, String count, Menu defaultMenu) {
+        MenuItem menuItem = defaultMenu.findItem(R.id.actionbar_notification);
+        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+
+        BadgeDrawable badge;
+
+        // Reuse drawable if possible
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_notification_count);
+        if (reuse != null && reuse instanceof BadgeDrawable) {
+            badge = (BadgeDrawable) reuse;
+        } else {
+            badge = new BadgeDrawable(context);
+        }
+
+        badge.setCount(count);
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.ic_notification_count, badge);
     }
 
     @Override
