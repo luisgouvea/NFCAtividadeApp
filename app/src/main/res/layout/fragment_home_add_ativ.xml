@@ -1,118 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutLinearAtivAdd"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:weightSum="1.00">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="16dp"
-        android:background="@android:color/black" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:text="Filtro de Pesquisa" />
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_weight="0.50"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        android:weightSum="1.00">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.60"
-            android:orientation="vertical"
-            android:weightSum="1.00">
-
-
-            <LinearLayout
-                android:layout_weight="0.38"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:weightSum="1.0">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.30"
-                    android:src="@drawable/ic_traffic_light" />
-
-                <Spinner
-                    android:id="@+id/status_spinner_atividade_add"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="0.38"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:weightSum="1.0">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.30"
-                    android:src="@drawable/ic_date_calendar" />
-
-                <EditText
-                    android:id="@+id/data_criacao_add_ativ"
-                    android:layout_weight="0.70"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:focusable="false"
-                    android:textSize="15.3sp"
-                    android:textColorHint="@android:color/black"
-                    android:hint="Data de criação"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="0.40"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/btn_filtrar_atividade_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.40"
-                android:gravity="center"
-                android:text="@string/pesquisar_atividade" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="@android:color/black" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="0.50"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -125,15 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/list_atividades_vazia_home_add_ativ"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textListAtividadeVaziaFiltroHomeAddAtiv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/list_atividades_vazia_filtro_home"
                 android:textSize="16sp"
                 android:visibility="gone" />
 

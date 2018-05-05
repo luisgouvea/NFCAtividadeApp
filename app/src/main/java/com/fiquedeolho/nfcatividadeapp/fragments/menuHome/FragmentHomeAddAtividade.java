@@ -1,6 +1,8 @@
 package com.fiquedeolho.nfcatividadeapp.fragments.menuHome;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,19 +13,15 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.models.FiltroPesquisaHome;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeViewHolder;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
@@ -31,7 +29,6 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
-import com.fiquedeolho.nfcatividadeapp.util.Mask;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
@@ -51,16 +48,16 @@ import retrofit2.Callback;
  * Relacionado a todas as atividades que o usuario logado criou.
  */
 
-public class FragmentHomeAddAtividade extends Fragment implements View.OnClickListener {
+public class FragmentHomeAddAtividade extends Fragment implements View.OnClickListener, AtividadeViewHolder.ClickListener {
 
     private ViewHolderAddAtivHome mViewHolderAddAtivHome = new ViewHolderAddAtivHome();
 
     private int idUsuario;
-    private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
     private ArrayList<Atividade> listAtividadeAdicionadas = new ArrayList<Atividade>();
     private ProgressDialog pDialog;
     private View rootView;
     private AtividadeListAdpter atividadeListAdapter;
+    private AtividadeViewHolder.ClickListener listenerFiltro = this;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,26 +66,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         this.mViewHolderAddAtivHome.mViewFloatingActionButton = rootView.findViewById(R.id.btn_addFloatingAction);
         this.mViewHolderAddAtivHome.mViewFloatingActionButton.setOnClickListener(this);
 
-        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd = rootView.findViewById(R.id.status_spinner_atividade_add);
-        ArrayAdapter adp = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.setAdapter(adp);
-
-        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade = rootView.findViewById(R.id.data_criacao_add_ativ);
-        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade));
-        this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.setFocusableInTouchMode(true);
-                return false;
-            }
-        });
-
-        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd = (Button) rootView.findViewById(R.id.btn_filtrar_atividade_add);
-        this.mViewHolderAddAtivHome.mVieBtnFiltrarAtivAdd.setOnClickListener(this);
-
         this.mViewHolderAddAtivHome.mViewTextListAtividadeVaziaAddAtividade = rootView.findViewById(R.id.textListAtividadeVaziaHomeAddAtiv);
-
-        this.mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade = rootView.findViewById(R.id.textListAtividadeVaziaFiltroHomeAddAtiv);
 
         return rootView;
     }
@@ -112,15 +90,10 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         if (id == R.id.btn_addFloatingAction) {
             Intent intent = new Intent(view.getContext(), AddAtividadeActivity.class);
             startActivity(intent);
-        } else if (id == R.id.btn_filtrar_atividade_add) {
-            filtrarAtividades();
         }
     }
 
-    private void filtrarAtividades() {
-        int idStatusAtividade = this.mViewHolderAddAtivHome.mViewSpinnerAtivAdd.getSelectedItemPosition();
-        String dataCriacao = this.mViewHolderAddAtivHome.mViewEditTextDataCriacaoAddAtividade.getText().toString();
-
+    private void filtrarAtividades(int idStatusAtividade, String dataCriacao) {
         FiltroPesquisaHome filtro = new FiltroPesquisaHome();
         if (idStatusAtividade != 0) {
             filtro.setIdStatusAtividade(idStatusAtividade);
@@ -155,13 +128,11 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             public void onResponse(Call<ArrayList<Atividade>> call, retrofit2.Response<ArrayList<Atividade>> response) {
                 listAtividadeAdicionadas = response.body();
                 if (listAtividadeAdicionadas == null || listAtividadeAdicionadas.size() == 0) {
-                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade.setVisibility(View.VISIBLE);
-                    mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setVisibility(View.GONE);
+                    filtroPesquisaEmpty();
                 } else {
                     mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setVisibility(View.VISIBLE);
-                    mViewHolderAddAtivHome.mViewTextListAtividadeVaziaFiltroAddAtividade.setVisibility(View.GONE);
                     atividadeListAdapter.notifyDataSetChanged();
-                    //MontaRestanteTela();
+                    Toast.makeText(getActivity(), "Filtro realizado!", Toast.LENGTH_SHORT).show();
                 }
                 if (pDialog != null && pDialog.isShowing()) {
                     pDialog.dismiss();
@@ -175,6 +146,20 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                 }
             }
         });
+    }
+
+    public void filtroPesquisaEmpty() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Ops");
+        alertDialog.setMessage("Nenhum resultado encontrado.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
 
     private void getAtivAdicionadas() {
@@ -291,7 +276,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         };
 
         // 2 - Definir adapter passando listagem de carros e listener
-        atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listener, listenerOptionsList);
+        atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listener, listenerOptionsList, listenerFiltro);
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setAdapter(atividadeListAdapter);
 
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
@@ -315,17 +300,18 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         atividadeListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void btnFiltrarClicked(int idStatusAtividade, String dataCriacao) {
+        filtrarAtividades(idStatusAtividade, dataCriacao);
+    }
+
     /**
      * ViewHolder dos elementos
      */
     private class ViewHolderAddAtivHome {
 
-        private Button mVieBtnFiltrarAtivAdd;
-        private Spinner mViewSpinnerAtivAdd;
         private RecyclerView mViewRecyclerViewAtividadeAdd;
         private FloatingActionButton mViewFloatingActionButton;
         private TextView mViewTextListAtividadeVaziaAddAtividade;
-        private TextView mViewTextListAtividadeVaziaFiltroAddAtividade;
-        private EditText mViewEditTextDataCriacaoAddAtividade;
     }
 }

@@ -24,15 +24,22 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
 
     private OnListClickInteractionListenerView mOnListOptionListener;
 
+    private AtividadeViewHolder.ClickListener mListenerFiltroPesquisa;
+
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerView listOptions) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerView listOptions, AtividadeViewHolder.ClickListener listFiltroPesquisa) {
         this.mListAtividades = atividades;
         this.mOnListClickInteractionListener = listener;
         this.mOnListOptionListener = listOptions;
+        this.mListenerFiltroPesquisa = listFiltroPesquisa;
     }
 
+    @Override
+    public int getItemViewType (int position){
+        return position;
+    }
     /**
      * Responsável pela criação de linha
      */
@@ -42,9 +49,14 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
         // Obtém o contexto
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Instancia o layout para manipulação dos elementos
-        View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_add, parent, false);
+        View atividadeView = null;
+        if(viewType == 0){
+            atividadeView = inflater.inflate(R.layout.activity_header_filtro_pesquisa_home, parent, false);
+        }
+        else {
+            // Instancia o layout para manipulação dos elementos
+            atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_add, parent, false);
+        }
 
         // Passa a ViewHolder
         return new AtividadeViewHolder(atividadeView);
@@ -56,7 +68,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     @Override
     public void onBindViewHolder(AtividadeViewHolder holder, int position) {
         Atividade car = this.mListAtividades.get(position);
-        holder.bindData(car, this.mOnListClickInteractionListener, this.mOnListOptionListener);
+        holder.bindData(car, this.mOnListClickInteractionListener, this.mOnListOptionListener, mListenerFiltroPesquisa, position);
     }
 
     @Override
