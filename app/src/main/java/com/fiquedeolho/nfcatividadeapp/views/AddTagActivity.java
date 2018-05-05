@@ -27,6 +27,7 @@ import com.fiquedeolho.nfcatividadeapp.models.APIError;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
 import com.fiquedeolho.nfcatividadeapp.pager.addTag.PagerAddTagAdapter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.util.criptografia.AESEncryptor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,8 +49,14 @@ public class AddTagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
 
+        /*String ec = AESEncryptor.encrypt("1524936148", "keyEncryptor", "AES");
+        String decryp = AESEncryptor.decrypt(ec,"keyEncryptor", "AES");
+
         Long tsLong = System.currentTimeMillis()/1000;
-        idTagRandom = tsLong.intValue();
+        idTagRandom = tsLong.intValue();*/
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        idTagRandom = Integer.valueOf(AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES"));
         context = this;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
