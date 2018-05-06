@@ -39,7 +39,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     private Context context;
     private TextView[] dots;
     private PagerAddTarefaAdapter pagerAdapter;
-    private int idTagVinculada;
+    private String identificadorTagVinculada;
     private FragmentAddTarefaVincTag fragVincTag;
     private DialogDefaultErro dialogDefaultErro;
 
@@ -119,7 +119,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
                     tarefa.setIniciaFluxo(iniciaFluxo);
                     tarefa.setFinalizaFluxo(finalizaFluxo);
                     tarefa.setIdAtividade(IdAtividade);
-                    tarefa.setIdTag(idTagVinculada);
+                    tarefa.setIdentificadorTag(identificadorTagVinculada);
                     addTarefa(tarefa);
                 }
             }
@@ -255,8 +255,8 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     }
 
     @Override
-    public void passDataToActivity(int id) {
-        idTagVinculada = id;
+    public void passDataToActivity(String identificadorTag) {
+        this.identificadorTagVinculada = identificadorTag;
     }
 
     /**

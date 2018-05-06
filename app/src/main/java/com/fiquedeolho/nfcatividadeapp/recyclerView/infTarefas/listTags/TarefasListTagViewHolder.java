@@ -14,11 +14,12 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 
 import java.util.List;
 
-public class TarefasListTagViewHolder extends RecyclerView.ViewHolder {
+public class TarefasListTagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     // Elemento de interface
     private TextView nomeTag;
     private final RadioButton radioButton;
+    private ClickListener listener;
 
     /**
      * Construtor
@@ -32,24 +33,20 @@ public class TarefasListTagViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tag , final OnListClickInteractionListener listener ) {
-
+    public void bindData(final TAG tag , ClickListener listener ) {
+        this.listener = listener;
         // Altera valor
         this.nomeTag.setText(tag.getNome());
+        this.radioButton.setOnClickListener(this);
+    }
 
-        this.radioButton.setId(tag.getId());
+    @Override
+    public void onClick(View v) {
+        radioButton.setChecked(true);
+        listener.radioClicked(v, getAdapterPosition());
+    }
 
-        // Adciona evento de click
-        this.radioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /**
-                 * Metodo (onClick) da interface OnListClickInteractionListener,  implementada nesse projeto
-                 */
-                radioButton.setChecked(true);
-                listener.onClick(tag.getId());
-            }
-        });
-
+    public interface ClickListener {
+        void radioClicked(View v, int position);
     }
 }

@@ -179,7 +179,6 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
         OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
-                final int idTarefa = viewTarget.getId();
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
                 popupMenu.inflate(R.menu.options_list_tag);
                 popupMenu.show();

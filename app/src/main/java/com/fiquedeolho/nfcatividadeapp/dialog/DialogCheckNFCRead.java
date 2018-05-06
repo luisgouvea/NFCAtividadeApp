@@ -166,7 +166,7 @@ public class DialogCheckNFCRead extends DialogFragment {
             String tagContent = getTextFromNdefRecord(ndefRecord);
 
             Log.d("Teste", tagContent);
-            realizarCheck(Integer.valueOf(tagContent));
+            realizarCheck(tagContent);
             //Toast.makeText(this, "Conteúdo Lido!", Toast.LENGTH_SHORT).show();
         } else {
             //Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
@@ -203,13 +203,13 @@ public class DialogCheckNFCRead extends DialogFragment {
         }
     }
 
-    private Boolean realizarCheck(int idTag) {
+    private Boolean realizarCheck(String identificadorTag) {
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Aguarde");
         pDialog.show();
         TarefaCheckRetrofit tarefaCheckInterface = BaseUrlRetrofit.retrofit.create(TarefaCheckRetrofit.class);
 
-        final Call<String[]> call = tarefaCheckInterface.realizarCheck(idTag, idTarefa);
+        final Call<String[]> call = tarefaCheckInterface.realizarCheck(identificadorTag, idTarefa);
 
         call.enqueue(new Callback<String[]>() {
 

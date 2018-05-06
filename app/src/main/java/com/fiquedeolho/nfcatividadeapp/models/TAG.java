@@ -6,13 +6,13 @@ import android.os.Parcelable;
 
 public class TAG implements Parcelable {
 
-    private int Id;
+    private String IdentificadorTag;
     private int IdUsuario;
     private String Nome;
     private String PalavraChave;
 
     public TAG(Parcel in) {
-        Id = in.readInt();
+        IdentificadorTag = in.readString();
         IdUsuario = in.readInt();
         Nome = in.readString();
         PalavraChave = in.readString();
@@ -38,8 +38,8 @@ public class TAG implements Parcelable {
         return Nome;
     }
 
-    public int getId() {
-        return Id;
+    public String getIdentificadorTag() {
+        return IdentificadorTag;
     }
 
     public String getPalavraChave() {
@@ -48,8 +48,8 @@ public class TAG implements Parcelable {
 
     public int getIdUsuario(){return IdUsuario;}
 
-    public void setId(int id) {
-        this.Id = id;
+    public void setIdentificadorTag(String identificadorTag) {
+        this.IdentificadorTag = identificadorTag;
     }
 
     public void setIdUsuario(int idUsuario) {
@@ -69,7 +69,7 @@ public class TAG implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(Id);
+        parcel.writeString(IdentificadorTag);
         parcel.writeString(Nome);
         parcel.writeInt(IdUsuario);
         parcel.writeString(PalavraChave);

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity.ActivityCommunicator;
+import com.fiquedeolho.nfcatividadeapp.recyclerView.infTarefas.listTags.TarefasListTagViewHolder;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TagRetrofit;
 import com.fiquedeolho.nfcatividadeapp.models.TAG;
@@ -33,14 +34,15 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickListener{
+public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickListener, TarefasListTagViewHolder.ClickListener {
 
-    private int idTagVinculada;
+    private String identificacaoTagVinculada;
     private TarefasListTagAdapter tarefasListTagAdapter;
     private ViewHolderVincTag mViewHolderVincTag = new ViewHolderVincTag();
     private ArrayList<TAG> listaTags;
     private ProgressDialog pDialog;
     private ActivityCommunicator activityCommunicator;
+    private TarefasListTagViewHolder.ClickListener listener = this;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,22 +70,6 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
                 }
             }
         });
-
-        // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
-            @Override
-            public void onClick(int id) {
-                if (idTagVinculada != 0) {
-                    RecyclerView re = mViewHolderVincTag.mViewRecyclerViewAddTarefaVincTag;
-                    RadioButton radio = re.findViewById(idTagVinculada);
-                    radio.setChecked(false);
-                }
-                TAG tag = getTagTarget(id);
-                idTagVinculada = tag.getId();
-
-                activityCommunicator.passDataToActivity(idTagVinculada);
-            }
-        };
 
         // 2 - Definir adapter passando listagem de tarefas e listener
         tarefasListTagAdapter = new TarefasListTagAdapter(listaTags, listener);
@@ -131,16 +117,6 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
         });
     }
 
-    private TAG getTagTarget(int idTag) {
-        for (int i = 0; i < listaTags.size(); i++) {
-            TAG tag = listaTags.get(i);
-            if (tag.getId() == idTag) {
-                return tag;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -148,6 +124,17 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
             Intent intent = new Intent(getActivity(), AddTagActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void radioClicked(View v, int position) {
+        TAG tag = listaTags.get(position);
+        if (identificacaoTagVinculada != null) {
+            RadioButton radio = (RadioButton) v;
+            radio.setChecked(false);
+        }
+        identificacaoTagVinculada = tag.getIdentificadorTag();
+        activityCommunicator.passDataToActivity(identificacaoTagVinculada);
     }
 
     private class ViewHolderVincTag {

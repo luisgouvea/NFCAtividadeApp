@@ -145,11 +145,11 @@ public class FragmentAddTagCheck extends Fragment {
 
     }
 
-    public void intentNFCTag(Intent intent, int idTag){
+    public void intentNFCTag(Intent intent, String identificadorTag){
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            NdefMessage ndefMessage = createNdefMessage(String.valueOf(idTag));
+            NdefMessage ndefMessage = createNdefMessage(identificadorTag);
 
             writeNdefMessage(tag, ndefMessage);
         }

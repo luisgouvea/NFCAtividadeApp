@@ -18,9 +18,9 @@ public class TarefasListTagAdapter extends RecyclerView.Adapter<TarefasListTagVi
     private List<TAG> mListTag;
 
     // Interface que define as ações
-    private OnListClickInteractionListener mOnListClickInteractionListener;
+    private TarefasListTagViewHolder.ClickListener mOnListClickInteractionListener;
 
-    public TarefasListTagAdapter(List<TAG> tags, OnListClickInteractionListener listener){
+    public TarefasListTagAdapter(List<TAG> tags, TarefasListTagViewHolder.ClickListener listener){
         this.mListTag = tags;
         this.mOnListClickInteractionListener = listener;
     }

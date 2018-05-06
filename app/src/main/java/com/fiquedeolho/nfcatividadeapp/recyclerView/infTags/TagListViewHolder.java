@@ -32,7 +32,8 @@ public class TagListViewHolder extends RecyclerView.ViewHolder {
         this.nomeTag.setText(tag.getNome());
 
 
-        popMenu.setId(tag.getId());
+        //popMenu.setId(tag.getId());
+
         // Adciona evento de click
         this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override

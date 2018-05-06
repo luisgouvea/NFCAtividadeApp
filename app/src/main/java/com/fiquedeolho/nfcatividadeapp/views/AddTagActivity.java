@@ -40,7 +40,7 @@ public class AddTagActivity extends AppCompatActivity {
     private FragmentAddTagCheck fragCheckNFC;
     private FragmentAddTagInf fragInf;
     private ProgressDialog pDialog;
-    private int idTagRandom;
+    private String identificadorTagRandom;
     private Context context;
     private DialogDefaultErro dialogDefaultErro;
 
@@ -56,7 +56,7 @@ public class AddTagActivity extends AppCompatActivity {
         idTagRandom = tsLong.intValue();*/
 
         Long tsLong = System.currentTimeMillis()/1000;
-        idTagRandom = Integer.valueOf(AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES"));
+        identificadorTagRandom = AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES");
         context = this;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,7 +92,7 @@ public class AddTagActivity extends AppCompatActivity {
                     String nomeTagInput = nomeTagEle.getText().toString();
                     TAG tag = new TAG();
                     tag.setNome(nomeTagInput);
-                    tag.setId(idTagRandom);
+                    tag.setIdentificadorTag(identificadorTagRandom);
                     SavePreferences save = new SavePreferences(context);
                     tag.setIdUsuario(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     addTAG(tag);
@@ -174,7 +174,7 @@ public class AddTagActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        fragCheckNFC.intentNFCTag(intent, idTagRandom);
+        fragCheckNFC.intentNFCTag(intent, identificadorTagRandom);
 
         /**
          * TODO : CRIAR UMA MANEIRA DE VALIDAR QUE O USUARIO APROXIMOU A TAG AO CELULAR.

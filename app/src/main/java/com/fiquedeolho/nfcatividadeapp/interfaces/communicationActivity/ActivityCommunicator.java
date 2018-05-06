@@ -1,5 +1,5 @@
 package com.fiquedeolho.nfcatividadeapp.interfaces.communicationActivity;
 
 public interface ActivityCommunicator {
-    void passDataToActivity(int someValue);
+    void passDataToActivity(String someValue);
 }
