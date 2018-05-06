@@ -26,12 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
 import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
+import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
@@ -46,8 +49,9 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
-public class AddAtividadeActivity extends AppCompatActivity {
+public class AddAtividadeActivity<T> extends AppCompatActivity implements Callback<T> {
 
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView[] dots;
@@ -60,6 +64,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private ArrayList<Usuario> listUsuExecutores;
     private int idUsuarioVinc;
     private DialogDefaultErro dialogDefaultErro;
+    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
+    private Callback<T> requestRetrofit = this;
 
     /**
      * ViewHolder dos elementos
@@ -245,7 +251,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean addAtividade(Atividade atividade) {
+    private Boolean addAtividade(final Atividade atividade) {
         AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
         final Call<Boolean> call = atividadeInterface.criarAtividade(atividade);
 
@@ -253,7 +259,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 if(response.code() == 200){
-                    launchHomeScreen();
+                    NotificacaoUsuario notificacao = criarNotificacao(atividade);
+                    notificacaoUsuarioImplementation.requestInsertObject(requestRetrofit, notificacao);
                 }else{
                     if (pDialog != null && pDialog.isShowing()) {
                         pDialog.dismiss();
@@ -274,6 +281,42 @@ public class AddAtividadeActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    private NotificacaoUsuario criarNotificacao(Atividade atividade){
+        NotificacaoUsuario noti = new NotificacaoUsuario();
+        noti.setDescricaoNotificacao("O usuario X criou uma atividade e vinculou voce a ela");
+        noti.setVisualizada(false);
+        noti.setIdUsuario(atividade.getIdUsuarioExecutor());
+        return noti;
+    }
+
+    @Override
+    public void onResponse(Call<T> call, Response<T> response) {
+        APIError error = null;
+        Boolean resultAdd = false;
+        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
+        if (typeResponse != "") {
+            switch (typeResponse) {
+                case "erro":
+                    error = notificacaoUsuarioImplementation.resultError();
+                    if (error.message() != null) {
+                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case "addNotificacaoUsu":
+                    resultAdd = notificacaoUsuarioImplementation.resultInsertObject();
+                    launchHomeScreen();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
+
     }
 
     //	viewpager change listener
@@ -343,7 +386,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     radio.setChecked(false);
                 }
                 Usuario usuario = getUsuarioTarget(id);
-                idUsuarioVinc = usuario.getId();
+                idUsuarioVinc = usuario.getIdUsuario();
             }
         };
 
@@ -361,7 +404,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
     private Usuario getUsuarioTarget(int idUsuario) {
         for (int i = 0; i < listUsuExecutores.size(); i++) {
             Usuario usuario = listUsuExecutores.get(i);
-            if (usuario.getId() == idUsuario) {
+            if (usuario.getIdUsuario() == idUsuario) {
                 return usuario;
             }
         }

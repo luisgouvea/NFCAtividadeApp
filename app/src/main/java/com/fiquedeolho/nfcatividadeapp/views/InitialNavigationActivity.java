@@ -29,7 +29,7 @@ import com.fiquedeolho.nfcatividadeapp.util.BadgeDrawable;
 public class InitialNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private String idUsuario;
+    private int countNotificacoesUsu;
     private ViewHolderInitialHome mViewHolderInitialHome = new ViewHolderInitialHome();
 
     // Titles of the individual pages (displayed in tabs)
@@ -72,7 +72,7 @@ public class InitialNavigationActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (extras != null) {
-            idUsuario = extras.getString("idUsuario");
+            countNotificacoesUsu = extras.getInt("countNotificacoes");
         }
         PAGES = setFragments(extras);
         InitialElementsViews();
@@ -118,11 +118,13 @@ public class InitialNavigationActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.content_menu, menu);
-        setCountNotificacao(this, "9", menu);
+        if(countNotificacoesUsu > 0) {
+            setCountNotificacao(this, countNotificacoesUsu, menu);
+        }
         return true;
     }
 
-    public void setCountNotificacao(Context context, String count, Menu defaultMenu) {
+    public void setCountNotificacao(Context context, int count, Menu defaultMenu) {
         MenuItem menuItem = defaultMenu.findItem(R.id.actionbar_notification);
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
 
@@ -136,7 +138,7 @@ public class InitialNavigationActivity extends AppCompatActivity
             badge = new BadgeDrawable(context);
         }
 
-        badge.setCount(count);
+        badge.setCount(String.valueOf(count));
         icon.mutate();
         icon.setDrawableByLayerId(R.id.ic_notification_count, badge);
     }

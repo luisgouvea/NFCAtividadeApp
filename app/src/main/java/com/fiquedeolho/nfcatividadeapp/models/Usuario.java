@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Usuario implements Parcelable {
 
-    private int Id;
+    private int IdUsuario;
     private String Nome;
 
     public Usuario(Parcel in){
-        Id = in.readInt();
+        IdUsuario = in.readInt();
         Nome = in.readString();
     }
 
@@ -32,12 +32,12 @@ public class Usuario implements Parcelable {
         return Nome;
     }
 
-    public int getId() {
-        return Id;
+    public int getIdUsuario() {
+        return IdUsuario;
     }
 
-    public void setId(int id) {
-        this.Id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.IdUsuario = idUsuario;
     }
 
     public void setNome(String nome) {
@@ -51,7 +51,7 @@ public class Usuario implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(Id);
+        parcel.writeInt(IdUsuario);
         parcel.writeString(Nome);
     }
 }

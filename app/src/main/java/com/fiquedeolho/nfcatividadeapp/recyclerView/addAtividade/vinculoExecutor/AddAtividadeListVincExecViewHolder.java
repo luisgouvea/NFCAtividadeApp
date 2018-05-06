@@ -2,7 +2,6 @@ package com.fiquedeolho.nfcatividadeapp.recyclerView.addAtividade.vinculoExecuto
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -33,7 +32,7 @@ public class AddAtividadeListVincExecViewHolder extends RecyclerView.ViewHolder 
         // Altera valor
         this.nomeUsuario.setText(usuario.getNome());
 
-        this.radioButton.setId(usuario.getId());
+        this.radioButton.setId(usuario.getIdUsuario());
 
         // Adciona evento de click
         this.radioButton.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +42,7 @@ public class AddAtividadeListVincExecViewHolder extends RecyclerView.ViewHolder 
                  * Metodo (onClick) da interface OnListClickInteractionListener,  implementada nesse projeto
                  */
                 radioButton.setChecked(true);
-                listener.onClick(usuario.getId());
+                listener.onClick(usuario.getIdUsuario());
             }
         });
 

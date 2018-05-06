@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
@@ -21,11 +23,14 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity<T> extends AppCompatActivity implements View.OnClickListener, Callback<T> {
 
     private ViewHolder loginViewHolder = new ViewHolder();
     private ProgressDialog pDialog;
+    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
+    private Callback<T> requestRetrofit = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +56,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(pDialog != null && pDialog.isShowing()) {
+        if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
         }
     }
@@ -64,10 +69,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Button btnLogin;
     }
 
-    private void autenticarUsuario(String login, String senha){
+    private void autenticarUsuario(String login, String senha) {
         final Context contextoLogin = this;
         UsuarioRetrofit usuInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
-        ArrayList <String> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         list.add(login);
         list.add(senha);
         final Call<Integer> call = usuInterface.logarUsuario(list);
@@ -82,62 +87,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 int idUsuario = response.body();
                 SavePreferences save = new SavePreferences(contextoLogin);
                 save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
-                Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
-                startActivity(intent);
-                finish();
+                getNotificacoesNaoVista();
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
                 Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(t.getMessage()), Toast.LENGTH_LONG).show();
-                if(pDialog.isShowing()){
+                if (pDialog.isShowing()) {
                     pDialog.dismiss();
                 }
             }
         });
     }
 
-    /*private void autenticarUsuario(String login, String senha) {
-        final Context contextoLogin = this;
-        RequestQueue rq = Volley.newRequestQueue(this);
-        JSONObject params = new JSONObject();
-        try {
-            params.put("login", login);
-            params.put("senha", senha);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void getNotificacoesNaoVista() {
+        SavePreferences save = new SavePreferences(this);
+        int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+        notificacaoUsuarioImplementation.requestCountNotificacoesNaoVista(requestRetrofit, idUsuario);
+
+
+    }
+
+    @Override
+    public void onResponse(Call<T> call, Response<T> response) {
+        APIError error = null;
+        int countNotificacoes = 0;
+        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
+        if (typeResponse != "") {
+            switch (typeResponse) {
+                case "erro":
+                    error = notificacaoUsuarioImplementation.resultError();
+                    if (error.message() != null) {
+                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ocorreu um erro genérico", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case "getCountNotificacoesParaVisualizarUsuario":
+                    countNotificacoes = notificacaoUsuarioImplementation.resultCountNotificacoesNaoVista();
+                    break;
+            }
         }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, ConstantsURIAPI.AUTENTICACAO, params, new Response.Listener<JSONObject>() {
+        Context contextoLogin = this;
+        Bundle bundle = new Bundle();
+        bundle.putInt("countNotificacoes", countNotificacoes);
+        Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
 
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    String idUsuario = response.getString("Id");
-                    Log.d("ResultJSONLogin", response.toString());
-                    Intent intent = new Intent(contextoLogin, InitialNavigationActivity.class);
-                    intent.putExtra("idUsuario", idUsuario);
-                    startActivity(intent);
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Erro", "Error: " + error.getMessage());
-                pDialog.hide();
-                Toast t = Toast.makeText(contextoLogin, "Por favor, tente novamente!", Toast.LENGTH_SHORT);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
-            }
-        });
-
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        // Adding request to request queue
-        rq.add(jsonObjReq);
-    }*/
+    }
 }
