@@ -285,9 +285,10 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
 
     private NotificacaoUsuario criarNotificacao(Atividade atividade){
         NotificacaoUsuario noti = new NotificacaoUsuario();
+        //TODO: gravar nome do usuario no shared preferences para usar aqui
         noti.setDescricaoNotificacao("O usuario X criou uma atividade e vinculou voce a ela");
         noti.setVisualizada(false);
-        noti.setIdUsuario(atividade.getIdUsuarioExecutor());
+        noti.setIdUsuarioNotificado(atividade.getIdUsuarioExecutor());
         return noti;
     }
 

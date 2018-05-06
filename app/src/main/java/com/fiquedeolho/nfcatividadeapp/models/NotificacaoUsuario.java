@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class NotificacaoUsuario implements Serializable {
 
     private int IdNotificacaoUsuario;
-    private int IdUsuario;
+    private int IdUsuarioNotificado;
     private String DescricaoNotificacao;
     private Boolean Visualizada;
 
@@ -17,12 +17,12 @@ public class NotificacaoUsuario implements Serializable {
         IdNotificacaoUsuario = idNotificacaoUsuario;
     }
 
-    public int getIdUsuario() {
-        return IdUsuario;
+    public int getIdUsuarioNotificado() {
+        return IdUsuarioNotificado;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        IdUsuario = idUsuario;
+    public void setIdUsuarioNotificado(int idUsuarioNotificado) {
+        IdUsuarioNotificado = idUsuarioNotificado;
     }
 
     public String getDescricaoNotificacao() {
@@ -49,6 +49,6 @@ public class NotificacaoUsuario implements Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(IdNotificacaoUsuario);
-        dest.writeInt(IdUsuario);
+        dest.writeInt(IdUsuarioNotificado);
     }*/
 }
