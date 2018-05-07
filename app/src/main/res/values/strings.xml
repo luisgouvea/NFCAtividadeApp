@@ -42,6 +42,7 @@
     <string name="list_atividades_vazia_filtro_home">Nenhum resultado encontrado!</string>
     <string name="list_atividades_vazia_home_fazer_ativ">Você não possuí nenhuma atividade para realizar!</string>
     <string name="list_tags_vazia">Não há TAG criada.</string>
+    <string name="list_notificacoes_vazia">Não há nenhuma notificação.</string>
     <string name="list_check_vazia">Não há registro de check NFC.</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />

@@ -78,7 +78,8 @@
                 android:value=".views.InitialNavigationActivity" />
         </activity>
         <activity android:name=".views.InfCheckNFCActivity" />
-        <activity android:name=".views.DetalhesTarefaActivity"></activity>
+        <activity android:name=".views.DetalhesTarefaActivity" />
+        <activity android:name=".views.InfNotificacoesActivity"></activity>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ public interface NotificacaoUsuarioRetrofit {
     Call<Boolean> addNotificacao(@Body NotificacaoUsuario notificacao);
 
     @POST("/api/Notificacao/getNotificacoesByUsuario")
-    Call<ArrayList<NotificacaoUsuario>> getNotificacoesByUsuario(@Body int idUsuario);
+    Call<ArrayList<Object>> getNotificacoesByUsuario(@Body int idUsuario);
 
     @POST("/api/Notificacao/updateNotificacao")
     Call<Boolean> updateNotificacao(@Body NotificacaoUsuario notificacaoUsuario);

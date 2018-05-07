@@ -20,7 +20,7 @@ public class NotificacaoUsuarioImplementation implements BaseObjectRequest {
      * Result
      */
     private NotificacaoUsuarioRetrofit notificacaoUsuarioRetrofit;
-    private ArrayList<NotificacaoUsuario> listNotificacaoByIdUsuario;
+    private ArrayList<Object> listNotificacaoByIdUsuario;
     private APIError error;
     private Boolean insertNotificacao;
     private Boolean updateNotificacao;
@@ -32,7 +32,7 @@ public class NotificacaoUsuarioImplementation implements BaseObjectRequest {
      */
     private Call<Boolean> callAddNotificacaoUsu;
     private Call<Boolean> callUpdateNotificacaoUsu;
-    private Call<ArrayList<NotificacaoUsuario>> callGetAllNotificacaoUsuByIdUsu;
+    private Call<ArrayList<Object>> callGetAllNotificacaoUsuByIdUsu;
     private Call<Integer> callCountNotificacaoUsu;
     private Call<NotificacaoUsuario> callGetNotificacao;
 
@@ -51,13 +51,13 @@ public class NotificacaoUsuarioImplementation implements BaseObjectRequest {
     }
 
     public void requestSelectAllObjectsByIdUsuario(Callback callbackGeneric, int idUsuario) {
-        Callback<ArrayList<NotificacaoUsuario>> callbackListNotiByIdUsu = (Callback<ArrayList<NotificacaoUsuario>>) callbackGeneric;
-        Call<ArrayList<NotificacaoUsuario>> call = notificacaoUsuarioRetrofit.getNotificacoesByUsuario(idUsuario);
+        Callback<ArrayList<Object>> callbackListNotiByIdUsu = (Callback<ArrayList<Object>>) callbackGeneric;
+        Call<ArrayList<Object>> call = notificacaoUsuarioRetrofit.getNotificacoesByUsuario(idUsuario);
         call.enqueue(callbackListNotiByIdUsu);
         this.callGetAllNotificacaoUsuByIdUsu = call;
     }
 
-    public ArrayList resultSelectAllObjectByIdUsuario() {
+    public ArrayList<Object> resultSelectAllObjectByIdUsuario() {
         return listNotificacaoByIdUsuario;
     }
 
@@ -158,7 +158,7 @@ public class NotificacaoUsuarioImplementation implements BaseObjectRequest {
             if (url.contains("updateNotificacao")) {
                 updateNotificacao = (Boolean) response.body();
             } else if (url.contains("getNotificacoesByUsuario")) {
-                listNotificacaoByIdUsuario = (ArrayList<NotificacaoUsuario>) response.body();
+                listNotificacaoByIdUsuario = (ArrayList<Object>) response.body();
             } else if (url.contains("addNotificacao")) {
                 insertNotificacao = (Boolean) response.body();
             } else if (url.contains("getCountNotificacoesParaVisualizarUsuario")) {

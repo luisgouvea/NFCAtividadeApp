@@ -27,7 +27,6 @@ import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeExecutarAtividade;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
-import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
 import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.util.BadgeDrawable;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
@@ -41,7 +40,7 @@ import retrofit2.Response;
 public class InitialNavigationActivity<T> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Callback<T> {
 
-    private int countNotificacoesUsu;
+    public static int countNotificacoesUsu;
     private ViewHolderInitialHome mViewHolderInitialHome = new ViewHolderInitialHome();
 
     // Titles of the individual pages (displayed in tabs)
@@ -133,7 +132,7 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.content_menu, menu);
-        if(countNotificacoesUsu > 0) {
+        if (countNotificacoesUsu > 0) {
             setCountNotificacao(this, countNotificacoesUsu, menu);
         }
         return true;
@@ -168,7 +167,7 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.help_tutorial) {
             return true;
-        } else if(id == R.id.actionbar_notification){
+        } else if (id == R.id.actionbar_notification) {
             SavePreferences save = new SavePreferences(this);
             int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
             notificacaoUsuarioImplementation.requestSelectAllObjectsByIdUsuario(requestRetrofit, idUsuario);
@@ -192,7 +191,12 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
                     }
                     break;
                 case "getAllNotificacaoUsuByIdUsu":
-                    ArrayList<NotificacaoUsuario> notificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
+                    ArrayList<Object> notificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
+                    InfNotificacoesActivity.listaNotificacoes = notificacoes;
+
+                    Intent intent = new Intent(this, InfNotificacoesActivity.class);
+                    startActivity(intent);
+
                     break;
             }
         }
@@ -213,7 +217,7 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_share) {
 
-        }else if (id == R.id.cadastro_tags) {
+        } else if (id == R.id.cadastro_tags) {
             Intent intent = new Intent(this, InfTagsActivity.class);
             startActivity(intent);
         }
