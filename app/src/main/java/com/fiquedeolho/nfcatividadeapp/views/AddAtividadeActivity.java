@@ -49,9 +49,8 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
-public class AddAtividadeActivity<T> extends AppCompatActivity implements Callback<T> {
+public class AddAtividadeActivity extends AppCompatActivity {
 
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView[] dots;
@@ -64,8 +63,6 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
     private ArrayList<Usuario> listUsuExecutores;
     private int idUsuarioVinc;
     private DialogDefaultErro dialogDefaultErro;
-    private NotificacaoUsuarioAddAtividadeImplementation notificacaoUsuarioAddAtividadeImplementation = new NotificacaoUsuarioAddAtividadeImplementation();
-    private Callback<T> requestRetrofit = this;
 
     /**
      * ViewHolder dos elementos
@@ -259,8 +256,7 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 if(response.code() == 200){
-                    NotificacaoUsuarioAddAtividade notificacao = criarNotificacao(atividade);
-                    notificacaoUsuarioAddAtividadeImplementation.requestInsertObject(requestRetrofit, notificacao);
+                    launchHomeScreen();
                 }else{
                     if (pDialog != null && pDialog.isShowing()) {
                         pDialog.dismiss();
@@ -281,44 +277,6 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
             }
         });
         return true;
-    }
-
-    private NotificacaoUsuarioAddAtividade criarNotificacao(Atividade atividade){
-        NotificacaoUsuarioAddAtividade noti = new NotificacaoUsuarioAddAtividade();
-        //TODO: gravar nome do usuario no shared preferences para usar aqui
-        noti.setDescricaoNotificacao("O usuario X criou uma atividade e vinculou voce a ela");
-        noti.setVisualizada(false);
-        noti.setIdUsuarioNotificado(atividade.getIdUsuarioExecutor());
-        noti.setIdAtividade(atividade.getId());
-        return noti;
-    }
-
-    @Override
-    public void onResponse(Call<T> call, Response<T> response) {
-        APIError error = null;
-        Boolean resultAdd = false;
-        String typeResponse = notificacaoUsuarioAddAtividadeImplementation.findResponse(call, response);
-        if (typeResponse != "") {
-            switch (typeResponse) {
-                case "erro":
-                    error = notificacaoUsuarioAddAtividadeImplementation.resultError();
-                    if (error.message() != null) {
-                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case "addNotificacaoAddAtividade":
-                    resultAdd = notificacaoUsuarioAddAtividadeImplementation.resultInsertObject();
-                    launchHomeScreen();
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<T> call, Throwable t) {
-
     }
 
     //	viewpager change listener

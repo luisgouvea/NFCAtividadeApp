@@ -275,9 +275,10 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             }
         };
 
-        if(listAtividadeAdicionadas.size() == 1){
+        /*if(listAtividadeAdicionadas.size() == 1){
             listAtividadeAdicionadas.add(0, new Atividade());
-        }
+        }*/
+        listAtividadeAdicionadas.add(0, new Atividade());
         // 2 - Definir adapter passando listagem de carros e listener
         atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listener, listenerOptionsList, listenerFiltro);
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setAdapter(atividadeListAdapter);

@@ -20,14 +20,26 @@ import android.support.v4.app.FragmentManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.fragments.menuHome.FragmentHomeExecutarAtividade;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
+import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.util.BadgeDrawable;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
-public class InitialNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class InitialNavigationActivity<T> extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, Callback<T> {
 
     private int countNotificacoesUsu;
     private ViewHolderInitialHome mViewHolderInitialHome = new ViewHolderInitialHome();
@@ -64,6 +76,9 @@ public class InitialNavigationActivity extends AppCompatActivity
                 fragExecuteAtiv
         };
     }
+
+    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
+    private Callback<T> requestRetrofit = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,9 +168,39 @@ public class InitialNavigationActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.help_tutorial) {
             return true;
+        } else if(id == R.id.actionbar_notification){
+            SavePreferences save = new SavePreferences(this);
+            int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+            notificacaoUsuarioImplementation.requestSelectAllObjectsByIdUsuario(requestRetrofit, idUsuario);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResponse(Call<T> call, Response<T> response) {
+        APIError error = null;
+        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
+        if (typeResponse != "") {
+            switch (typeResponse) {
+                case "erro":
+                    error = notificacaoUsuarioImplementation.resultError();
+                    if (error.message() != null) {
+                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case "getAllNotificacaoUsuByIdUsu":
+                    ArrayList<NotificacaoUsuario> notificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
