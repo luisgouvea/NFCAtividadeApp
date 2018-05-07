@@ -32,9 +32,9 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
-import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
+import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuarioAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
-import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
+import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioAddAtividadeImplementation;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
@@ -64,7 +64,7 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
     private ArrayList<Usuario> listUsuExecutores;
     private int idUsuarioVinc;
     private DialogDefaultErro dialogDefaultErro;
-    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
+    private NotificacaoUsuarioAddAtividadeImplementation notificacaoUsuarioAddAtividadeImplementation = new NotificacaoUsuarioAddAtividadeImplementation();
     private Callback<T> requestRetrofit = this;
 
     /**
@@ -259,8 +259,8 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
                 if(response.code() == 200){
-                    NotificacaoUsuario notificacao = criarNotificacao(atividade);
-                    notificacaoUsuarioImplementation.requestInsertObject(requestRetrofit, notificacao);
+                    NotificacaoUsuarioAddAtividade notificacao = criarNotificacao(atividade);
+                    notificacaoUsuarioAddAtividadeImplementation.requestInsertObject(requestRetrofit, notificacao);
                 }else{
                     if (pDialog != null && pDialog.isShowing()) {
                         pDialog.dismiss();
@@ -283,12 +283,13 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
         return true;
     }
 
-    private NotificacaoUsuario criarNotificacao(Atividade atividade){
-        NotificacaoUsuario noti = new NotificacaoUsuario();
+    private NotificacaoUsuarioAddAtividade criarNotificacao(Atividade atividade){
+        NotificacaoUsuarioAddAtividade noti = new NotificacaoUsuarioAddAtividade();
         //TODO: gravar nome do usuario no shared preferences para usar aqui
         noti.setDescricaoNotificacao("O usuario X criou uma atividade e vinculou voce a ela");
         noti.setVisualizada(false);
         noti.setIdUsuarioNotificado(atividade.getIdUsuarioExecutor());
+        noti.setIdAtividade(atividade.getId());
         return noti;
     }
 
@@ -296,19 +297,19 @@ public class AddAtividadeActivity<T> extends AppCompatActivity implements Callba
     public void onResponse(Call<T> call, Response<T> response) {
         APIError error = null;
         Boolean resultAdd = false;
-        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
+        String typeResponse = notificacaoUsuarioAddAtividadeImplementation.findResponse(call, response);
         if (typeResponse != "") {
             switch (typeResponse) {
                 case "erro":
-                    error = notificacaoUsuarioImplementation.resultError();
+                    error = notificacaoUsuarioAddAtividadeImplementation.resultError();
                     if (error.message() != null) {
                         Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
                     }
                     break;
-                case "addNotificacaoUsu":
-                    resultAdd = notificacaoUsuarioImplementation.resultInsertObject();
+                case "addNotificacaoAddAtividade":
+                    resultAdd = notificacaoUsuarioAddAtividadeImplementation.resultInsertObject();
                     launchHomeScreen();
                     break;
             }
