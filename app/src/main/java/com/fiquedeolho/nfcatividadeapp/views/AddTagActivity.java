@@ -56,7 +56,7 @@ public class AddTagActivity extends AppCompatActivity {
         idTagRandom = tsLong.intValue();*/
 
         Long tsLong = System.currentTimeMillis()/1000;
-        identificadorTagRandom = AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES");
+        identificadorTagRandom = AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES").trim();
         context = this;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -151,9 +151,8 @@ public class RegrasTarefasActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.mnu_precedencia_tarefa_regra:
-                                Tarefa tarefa = getTarefaTarget(idTarefa);
+                                PrecedenciaTarefaActivity.tarefaTarget = getTarefaTarget(idTarefa);
                                 Bundle bundle = new Bundle();
-                                bundle.putParcelable("tarefaTarget", tarefa);
                                 bundle.putInt("IdAtividade", IdAtividade);
 
                                 Intent intent = new Intent(getApplicationContext(), PrecedenciaTarefaActivity.class);

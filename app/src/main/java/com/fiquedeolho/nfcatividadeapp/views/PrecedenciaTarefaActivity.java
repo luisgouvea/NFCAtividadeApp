@@ -34,7 +34,7 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
 
     private int IdAtividade;
     private ArrayList<Tarefa> listTarefas = new ArrayList<>();
-    private Tarefa tarefaTarget;
+    public static Tarefa tarefaTarget;
     private ViewHolderPrecedenciaTarefas mViewHolderPrecedenciaTarefas = new ViewHolderPrecedenciaTarefas();
     private TarefasListPrecedenciaAdapter tarefasListPrecedenciaAdapter;
     private ProgressDialog pDialog;
@@ -54,7 +54,6 @@ public class PrecedenciaTarefaActivity extends AppCompatActivity implements View
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdAtividade = extras.getInt("IdAtividade");
-            tarefaTarget = extras.getParcelable("tarefaTarget");
         }
         this.mViewHolderPrecedenciaTarefas.mViewTextNameTarefaTarget = findViewById(R.id.name_tarefa_target);
         this.mViewHolderPrecedenciaTarefas.mViewTextNameTarefaTarget.setText(tarefaTarget.getNome());
