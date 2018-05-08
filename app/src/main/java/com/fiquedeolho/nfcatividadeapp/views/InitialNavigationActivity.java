@@ -37,8 +37,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InitialNavigationActivity<T> extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Callback<T> {
+public class InitialNavigationActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int countNotificacoesUsu;
     private ViewHolderInitialHome mViewHolderInitialHome = new ViewHolderInitialHome();
@@ -75,9 +75,6 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
                 fragExecuteAtiv
         };
     }
-
-    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
-    private Callback<T> requestRetrofit = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,43 +165,11 @@ public class InitialNavigationActivity<T> extends AppCompatActivity
         if (id == R.id.help_tutorial) {
             return true;
         } else if (id == R.id.actionbar_notification) {
-            SavePreferences save = new SavePreferences(this);
-            int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
-            notificacaoUsuarioImplementation.requestSelectAllObjectsByIdUsuario(requestRetrofit, idUsuario);
+            Intent intent = new Intent(this, InfNotificacoesActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResponse(Call<T> call, Response<T> response) {
-        APIError error = null;
-        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
-        if (typeResponse != "") {
-            switch (typeResponse) {
-                case "erro":
-                    error = notificacaoUsuarioImplementation.resultError();
-                    if (error.message() != null) {
-                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case "getAllNotificacaoUsuByIdUsu":
-                    ArrayList<Object> notificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
-                    InfNotificacoesActivity.listaNotificacoes = notificacoes;
-
-                    Intent intent = new Intent(this, InfNotificacoesActivity.class);
-                    startActivity(intent);
-
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<T> call, Throwable t) {
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

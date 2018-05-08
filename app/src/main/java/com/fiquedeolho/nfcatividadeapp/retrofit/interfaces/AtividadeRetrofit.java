@@ -20,6 +20,9 @@ public interface AtividadeRetrofit {
     @POST("/api/Atividade/criarAtividade")
     Call<Boolean> criarAtividade(@Body Atividade ativ);
 
+    @POST("/api/Atividade/getAtividadeById")
+    Call<Atividade> getAtividadeById(@Body int idAtividade);
+
     @POST("/api/Atividade/filtrarAtividadesAdicionar")
     Call<ArrayList<Atividade>> filtrarAtividadesAdicionar(@Body FiltroPesquisaHome filtro);
 

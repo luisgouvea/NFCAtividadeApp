@@ -79,7 +79,10 @@
         </activity>
         <activity android:name=".views.InfCheckNFCActivity" />
         <activity android:name=".views.DetalhesTarefaActivity" />
-        <activity android:name=".views.InfNotificacoesActivity"></activity>
+        <activity android:name=".views.InfNotificacoesActivity"
+            android:label="Notificações"/>
+        <activity android:name=".views.InfNotificacaoAddAtividadeActivity"
+            android:label="Detalhes da Notificação"></activity>
     </application>
 
 </manifest>

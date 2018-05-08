@@ -1,5 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,24 +10,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
+import com.fiquedeolho.nfcatividadeapp.models.APIError;
 import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuarioAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuarioProblemaTarefa;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infNotificacoes.NotificacaoListAdapter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.infNotificacoes.NotificacaoListViewHolder;
+import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class InfNotificacoesActivity extends AppCompatActivity implements NotificacaoListViewHolder.ClickListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class InfNotificacoesActivity<T> extends AppCompatActivity implements NotificacaoListViewHolder.ClickListener, Callback<T> {
 
     private ViewHolderInfNotificacoes mViewHolderInfNotificacoes = new ViewHolderInfNotificacoes();
-    public static ArrayList<Object> listaNotificacoes;
+    public ArrayList<Object> listaNotificacoes;
     private DialogDefaultErro dialogDefaultErro;
     private NotificacaoListViewHolder.ClickListener listener = this;
     private NotificacaoListAdapter notificacaoListAdapter;
+    private ProgressDialog progressDialogListNoti;
+    private NotificacaoUsuarioImplementation notificacaoUsuarioImplementation = new NotificacaoUsuarioImplementation();
+    private Callback<T> requestRetrofit = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +52,59 @@ public class InfNotificacoesActivity extends AppCompatActivity implements Notifi
         dialogDefaultErro = DialogDefaultErro.newInstance();
 
         this.mViewHolderInfNotificacoes.mViewTextListNotificacoesVazia = findViewById(R.id.textListNotificacoesVazia);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        SetarRecyclerView();
+        progressDialogListNoti = new ProgressDialog(this);
+        progressDialogListNoti.setMessage(getString(R.string.message_progress_dialog));
+        progressDialogListNoti.setCancelable(false);
+        progressDialogListNoti.show();
+        SavePreferences save = new SavePreferences(this);
+        int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+        notificacaoUsuarioImplementation.requestSelectAllObjectsByIdUsuario(requestRetrofit, idUsuario);
     }
 
+    @Override
+    public void onResponse(Call<T> call, Response<T> response) {
+        APIError error = null;
+        String typeResponse = notificacaoUsuarioImplementation.findResponse(call, response);
+        if (typeResponse != "") {
+            switch (typeResponse) {
+                case "erro":
+                    error = notificacaoUsuarioImplementation.resultError();
+                    if (error.message() != null) {
+                        Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case "getAllNotificacaoUsuByIdUsu":
+                    listaNotificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
+                    SetarRecyclerView();
+                    if (progressDialogListNoti != null && progressDialogListNoti.isShowing()) {
+                        progressDialogListNoti.dismiss();
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
+        if (progressDialogListNoti != null && progressDialogListNoti.isShowing()) {
+            progressDialogListNoti.dismiss();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (progressDialogListNoti != null && progressDialogListNoti.isShowing()) {
+            progressDialogListNoti.dismiss();
+        }
+    }
     private void SetarRecyclerView() {
 
         // 1 - Obter a recyclerview
@@ -92,16 +149,11 @@ public class InfNotificacoesActivity extends AppCompatActivity implements Notifi
         Object obj = listaNotificacoes.get(position);
         String json = gson.toJson(obj);
         try {
-            notificacaoUsuarioAddAtividade = gson.fromJson(json, NotificacaoUsuarioAddAtividade.class);
+            InfNotificacaoAddAtividadeActivity.notificacaoUsuarioAddAtividade = gson.fromJson(json, NotificacaoUsuarioAddAtividade.class);
+            Intent intent = new Intent(this, InfNotificacaoAddAtividadeActivity.class);
+            startActivity(intent);
         } catch (Exception e) {
             notificacaoUsuarioProblemaTarefa = gson.fromJson(json, NotificacaoUsuarioProblemaTarefa.class);
-        }
-        if (notificacaoUsuarioAddAtividade != null) {
-            // notificacao add atividade
-            if(notificacaoUsuarioAddAtividade.getVisualizada() == false){
-                InitialNavigationActivity.countNotificacoesUsu -= 1;
-            }
-        } else {
             // notificacao problema
             if(notificacaoUsuarioProblemaTarefa.getVisualizada() == false){
                 InitialNavigationActivity.countNotificacoesUsu -= 1;

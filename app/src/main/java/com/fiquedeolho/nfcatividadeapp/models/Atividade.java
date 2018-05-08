@@ -3,6 +3,7 @@ package com.fiquedeolho.nfcatividadeapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Atividade implements Parcelable {
 
@@ -13,6 +14,8 @@ public class Atividade implements Parcelable {
     private int IdUsuarioExecutor;
     private Boolean RepetirTarefa;
     private ArrayList<Tarefa> listTarefas;
+    private Date DataCriacao;
+    private int IdStatus;
 
     public Atividade() {
         listTarefas = new ArrayList<Tarefa>();
@@ -68,6 +71,18 @@ public class Atividade implements Parcelable {
         return IdUsuarioExecutor;
     }
 
+    public Boolean getRepetirTarefa() {
+        return RepetirTarefa;
+    }
+
+    public Date getDataCriacao() {
+        return DataCriacao;
+    }
+
+    public int getIdStatus() {
+        return IdStatus;
+    }
+
     /**
      * SETS
      */
@@ -95,8 +110,12 @@ public class Atividade implements Parcelable {
         this.IdUsuarioExecutor = idUsuarioExecutor;
     }
 
-    public Boolean getRepetirTarefa() {
-        return RepetirTarefa;
+    public void setIdStatus(int idStatus) {
+        IdStatus = idStatus;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        DataCriacao = dataCriacao;
     }
 
     public void setRepetirTarefa(Boolean repetirTarefa) {
