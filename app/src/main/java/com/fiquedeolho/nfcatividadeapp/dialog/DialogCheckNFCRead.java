@@ -34,6 +34,7 @@ import com.fiquedeolho.nfcatividadeapp.models.APIError;
 import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.TarefaCheckRetrofit;
+import com.fiquedeolho.nfcatividadeapp.util.criptografia.AESEncryptor;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -209,7 +210,8 @@ public class DialogCheckNFCRead extends DialogFragment {
         pDialog.show();
         TarefaCheckRetrofit tarefaCheckInterface = BaseUrlRetrofit.retrofit.create(TarefaCheckRetrofit.class);
 
-        final Call<String[]> call = tarefaCheckInterface.realizarCheck(identificadorTag, idTarefa);
+        String identificadorTagDecrypt = AESEncryptor.decrypt(identificadorTag, "keyEncryptor", "AES").trim();
+        final Call<String[]> call = tarefaCheckInterface.realizarCheck(Integer.valueOf(identificadorTagDecrypt), idTarefa);
 
         call.enqueue(new Callback<String[]>() {
 

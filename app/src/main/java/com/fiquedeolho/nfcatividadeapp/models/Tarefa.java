@@ -10,7 +10,7 @@ public class Tarefa  implements Parcelable{
 
     public int IdTarefa;
     public int IdAtividade;
-    public String IdentificadorTag;
+    public int IdentificadorTag;
     public int IdStatusExecucao;
     public String Nome;
     public String Comentario;
@@ -22,7 +22,7 @@ public class Tarefa  implements Parcelable{
     public Tarefa(Parcel in) {
         IdTarefa = in.readInt();
         IdAtividade = in.readInt();
-        IdentificadorTag = in.readString();
+        IdentificadorTag = in.readInt();
         IdStatusExecucao = in.readInt();
         Nome = in.readString();
         Comentario = in.readString();
@@ -84,7 +84,7 @@ public class Tarefa  implements Parcelable{
         return IdTarefa;
     }
 
-    public String getIdentificadorTag() {
+    public int getIdentificadorTag() {
         return IdentificadorTag;
     }
 
@@ -96,7 +96,7 @@ public class Tarefa  implements Parcelable{
         this.IdTarefa = idTarefa;
     }
 
-    public void setIdentificadorTag(String identificadorTag) {
+    public void setIdentificadorTag(int identificadorTag) {
         this.IdentificadorTag = identificadorTag;
     }
 
@@ -160,7 +160,7 @@ public class Tarefa  implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(IdTarefa);
-        parcel.writeString(IdentificadorTag);
+        parcel.writeInt(IdentificadorTag);
         parcel.writeInt(IdAtividade);
         parcel.writeInt(IdStatusExecucao);
         parcel.writeString(Nome);

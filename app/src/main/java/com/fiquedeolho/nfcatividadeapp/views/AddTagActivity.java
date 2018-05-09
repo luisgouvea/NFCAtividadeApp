@@ -41,6 +41,7 @@ public class AddTagActivity extends AppCompatActivity {
     private FragmentAddTagInf fragInf;
     private ProgressDialog pDialog;
     private String identificadorTagRandom;
+    private int idTagBanco;
     private Context context;
     private DialogDefaultErro dialogDefaultErro;
 
@@ -56,6 +57,7 @@ public class AddTagActivity extends AppCompatActivity {
         idTagRandom = tsLong.intValue();*/
 
         Long tsLong = System.currentTimeMillis()/1000;
+        idTagBanco = tsLong.intValue();
         identificadorTagRandom = AESEncryptor.encrypt(tsLong.toString(), "keyEncryptor", "AES").trim();
         context = this;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -92,7 +94,7 @@ public class AddTagActivity extends AppCompatActivity {
                     String nomeTagInput = nomeTagEle.getText().toString();
                     TAG tag = new TAG();
                     tag.setNome(nomeTagInput);
-                    tag.setIdentificadorTag(identificadorTagRandom);
+                    tag.setIdentificadorTag(idTagBanco);
                     SavePreferences save = new SavePreferences(context);
                     tag.setIdUsuario(save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     addTAG(tag);

@@ -36,7 +36,7 @@ import retrofit2.Callback;
 
 public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickListener, TarefasListTagViewHolder.ClickListener {
 
-    private String identificacaoTagVinculada;
+    private int identificacaoTagVinculada;
     private TarefasListTagAdapter tarefasListTagAdapter;
     private ViewHolderVincTag mViewHolderVincTag = new ViewHolderVincTag();
     private ArrayList<TAG> listaTags;
@@ -129,7 +129,7 @@ public class FragmentAddTarefaVincTag  extends Fragment implements View.OnClickL
     @Override
     public void radioClicked(View v, int position) {
         TAG tag = listaTags.get(position);
-        if (identificacaoTagVinculada != null) {
+        if (identificacaoTagVinculada != 0) {
             RadioButton radio = (RadioButton) v;
             radio.setChecked(false);
         }

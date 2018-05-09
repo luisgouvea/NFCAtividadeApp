@@ -39,7 +39,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     private Context context;
     private TextView[] dots;
     private PagerAddTarefaAdapter pagerAdapter;
-    private String identificadorTagVinculada;
+    private int identificadorTagVinculada;
     private FragmentAddTarefaVincTag fragVincTag;
     private DialogDefaultErro dialogDefaultErro;
 
@@ -255,7 +255,7 @@ public class AddTarefaActivity extends AppCompatActivity implements ActivityComm
     }
 
     @Override
-    public void passDataToActivity(String identificadorTag) {
+    public void passDataToActivity(int identificadorTag) {
         this.identificadorTagVinculada = identificadorTag;
     }
 
