@@ -1,6 +1,7 @@
 package com.fiquedeolho.nfcatividadeapp.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class NotificacaoUsuario implements Serializable {
 
@@ -8,6 +9,7 @@ public class NotificacaoUsuario implements Serializable {
     private int IdUsuarioNotificado;
     private String DescricaoNotificacao;
     private Boolean Visualizada;
+    private Date DataNotificacao;
 
     public int getIdNotificacaoUsuario() {
         return IdNotificacaoUsuario;
@@ -41,14 +43,11 @@ public class NotificacaoUsuario implements Serializable {
         Visualizada = visualizada;
     }
 
-    /*@Override
-    public int describeContents() {
-        return 0;
+    public Date getDataNotificacao() {
+        return DataNotificacao;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(IdNotificacaoUsuario);
-        dest.writeInt(IdUsuarioNotificado);
-    }*/
+    public void setDataNotificacao(Date dataNotificacao) {
+        DataNotificacao = dataNotificacao;
+    }
 }

@@ -1,12 +1,14 @@
 package com.fiquedeolho.nfcatividadeapp.recyclerView.infNotificacoes;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
+import com.fiquedeolho.nfcatividadeapp.util.Convert;
 
 import org.w3c.dom.Text;
 
@@ -15,6 +17,7 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
     // Elemento de interface
     private LinearLayout container_row;
     private TextView descricaoNotificacao;
+    private TextView dataNotificacao;
     private ClickListener listener;
 
     /**
@@ -24,6 +27,7 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
         super(itemView);
         this.descricaoNotificacao = itemView.findViewById(R.id.text_descricao_notificacao);
         this.container_row = itemView.findViewById(R.id.container_row_notificacao);
+        this.dataNotificacao = itemView.findViewById(R.id.text_data_notificacao);
     }
 
     /**
@@ -31,8 +35,9 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
      */
     public void bindData(final NotificacaoUsuario notificacaoUsuario , ClickListener listener ) {
         this.listener = listener;
-        // Altera valor
-        this.descricaoNotificacao.setText(notificacaoUsuario.getDescricaoNotificacao());
+
+        this.descricaoNotificacao.setText(Html.fromHtml(notificacaoUsuario.getDescricaoNotificacao()));
+        this.dataNotificacao.setText(Convert.formatDate(notificacaoUsuario.getDataNotificacao()));
         this.container_row.setOnClickListener(this);
     }
 

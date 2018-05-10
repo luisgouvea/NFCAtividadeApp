@@ -26,15 +26,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.dialog.DialogDefaultErro;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
-import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuarioAddAtividade;
 import com.fiquedeolho.nfcatividadeapp.retrofit.ErrorUtils;
-import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioAddAtividadeImplementation;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.AtividadeRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;

@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/mnu_item_realizar_check_tarefa" android:title="Realizar Check" />
+    <item android:id="@+id/mnu_item_sinalizar_problema_tarefa" android:title="Sinalizar problema" />
     <item android:id="@+id/mnu_item_detalhes_tarefa_executor" android:title="Detalhes" />
 </menu>
