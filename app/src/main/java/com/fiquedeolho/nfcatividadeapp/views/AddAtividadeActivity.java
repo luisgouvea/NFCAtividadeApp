@@ -21,9 +21,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -69,6 +71,9 @@ public class AddAtividadeActivity extends AppCompatActivity {
         private ViewPager mViewPagerAddAtividade;
         private Button mViewBtnNext;
         private Button mViewBtnSkip;
+        private LinearLayout mViewContentOpcoesFormaExecucaoDia;
+        private LinearLayout mViewContentRepeticaoFluxoCompleto;
+        private LinearLayout mViewContentDiaEspecifico;
     }
 
     /**
@@ -142,14 +147,14 @@ public class AddAtividadeActivity extends AppCompatActivity {
                      */
                     EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
                     EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
-                    Switch repeticaoTarefaEle = linear.findViewById(R.id.repeticao_tarefa_add_atividade);
+                    //Switch repeticaoTarefaEle = linear.findViewById(R.id.repeticao_tarefa_add_atividade);
 
                     /**
-                    * SET ELEMENTOS
-                    */
+                     * SET ELEMENTOS
+                     */
                     String nomeAtividadeInput = nomeAtivEle.getText().toString();
                     String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
-                    Boolean repetirTarefa = repeticaoTarefaEle.isChecked();
+                    //Boolean repetirTarefa = repeticaoTarefaEle.isChecked();
 
                     /**
                      * CRIA ATIVIDADE
@@ -158,7 +163,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     Atividade atividade = new Atividade();
                     atividade.setNome(nomeAtividadeInput);
                     //atividade.setDataFinalizacao(dataFinalizacaoInput);
-                    atividade.setRepetirTarefa(repetirTarefa);
+                    //atividade.setRepetirTarefa(repetirTarefa);
                     atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     atividade.setIdUsuarioExecutor(idUsuarioVinc);
                     addAtividade(atividade);
@@ -168,6 +173,57 @@ public class AddAtividadeActivity extends AppCompatActivity {
         });
 
         //getList de usuarios no banco
+    }
+
+    public void HabilitaInfFormaExecDia(View v) {
+        this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia = findViewById(R.id.content_opcoes_forma_execucao_dia);
+        this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto = findViewById(R.id.content_repeticao_fluxo_completo);
+        this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia.setVisibility(View.VISIBLE);
+        this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto.setVisibility(View.VISIBLE);
+    }
+
+
+    public void DesabilitaInfFormaExecDia(View v) {
+        this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia = findViewById(R.id.content_opcoes_forma_execucao_dia);
+        this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto = findViewById(R.id.content_repeticao_fluxo_completo);
+        this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia.setVisibility(View.GONE);
+        this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto.setVisibility(View.GONE);
+    }
+
+    public void HabilitarDiaEspecifico(View v) {
+        this.mViewHolderAddAtividade.mViewContentDiaEspecifico = findViewById(R.id.content_dia_especifico);
+        this.mViewHolderAddAtividade.mViewContentDiaEspecifico.setVisibility(View.VISIBLE);
+    }
+
+    public void DesabilitarDiaEspecifico(View v) {
+        this.mViewHolderAddAtividade.mViewContentDiaEspecifico = findViewById(R.id.content_dia_especifico);
+        this.mViewHolderAddAtividade.mViewContentDiaEspecifico.setVisibility(View.GONE);
+    }
+
+
+    public void HabilitarQtdRepeticoes(View v) {
+        LinearLayout linear = findViewById(R.id.qtd_numero_repeticoes_fluxo_completo);
+        linear.setVisibility(View.VISIBLE);
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
+    public void DesabilitarQtdRepeticoes(View v) {
+        LinearLayout linear = findViewById(R.id.qtd_numero_repeticoes_fluxo_completo);
+        linear.setVisibility(View.GONE);
+
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 
     private void ListAllUsuarioAddAtivVincExecutor() {
@@ -240,7 +296,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
         if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
         }
-        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+        if (dialogDefaultErro != null && dialogDefaultErro.isVisible()) {
             dialogDefaultErro.dismiss();
         }
     }
@@ -252,15 +308,15 @@ public class AddAtividadeActivity extends AppCompatActivity {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                if(response.code() == 200){
+                if (response.code() == 200) {
                     launchHomeScreen();
-                }else{
+                } else {
                     if (pDialog != null && pDialog.isShowing()) {
                         pDialog.dismiss();
                     }
                     APIError error = ErrorUtils.parseError(response);
                     dialogDefaultErro.setTextErro(error.message());
-                    dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                    dialogDefaultErro.show(getSupportFragmentManager(), "dialog");
                 }
             }
 
@@ -270,7 +326,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     pDialog.dismiss();
                 }
                 dialogDefaultErro.setTextErro(t.getMessage());
-                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
+                dialogDefaultErro.show(getSupportFragmentManager(), "dialog");
             }
         });
         return true;
