@@ -28,6 +28,7 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
@@ -136,10 +137,10 @@ public class AddAtividadeActivity extends AppCompatActivity {
                     // move to next screen
                     mViewHolderAddAtividade.mViewPagerAddAtividade.setCurrentItem(current);
                 } else {
-                    //addAtividadeDB = true;
-                    pDialog = new ProgressDialog(context);
+                    Boolean faltaCampo = false;
+                    /*pDialog = new ProgressDialog(context);
                     pDialog.setMessage("Aguarde, criando atividade...");
-                    pDialog.show();
+                    pDialog.show();*/
                     LinearLayout linear = mViewHolderAddAtividade.mViewPagerAddAtividade.findViewById(R.id.first_content_linear_layout_add_ativ);
 
                     /**
@@ -147,26 +148,88 @@ public class AddAtividadeActivity extends AppCompatActivity {
                      */
                     EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
                     EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
-                    //Switch repeticaoTarefaEle = linear.findViewById(R.id.repeticao_tarefa_add_atividade);
+                    RadioButton ativSequencial = linear.findViewById(R.id.forma_execucao_tarefa_finaliza);
+                    RadioButton ativPorDia = linear.findViewById(R.id.forma_execucao_por_dia);
+                    RadioButton execPorDiaSim = linear.findViewById(R.id.execucao_todo_dia_sim);
+                    RadioButton execPorDiaNao = linear.findViewById(R.id.execucao_todo_dia_nao);
+                    RadioButton reptFluxoSemLimite = linear.findViewById(R.id.repeti_fluxo_compl_semLimite);
+                    RadioButton reptFluxoQtdEsp = linear.findViewById(R.id.repeti_fluxo_compl_qtdEsp);
+                    EditText diaExecucaoEle = linear.findViewById(R.id.editText_dia_especifico);
+                    EditText numMaximoCicloEle = linear.findViewById(R.id.editText_repeticao_fluxo_rept_fluxo);
 
                     /**
                      * SET ELEMENTOS
                      */
                     String nomeAtividadeInput = nomeAtivEle.getText().toString();
                     String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
-                    //Boolean repetirTarefa = repeticaoTarefaEle.isChecked();
+                    int maneiraExecucao = 0;
+                    int numMaximoCicloFinal = 0;
+                    String diaExecucaoFinal = null;
+                    if (ativSequencial.isChecked()) {
+                        maneiraExecucao = 1;
+                    } else if (ativPorDia.isChecked()) {
+                        maneiraExecucao = 2;
+                        if (execPorDiaNao.isChecked()) {
+                            if (diaExecucaoEle == null || diaExecucaoEle.getText().toString().isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "Por favor, preencha o dia de execucao", Toast.LENGTH_LONG).show();
+                                faltaCampo = true;
+                                return;
+                            } else {
+                                diaExecucaoFinal = diaExecucaoEle.getText().toString();
+                            }
+                        } else if (execPorDiaSim.isChecked() == false) {
+                            Toast.makeText(getApplicationContext(), "Defina a ocorrência do dia", Toast.LENGTH_LONG).show();
+                            faltaCampo = true;
+                            return;
+                        }
+
+                        if (!reptFluxoSemLimite.isChecked() && !reptFluxoQtdEsp.isChecked()) {
+                            Toast.makeText(getApplicationContext(), "Por favor, preencha a repetição do fluxo", Toast.LENGTH_LONG).show();
+                            faltaCampo = true;
+                            return;
+                        }
+                        if (reptFluxoQtdEsp.isChecked()) {
+                            if (numMaximoCicloEle == null || numMaximoCicloEle.getText().toString().isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "Por favor, preencha a quantidade especifíca de repetições", Toast.LENGTH_LONG).show();
+                                faltaCampo = true;
+                                return;
+                            }
+                            numMaximoCicloFinal = Integer.parseInt(numMaximoCicloEle.getText().toString());
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Por favor, preencha o modo de execução da atividade", Toast.LENGTH_LONG).show();
+                        faltaCampo = true;
+                        return;
+                    }
 
                     /**
                      * CRIA ATIVIDADE
                      */
                     SavePreferences shared = new SavePreferences(context);
                     Atividade atividade = new Atividade();
+                    if (maneiraExecucao != 0) {
+                        atividade.setIdModoExecucao(maneiraExecucao);
+                    }
+                    if (diaExecucaoFinal != null && !diaExecucaoFinal.isEmpty()) {
+                        atividade.setDiaExecucao(diaExecucaoFinal);
+                    }
+                    if (numMaximoCicloFinal != 0) {
+                        atividade.setNumMaximoCiclo(numMaximoCicloFinal);
+                    }
                     atividade.setNome(nomeAtividadeInput);
-                    //atividade.setDataFinalizacao(dataFinalizacaoInput);
-                    //atividade.setRepetirTarefa(repetirTarefa);
                     atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     atividade.setIdUsuarioExecutor(idUsuarioVinc);
-                    addAtividade(atividade);
+                    //atividade.setDataFinalizacao(dataFinalizacaoInput);
+                    if (faltaCampo == false) {
+                        pDialog = new ProgressDialog(context);
+                        pDialog.setMessage("Aguarde, criando atividade...");
+                        pDialog.show();
+                        addAtividade(atividade);
+                    } else {
+                        if (pDialog != null && pDialog.isShowing()) {
+                            pDialog.dismiss();
+                        }
+                    }
                     //launchHomeScreen();
                 }
             }

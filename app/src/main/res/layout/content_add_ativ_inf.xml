@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forma de execução: "
+                android:text="Modo de execução: "
                 android:textSize="19sp" />
 
             <RadioGroup
@@ -169,6 +169,7 @@
                 android:layout_height="wrap_content">
 
                 <RadioButton
+                    android:id="@+id/repeti_fluxo_compl_semLimite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="DesabilitarQtdRepeticoes"
@@ -176,6 +177,7 @@
 
 
                 <RadioButton
+                    android:id="@+id/repeti_fluxo_compl_qtdEsp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="HabilitarQtdRepeticoes"
@@ -194,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Quantas repetições (ciclos completos) ?" />
+                    android:text="Quantas repetições (ciclos) ?" />
 
                 <EditText
                     android:id="@+id/editText_repeticao_fluxo_rept_fluxo"

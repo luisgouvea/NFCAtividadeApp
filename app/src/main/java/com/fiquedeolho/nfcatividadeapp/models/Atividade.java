@@ -15,6 +15,10 @@ public class Atividade implements Parcelable {
     private ArrayList<Tarefa> listTarefas;
     private Date DataCriacao;
     private int IdStatus;
+    private int IdModoExecucao;
+    private String DiaExecucao;
+
+    private int NumMaximoCiclo;
 
     public Atividade() {
         listTarefas = new ArrayList<Tarefa>();
@@ -104,12 +108,36 @@ public class Atividade implements Parcelable {
         this.IdUsuarioExecutor = idUsuarioExecutor;
     }
 
+    public void setNumMaximoCiclo(int numMaximoCiclo) {
+        NumMaximoCiclo = numMaximoCiclo;
+    }
+
     public void setIdStatus(int idStatus) {
         IdStatus = idStatus;
     }
 
     public void setDataCriacao(Date dataCriacao) {
         DataCriacao = dataCriacao;
+    }
+
+    public void setIdModoExecucao(int idModoExecucao) {
+        IdModoExecucao = idModoExecucao;
+    }
+
+    public void setDiaExecucao(String diaExecucao) {
+        DiaExecucao = diaExecucao;
+    }
+
+    public int getIdModoExecucao() {
+        return IdModoExecucao;
+    }
+
+    public String getDiaExecucao() {
+        return DiaExecucao;
+    }
+
+    public int getNumMaximoCiclo() {
+        return NumMaximoCiclo;
     }
 
     @Override
