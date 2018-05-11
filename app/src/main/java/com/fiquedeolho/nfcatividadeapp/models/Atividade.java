@@ -12,7 +12,6 @@ public class Atividade implements Parcelable {
     private int Id;
     private int IdUsuarioCriador;
     private int IdUsuarioExecutor;
-    private Boolean RepetirTarefa;
     private ArrayList<Tarefa> listTarefas;
     private Date DataCriacao;
     private int IdStatus;
@@ -25,7 +24,6 @@ public class Atividade implements Parcelable {
     protected Atividade(Parcel in) {
         Nome = in.readString();
         Descricao = in.readString();
-        RepetirTarefa = in.readByte() != 0;
         Id = in.readInt();
         IdUsuarioCriador = in.readInt();
         IdUsuarioExecutor = in.readInt();
@@ -71,10 +69,6 @@ public class Atividade implements Parcelable {
         return IdUsuarioExecutor;
     }
 
-    public Boolean getRepetirTarefa() {
-        return RepetirTarefa;
-    }
-
     public Date getDataCriacao() {
         return DataCriacao;
     }
@@ -118,10 +112,6 @@ public class Atividade implements Parcelable {
         DataCriacao = dataCriacao;
     }
 
-    public void setRepetirTarefa(Boolean repetirTarefa) {
-        RepetirTarefa = repetirTarefa;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -132,7 +122,6 @@ public class Atividade implements Parcelable {
         parcel.writeString(Nome);
         parcel.writeString(Descricao);
         parcel.writeInt(Id);
-        parcel.writeByte((byte) (RepetirTarefa ? 1 : 0));
         parcel.writeInt(IdUsuarioCriador);
         parcel.writeInt(IdUsuarioExecutor);
         parcel.writeTypedList(listTarefas);
