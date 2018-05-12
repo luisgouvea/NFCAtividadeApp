@@ -14,7 +14,7 @@
 
         <View
             android:layout_width="8dp"
-            android:layout_height="80dp"
+            android:layout_height="135dp"
             android:background="#424242" />
 
     </LinearLayout>
@@ -29,7 +29,7 @@
         android:weightSum="1.00">
 
         <TextView
-            android:layout_weight="0.70"
+            android:layout_weight="0.55"
             android:id="@+id/text_descricao_notificacao"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -37,7 +37,27 @@
             android:text="A partir de hoje..."/>
 
         <TextView
-            android:layout_weight="0.30"
+            android:layout_weight="0.25"
+
+            android:id="@+id/text_status_visualizada_sim"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="17sp"
+            android:text="Já visualizada"
+            android:textColor="#28a745"/>
+
+        <TextView
+            android:layout_weight="0.25"
+            android:visibility="gone"
+            android:id="@+id/text_status_visualizada_nao"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="17sp"
+            android:textColor="#ffc107"
+            android:text="Não visualizada"/>
+
+        <TextView
+            android:layout_weight="0.20"
             android:id="@+id/text_data_notificacao"
             android:layout_width="match_parent"
             android:layout_height="0dp"
