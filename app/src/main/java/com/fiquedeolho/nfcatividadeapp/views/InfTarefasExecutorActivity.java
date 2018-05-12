@@ -156,6 +156,7 @@ public class InfTarefasExecutorActivity extends AppCompatActivity implements Dia
                                 startActivity(intentDetalhesTarefa);
                                 break;
                             case R.id.mnu_item_sinalizar_problema_tarefa:
+                                SinalizarProblemaTarefaActivity.idTarefa = idTarefaTarget;
                                 Intent intentSinalizarProblemaExecutor = new Intent(getApplicationContext(), SinalizarProblemaTarefaActivity.class);
                                 startActivity(intentSinalizarProblemaExecutor);
                                 break;

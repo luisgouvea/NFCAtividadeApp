@@ -23,6 +23,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.infNotificacoes.NotificacaoL
 import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
@@ -73,6 +74,9 @@ public class InfNotificacoesActivity<T> extends AppCompatActivity implements Not
         if (typeResponse != "") {
             switch (typeResponse) {
                 case "erro":
+                    if (progressDialogListNoti != null && progressDialogListNoti.isShowing()) {
+                        progressDialogListNoti.dismiss();
+                    }
                     error = notificacaoUsuarioImplementation.resultError();
                     if (error.message() != null) {
                         Toast.makeText(getApplicationContext(), error.message(), Toast.LENGTH_LONG).show();
@@ -148,22 +152,23 @@ public class InfNotificacoesActivity<T> extends AppCompatActivity implements Not
 
     @Override
     public void containerRowClicked(View v, int position) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         NotificacaoUsuarioProblemaTarefa notificacaoUsuarioProblemaTarefa = null;
         NotificacaoUsuarioAddAtividade notificacaoUsuarioAddAtividade = null;
         Object obj = listaNotificacoes.get(position);
         String json = gson.toJson(obj);
-        try {
-            InfNotificacaoAddAtividadeActivity.notificacaoUsuarioAddAtividade = gson.fromJson(json, NotificacaoUsuarioAddAtividade.class);
-            Intent intent = new Intent(this, InfNotificacaoAddAtividadeActivity.class);
-            startActivity(intent);
-        } catch (Exception e) {
-            notificacaoUsuarioProblemaTarefa = gson.fromJson(json, NotificacaoUsuarioProblemaTarefa.class);
-            // notificacao problema
-            if (notificacaoUsuarioProblemaTarefa.getVisualizada() == false) {
-                InitialNavigationActivity.countNotificacoesUsu -= 1;
-            }
+
+        Intent intent;
+        InfNotificacaoAddAtividadeActivity.notificacaoUsuarioAddAtividade = gson.fromJson(json, NotificacaoUsuarioAddAtividade.class);
+        InfNotificacaoProblemaTarefaActivity.notificacaoUsuarioProblemaTarefa = gson.fromJson(json, NotificacaoUsuarioProblemaTarefa.class);
+        if (InfNotificacaoAddAtividadeActivity.notificacaoUsuarioAddAtividade.getIdAtividade() != 0) {
+            intent = new Intent(this, InfNotificacaoAddAtividadeActivity.class);
+            InfNotificacaoProblemaTarefaActivity.notificacaoUsuarioProblemaTarefa = null;
+        }else{
+            intent = new Intent(this, InfNotificacaoProblemaTarefaActivity.class);
+            InfNotificacaoAddAtividadeActivity.notificacaoUsuarioAddAtividade = null;
         }
+        startActivity(intent);
     }
 
     /**

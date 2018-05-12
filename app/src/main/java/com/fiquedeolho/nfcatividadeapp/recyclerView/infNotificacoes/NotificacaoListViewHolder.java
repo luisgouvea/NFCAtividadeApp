@@ -19,6 +19,8 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
     private TextView descricaoNotificacao;
     private TextView dataNotificacao;
     private ClickListener listener;
+    private TextView notificacaoVisualizada;
+    private TextView notificacaoNaoVisualizada;
 
     /**
      * Construtor
@@ -28,6 +30,8 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
         this.descricaoNotificacao = itemView.findViewById(R.id.text_descricao_notificacao);
         this.container_row = itemView.findViewById(R.id.container_row_notificacao);
         this.dataNotificacao = itemView.findViewById(R.id.text_data_notificacao);
+        this.notificacaoNaoVisualizada = itemView.findViewById(R.id.text_status_visualizada_nao);
+        this.notificacaoVisualizada = itemView.findViewById(R.id.text_status_visualizada_sim);
     }
 
     /**
@@ -39,6 +43,11 @@ public class NotificacaoListViewHolder extends RecyclerView.ViewHolder implement
         this.descricaoNotificacao.setText(Html.fromHtml(notificacaoUsuario.getDescricaoNotificacao()));
         this.dataNotificacao.setText(Convert.formatDate(notificacaoUsuario.getDataNotificacao()));
         this.container_row.setOnClickListener(this);
+        if(notificacaoUsuario.getVisualizada()){
+            this.notificacaoVisualizada.setVisibility(View.VISIBLE);
+        }else{
+            this.notificacaoNaoVisualizada.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

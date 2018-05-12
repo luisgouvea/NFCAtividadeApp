@@ -67,6 +67,7 @@ public class InfNotificacaoAddAtividadeActivity<T> extends AppCompatActivity imp
         notiUsu.setVisualizada(true);
         notiUsu.setDescricaoNotificacao(notificacaoUsuarioAddAtividade.getDescricaoNotificacao());
         notiUsu.setIdNotificacaoUsuario(notificacaoUsuarioAddAtividade.getIdNotificacaoUsuario());
+        notiUsu.setDataNotificacao(notificacaoUsuarioAddAtividade.getDataNotificacao());
         notificacaoUsuarioImplementation.requestUpdateObject(requestRetrofit, notiUsu);
     }
 

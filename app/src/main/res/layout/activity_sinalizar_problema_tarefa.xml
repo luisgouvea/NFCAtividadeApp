@@ -54,11 +54,12 @@
             android:textSize="18sp" />
 
 
-        <TextView
+        <EditText
             android:id="@+id/descricao_problema"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/content_textarea" />
+            android:background="@drawable/content_textarea"
+            android:gravity="top" />
 
     </LinearLayout>
 
@@ -67,5 +68,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:text="SINALIZAR PROBLEMA"/>
+        android:text="SINALIZAR PROBLEMA" />
 </LinearLayout>

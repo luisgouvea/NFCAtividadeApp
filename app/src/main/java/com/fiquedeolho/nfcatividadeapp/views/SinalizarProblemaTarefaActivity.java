@@ -27,7 +27,7 @@ public class SinalizarProblemaTarefaActivity<T> extends AppCompatActivity implem
     private NotificacaoUsuarioProblemaTarefaImplementation notificacaoUsuarioProblemaTarefaImplementation = new NotificacaoUsuarioProblemaTarefaImplementation();
     private DialogDefaultErro dialogDefaultErro;
     private Callback<T> requestRetrofit = this;
-
+    public static int idTarefa;
     private ProgressDialog pDialog;
 
     @Override
@@ -74,6 +74,7 @@ public class SinalizarProblemaTarefaActivity<T> extends AppCompatActivity implem
             NotificacaoUsuarioProblemaTarefa notificacaoUsuarioProblemaTarefa = new NotificacaoUsuarioProblemaTarefa();
             notificacaoUsuarioProblemaTarefa.DescricaoProblema = this.mViewHolderSinalizarProblemaTarefa.mViewTextDescricaoProblema.getText().toString();
             notificacaoUsuarioProblemaTarefa.CheckRealizado = false;
+            notificacaoUsuarioProblemaTarefa.IdTarefa = idTarefa;
             if (this.mViewHolderSinalizarProblemaTarefa.mViewCheckBoxSim.isChecked()) {
                 notificacaoUsuarioProblemaTarefa.CheckRealizado = true;
             }
