@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.NotificacaoUsuario;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ public class NotificacaoListAdapter extends RecyclerView.Adapter<NotificacaoList
     @Override
     public void onBindViewHolder(NotificacaoListViewHolder holder, int position) {
         Object objNotificacao = this.mListNotificacao.get(position);
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         String json = gson.toJson(objNotificacao);
         NotificacaoUsuario notificacaoUsuario = gson.fromJson(json, NotificacaoUsuario.class);
         holder.bindData(notificacaoUsuario, this.mOnListListener);

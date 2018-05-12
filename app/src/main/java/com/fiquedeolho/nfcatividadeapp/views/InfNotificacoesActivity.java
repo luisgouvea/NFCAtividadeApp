@@ -82,7 +82,11 @@ public class InfNotificacoesActivity<T> extends AppCompatActivity implements Not
                     break;
                 case "getAllNotificacaoUsuByIdUsu":
                     listaNotificacoes = notificacaoUsuarioImplementation.resultSelectAllObjectByIdUsuario();
-                    SetarRecyclerView();
+                    if (listaNotificacoes == null || listaNotificacoes.size() == 0) {
+                        this.mViewHolderInfNotificacoes.mViewTextListNotificacoesVazia.setVisibility(View.VISIBLE);
+                    } else {
+                        SetarRecyclerView();
+                    }
                     if (progressDialogListNoti != null && progressDialogListNoti.isShowing()) {
                         progressDialogListNoti.dismiss();
                     }
@@ -105,6 +109,7 @@ public class InfNotificacoesActivity<T> extends AppCompatActivity implements Not
             progressDialogListNoti.dismiss();
         }
     }
+
     private void SetarRecyclerView() {
 
         // 1 - Obter a recyclerview
@@ -155,7 +160,7 @@ public class InfNotificacoesActivity<T> extends AppCompatActivity implements Not
         } catch (Exception e) {
             notificacaoUsuarioProblemaTarefa = gson.fromJson(json, NotificacaoUsuarioProblemaTarefa.class);
             // notificacao problema
-            if(notificacaoUsuarioProblemaTarefa.getVisualizada() == false){
+            if (notificacaoUsuarioProblemaTarefa.getVisualizada() == false) {
                 InitialNavigationActivity.countNotificacoesUsu -= 1;
             }
         }
