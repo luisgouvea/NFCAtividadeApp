@@ -45,8 +45,8 @@ public class InitialNavigationActivity extends AppCompatActivity
 
     // Titles of the individual pages (displayed in tabs)
     private final String[] PAGE_TITLES = new String[]{
-            "Tarefas criadas",
-            "Tarefas para fazer"
+            "Atividades criadas",
+            "Atividades para você"
     };
 
     private Fragment[] PAGES;

@@ -35,6 +35,18 @@
                 android:layout_below="@id/text_title_nome_ativ" />
 
             <TextView
+                android:id="@+id/text_status_atividade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_subtitle_desc_ativ" />
+
+            <TextView
+                android:id="@+id/text_modo_execucao_atividade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_status_atividade" />
+
+            <TextView
                 android:id="@+id/txtOptionAtivAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -22,6 +22,8 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     private TextView descricaoAtividade;
     private TextView popMenu;
     public ClickListener clickListner;
+    private TextView statusAtividade;
+    private TextView modoExecucao;
 
     /**
      * Header filtro
@@ -40,6 +42,8 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
         this.nomeAtividade = (TextView) itemView.findViewById(R.id.text_title_nome_ativ);
         this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_subtitle_desc_ativ);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionAtivAdd);
+        this.statusAtividade = itemView.findViewById(R.id.text_status_atividade);
+        this.modoExecucao = itemView.findViewById(R.id.text_modo_execucao_atividade);
 
         /**
          * Header filtro
@@ -67,7 +71,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
      */
     public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListenerView listenerOptions, ClickListener listnerFiltro, int position) {
         clickListner = listnerFiltro;
-        if(position == 0){
+        if (position == 0) {
             this.mViewSpinnerAtivAdd = itemView.findViewById(R.id.status_spinner_atividade_add);
             ArrayAdapter adp = new ArrayAdapter<String>(itemView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
             adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -84,12 +88,26 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
 
             mVieBtnFiltrarAtivAdd = (Button) itemView.findViewById(R.id.btn_filtrar_atividade_add);
             mVieBtnFiltrarAtivAdd.setOnClickListener(this);
-        }
-        else {
+        } else {
             // Altera valor
             this.nomeAtividade.setText(atividade.getNome());
             this.descricaoAtividade.setText(atividade.getDescricao());
+            int idStatus = atividade.getIdStatus();
 
+            if (idStatus == 1) {
+                this.statusAtividade.setText("Não iniciada");
+            } else if (idStatus == 2) {
+                this.statusAtividade.setText("Em execução");
+            } else {
+                this.statusAtividade.setText("Finalizada");
+            }
+
+            int modoExec = atividade.getIdModoExecucao();
+            if (modoExec == 1) {
+                this.modoExecucao.setText("Por fluxo completo");
+            } else {
+                this.modoExecucao.setText("Por dia");
+            }
 
             // Adciona evento de click
             this.nomeAtividade.setOnClickListener(new View.OnClickListener() {
