@@ -1,5 +1,6 @@
 package com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +20,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
 
     // Elemento de interface
     private TextView nomeAtividade;
-    private TextView descricaoAtividade;
+    //private TextView descricaoAtividade;
     private TextView popMenu;
     public ClickListener clickListner;
     private TextView statusAtividade;
@@ -40,7 +41,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     public AtividadeViewHolder(View itemView) {
         super(itemView);
         this.nomeAtividade = (TextView) itemView.findViewById(R.id.text_title_nome_ativ);
-        this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_subtitle_desc_ativ);
+        //this.descricaoAtividade = (TextView) itemView.findViewById(R.id.text_subtitle_desc_ativ);
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionAtivAdd);
         this.statusAtividade = itemView.findViewById(R.id.text_status_atividade);
         this.modoExecucao = itemView.findViewById(R.id.text_modo_execucao_atividade);
@@ -91,18 +92,22 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
         } else {
             // Altera valor
             this.nomeAtividade.setText(atividade.getNome());
-            this.descricaoAtividade.setText(atividade.getDescricao());
+            //this.descricaoAtividade.setText(atividade.getDescricao());
             int idStatus = atividade.getIdStatus();
 
             if (idStatus == 1) {
                 this.statusAtividade.setText("Não iniciada");
+                this.statusAtividade.setTextColor(Color.parseColor("#ffc107"));
             } else if (idStatus == 2) {
                 this.statusAtividade.setText("Em execução");
+                this.statusAtividade.setTextColor(Color.parseColor("#17a2b8"));
             } else {
                 this.statusAtividade.setText("Finalizada");
+                this.statusAtividade.setTextColor(Color.parseColor("#28a745"));
             }
 
             int modoExec = atividade.getIdModoExecucao();
+            this.modoExecucao.setTextColor(Color.parseColor("#6c757d"));
             if (modoExec == 1) {
                 this.modoExecucao.setText("Por fluxo completo");
             } else {

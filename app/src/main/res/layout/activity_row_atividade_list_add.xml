@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="5dp"
         card_view:cardCornerRadius="2dp"
@@ -25,26 +25,22 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textColor="#000000"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text_subtitle_desc_ativ"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_title_nome_ativ" />
 
             <TextView
                 android:id="@+id/text_status_atividade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_subtitle_desc_ativ" />
+                android:layout_below="@id/text_title_nome_ativ"
+                android:textSize="15dp"/>
 
             <TextView
                 android:id="@+id/text_modo_execucao_atividade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_status_atividade" />
+                android:layout_below="@id/text_status_atividade"
+                android:textSize="15dp"/>
 
             <TextView
                 android:id="@+id/txtOptionAtivAdd"

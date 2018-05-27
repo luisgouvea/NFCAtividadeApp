@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Filtro de Pesquisa"
-        android:textSize="20sp" />
+        android:textSize="23sp"
+        android:textColor="#2962FF"/>
 
     <LinearLayout
         android:layout_width="match_parent"
