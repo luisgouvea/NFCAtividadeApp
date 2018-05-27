@@ -102,7 +102,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A execução deve ocorrer todo dia?" />
+                    android:text="A execução deve ocorrer todo dia?"
+                    android:textStyle="bold"
+                    android:textSize="15sp"/>
 
                 <RadioGroup
                     android:layout_width="wrap_content"
@@ -136,12 +138,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
                         android:text="Qual dia específicamente?" />
 
                     <EditText
                         android:id="@+id/editText_dia_especifico"
                         android:layout_width="30dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
                 </LinearLayout>
 
 
@@ -196,12 +202,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
                     android:text="Quantas repetições (ciclos) ?" />
 
                 <EditText
                     android:id="@+id/editText_repeticao_fluxo_rept_fluxo"
                     android:layout_width="30dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
         </LinearLayout>

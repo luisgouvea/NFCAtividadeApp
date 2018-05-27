@@ -31,6 +31,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.Ativid
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
+import com.fiquedeolho.nfcatividadeapp.views.InfRoteiroAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
 
 import java.text.DateFormat;
@@ -251,6 +252,11 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 intent.putExtras(bundle);
 
                                 startActivity(intent);
+                                break;
+                            case R.id.mnu_item_inf_roteiro_exec_ativ:
+                                Intent intentInfRoteiroExecAtiv = new Intent(rootView.getContext(), InfRoteiroAtividadeActivity.class);
+                                InfRoteiroAtividadeActivity.idAtividade = idAtividade;
+                                startActivity(intentInfRoteiroExecAtiv);
                                 break;
                             case R.id.mnu_item_registro_check_nfc_criador:
                                 bundle.putInt("IdAtividade", idAtividade);

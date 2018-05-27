@@ -97,8 +97,14 @@
             android:label="Sinalização de Problema" />
         <activity
             android:name=".views.InfNotificacaoProblemaTarefaActivity"
-            android:label="Detalhes da Notificação">
-
+            android:label="Detalhes da Notificação"></activity>
+        <activity
+            android:name=".views.InfRoteiroAtividadeActivity"
+            android:label="Roteiro de execução"
+            android:parentActivityName=".views.InitialNavigationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.InitialNavigationActivity"/>
         </activity>
     </application>
 
