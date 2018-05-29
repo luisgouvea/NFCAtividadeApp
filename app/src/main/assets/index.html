@@ -51,21 +51,36 @@
         function init(val){
            var g = new Graph();
 
-          g.addNode('cherry', { tipoTarefa: 'inicia' });
-          g.addNode('apple', { tipoTarefa: 'meio' });
-          g.addNode('strawberry', { tipoTarefa: 'meio' });
-          g.addNode('seila', { tipoTarefa: 'meio' });
-          g.addNode('ok', { tipoTarefa: 'meio' });
-          g.addNode('tudook', { tipoTarefa: 'meio' });
-          g.addNode('tomato', { tipoTarefa: 'finaliza' });
 
-          g.addEdge("cherry", "apple", { directed : true });
-          g.addEdge("apple", "strawberry", { directed : true });
-          g.addEdge("strawberry", "seila", { directed : true });
-          g.addEdge("seila", "ok", { directed : true });
-          g.addEdge("ok", "tudook", { directed : true });
-          g.addEdge("seila", "tomato", { directed : true });
-          g.addEdge("tudook", "tomato", { directed : true });
+          //g.addNode('cherry', { tipoTarefa: 'inicia' });
+          //g.addNode('apple', { tipoTarefa: 'meio' });
+          //g.addNode('strawberry', { tipoTarefa: 'meio' });
+          //g.addNode('seila', { tipoTarefa: 'meio' });
+          //g.addNode('ok', { tipoTarefa: 'meio' });
+          //g.addNode('tudook', { tipoTarefa: 'meio' });
+          //g.addNode('tomato', { tipoTarefa: 'finaliza' });
+
+          //g.addEdge("cherry", "apple", { directed : true });
+          //g.addEdge("apple", "strawberry", { directed : true });
+          //g.addEdge("strawberry", "seila", { directed : true });
+          //g.addEdge("seila", "ok", { directed : true });
+          //g.addEdge("ok", "tudook", { directed : true });
+          //g.addEdge("seila", "tomato", { directed : true });
+          //g.addEdge("tudook", "tomato", { directed : true });
+
+          g.addNode('limpeza quarto andar', { tipoTarefa: 'inicia' });
+          g.addNode('limpeza terceiro andar', { tipoTarefa: 'meio' });
+          g.addNode('limpeza segundo andar', { tipoTarefa: 'meio' });
+          g.addNode('limpeza primeiro andar', { tipoTarefa: 'meio' });
+          g.addNode('limpeza do terreo', { tipoTarefa: 'finaliza' });
+
+          g.addEdge("limpeza quarto andar", "limpeza terceiro andar", { directed : true });
+          g.addEdge("limpeza quarto andar", "limpeza segundo andar", { directed : true });
+          g.addEdge("limpeza quarto andar", "limpeza primeiro andar", { directed : true });
+          g.addEdge("limpeza terceiro andar", "limpeza segundo andar", { directed : true });
+          g.addEdge("limpeza terceiro andar", "limpeza do terreo", { directed : true });
+          g.addEdge("limpeza segundo andar", "limpeza do terreo", { directed : true });
+          g.addEdge("limpeza primeiro andar", "limpeza do terreo", { directed : true });
 
 
           /* layout the graph using the Spring layout implementation */
