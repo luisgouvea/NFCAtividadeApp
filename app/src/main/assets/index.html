@@ -51,36 +51,48 @@
         function init(val){
            var g = new Graph();
 
+            val = JSON.parse(val);
 
-          //g.addNode('cherry', { tipoTarefa: 'inicia' });
-          //g.addNode('apple', { tipoTarefa: 'meio' });
+            for (var i = 0; i < val.length; i++){
+                var obj = val[i];
+                if(obj.IniciaFluxo == true){
+                    g.addNode(obj.Nome, { tipoTarefa: 'inicia' });
+                } else if ( obj.FinalizaFluxo == true){
+                    g.addNode(obj.Nome, { tipoTarefa: 'finaliza' });
+                } else {
+                    g.addNode(obj.Nome, { tipoTarefa: 'meio' });
+                }
+            }
+
+
+            for (var j = 0; j < val.length; j++){
+                var tarefa = val[j];
+                if(tarefa.listaSucessoras != undefined && tarefa.listaSucessoras.length > 0){
+                    for (var k = 0; k < tarefa.listaSucessoras.length; k++){
+                        var tarefaSucessora = tarefa.listaSucessoras[k];
+                        g.addEdge(tarefa.Nome, tarefaSucessora.Nome, { directed : true });
+                    }
+                }
+            }
+
+
+
+
+         // g.addNode('cherry', { tipoTarefa: 'inicia' });
+        //  g.addNode('apple', { tipoTarefa: 'meio' });
           //g.addNode('strawberry', { tipoTarefa: 'meio' });
           //g.addNode('seila', { tipoTarefa: 'meio' });
           //g.addNode('ok', { tipoTarefa: 'meio' });
           //g.addNode('tudook', { tipoTarefa: 'meio' });
           //g.addNode('tomato', { tipoTarefa: 'finaliza' });
 
-          //g.addEdge("cherry", "apple", { directed : true });
-          //g.addEdge("apple", "strawberry", { directed : true });
-          //g.addEdge("strawberry", "seila", { directed : true });
-          //g.addEdge("seila", "ok", { directed : true });
-          //g.addEdge("ok", "tudook", { directed : true });
-          //g.addEdge("seila", "tomato", { directed : true });
-          //g.addEdge("tudook", "tomato", { directed : true });
-
-          g.addNode('limpeza quarto andar', { tipoTarefa: 'inicia' });
-          g.addNode('limpeza terceiro andar', { tipoTarefa: 'meio' });
-          g.addNode('limpeza segundo andar', { tipoTarefa: 'meio' });
-          g.addNode('limpeza primeiro andar', { tipoTarefa: 'meio' });
-          g.addNode('limpeza do terreo', { tipoTarefa: 'finaliza' });
-
-          g.addEdge("limpeza quarto andar", "limpeza terceiro andar", { directed : true });
-          g.addEdge("limpeza quarto andar", "limpeza segundo andar", { directed : true });
-          g.addEdge("limpeza quarto andar", "limpeza primeiro andar", { directed : true });
-          g.addEdge("limpeza terceiro andar", "limpeza segundo andar", { directed : true });
-          g.addEdge("limpeza terceiro andar", "limpeza do terreo", { directed : true });
-          g.addEdge("limpeza segundo andar", "limpeza do terreo", { directed : true });
-          g.addEdge("limpeza primeiro andar", "limpeza do terreo", { directed : true });
+        //  g.addEdge("cherry", "apple", { directed : true });
+        //  g.addEdge("apple", "strawberry", { directed : true });
+        //  g.addEdge("strawberry", "seila", { directed : true });
+         // g.addEdge("seila", "ok", { directed : true });
+         // g.addEdge("ok", "tudook", { directed : true });
+         // g.addEdge("seila", "tomato", { directed : true });
+         // g.addEdge("tudook", "tomato", { directed : true });
 
 
           /* layout the graph using the Spring layout implementation */
@@ -91,10 +103,6 @@
           var renderer = new Graph.Renderer.Raphael('canvas', g, 600, 400);
           renderer.draw();
          }
-
-
-
-
 
 
         </script>
