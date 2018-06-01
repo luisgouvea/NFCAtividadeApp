@@ -8,12 +8,14 @@ import android.widget.TextView;
 
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.TarefaCheck;
+import com.fiquedeolho.nfcatividadeapp.util.Convert;
 
 public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
 
     // Elemento de interface
     private TextView nomeTarefa;
     private TextView textStatusExecucaoCheck;
+    private TextView textDataExecucaoCheck;
     private ImageView imageStatusCheckValido;
     private ImageView imageStatusCheckInvalido;
 
@@ -26,6 +28,7 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
         this.textStatusExecucaoCheck = itemView.findViewById(R.id.text_status_check_nfc);
         this.imageStatusCheckValido = itemView.findViewById(R.id.image_check_valido);
         this.imageStatusCheckInvalido = itemView.findViewById(R.id.image_check_invalido);
+        this.textDataExecucaoCheck = itemView.findViewById(R.id.text_data_check_nfc);
     }
 
     /**
@@ -42,5 +45,6 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
             this.textStatusExecucaoCheck.setText("Check válido");
             this.imageStatusCheckValido.setVisibility(View.VISIBLE);
         }
+        this.textDataExecucaoCheck.setText(Convert.formatDate(ativTarefaHistoricoCheck.getDataExecucao()));
     }
 }

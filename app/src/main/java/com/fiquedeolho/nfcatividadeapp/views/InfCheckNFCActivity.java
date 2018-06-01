@@ -43,8 +43,8 @@ public class InfCheckNFCActivity extends AppCompatActivity {
             IdAtividade = extras.getInt("IdAtividade");
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
         dialogDefaultErro = DialogDefaultErro.newInstance();
         this.mViewHolderInfCheck.mViewTextListCheckVaziaInfCheck = findViewById(R.id.textListAtividadeTarefaCheckRegistroCheck);
         getListChecks();

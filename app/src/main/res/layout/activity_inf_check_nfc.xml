@@ -3,61 +3,19 @@
     android:id="@+id/layoutLinearInfTags"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textListAtividadeTarefaCheckRegistroCheck"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:text="@string/list_check_vazia"
+        android:visibility="gone"/>
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewRegistroCheck"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.30"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/linear_content_title_registro_check">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_registro_check_nfc"
-            android:layout_weight="0.50"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.50"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/colorAccent"
-            android:text="@string/title_page_registro_nfc"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.70"
-        android:id="@+id/linear_content_recycler_registro_check">
-
-        <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textListAtividadeTarefaCheckRegistroCheck"
-                android:layout_gravity="center"
-                android:textSize="16sp"
-                android:text="@string/list_check_vazia"
-                android:visibility="gone"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewRegistroCheck"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
-        </android.support.design.widget.CoordinatorLayout>
-
-    </LinearLayout>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 </LinearLayout>
