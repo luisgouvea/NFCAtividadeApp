@@ -3,39 +3,11 @@
     android:id="@+id/layoutLinearInfTags"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
-
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.30"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/linear_content_title_inf_tags">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_nfc_communication"
-            android:layout_weight="0.50"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.50"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/colorAccent"
-            android:text="@string/title_page_inf_tags"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.70"
+        android:layout_height="match_parent"
         android:id="@+id/linear_content_recycler_inf_tags">
 
         <android.support.design.widget.CoordinatorLayout
