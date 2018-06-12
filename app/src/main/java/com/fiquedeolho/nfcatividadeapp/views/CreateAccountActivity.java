@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.fiquedeolho.nfcatividadeapp.R;
+import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.models.Usuario;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
+import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,12 +61,14 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         usuario.setLogin(this.mViewHolderCreateAccount.login.getText().toString());
         usuario.setSenha(this.mViewHolderCreateAccount.senha.getText().toString());
         UsuarioRetrofit usuInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
-        final Call<Boolean> call = usuInterface.criarConta(usuario);
-        call.enqueue(new Callback<Boolean>() {
+        final Call<Integer> call = usuInterface.criarConta(usuario);
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
                 if(response.code() == 200) {
-                    Boolean contaCriada = response.body();
+                    int idUsuario = response.body();
+                    SavePreferences save = new SavePreferences(getApplicationContext());
+                    save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
                     Intent intent = new Intent(getApplicationContext(), InitialNavigationActivity.class);
                     startActivity(intent);
                     finish();
@@ -79,7 +83,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
                 closeLoadingRequest();
 //                dialogDefaultErro.setTextErro(t.getMessage());
 //                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");
