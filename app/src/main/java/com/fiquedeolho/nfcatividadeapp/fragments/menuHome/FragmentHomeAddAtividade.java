@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,25 +95,38 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         }
     }
 
-    private void filtrarAtividades(int idStatusAtividade, String dataCriacao) {
-        FiltroPesquisaHome filtro = new FiltroPesquisaHome();
-        if (idStatusAtividade != 0) {
-            filtro.setIdStatusAtividade(idStatusAtividade);
+    private void filtrarAtividades(int idStatusAtividade, EditText dataCriacao) {
+        if(idStatusAtividade == 0 && dataCriacao.getText().toString().equals("")){
+            Toast.makeText(getActivity(), "Por favor, preencha algum campo!", Toast.LENGTH_LONG).show();
         }
-        if (!dataCriacao.isEmpty()) {
-            DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
-            Date date = null;
-            try {
-                date = (Date) formatter.parse(dataCriacao);
-            } catch (ParseException e) {
-                e.printStackTrace();
+        else {
+            FiltroPesquisaHome filtro = new FiltroPesquisaHome();
+            if (idStatusAtividade != 0) {
+                filtro.setIdStatusAtividade(idStatusAtividade);
             }
-            filtro.setDataCriacao(date);
+            if (dataCriacao.getText() != null && !dataCriacao.getText().toString().equals("")) {
+                //2013-09-29
+                String[] dataSplit = dataCriacao.getText().toString().split("/");
+                String ano = dataSplit[2];
+                String mes = dataSplit[1];
+                String dia = dataSplit[0];
+                String newDate = ano + "-" + mes + "-" + dia;
+                if (!newDate.isEmpty()) {
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = null;
+                    try {
+                        date = (Date) formatter.parse(newDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    filtro.setDataCriacao(date);
+                }
+            }
+            SavePreferences save = new SavePreferences(getContext());
+            int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+            filtro.setIdUsuario(idUsuario);
+            requestFiltro(filtro);
         }
-        SavePreferences save = new SavePreferences(getContext());
-        int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
-        filtro.setIdUsuario(idUsuario);
-        requestFiltro(filtro);
 
     }
 
@@ -132,7 +146,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                     filtroPesquisaEmpty();
                 } else {
                     mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setVisibility(View.VISIBLE);
-                    atividadeListAdapter.notifyDataSetChanged();
+                    MontaRestanteTela();
                     Toast.makeText(getActivity(), "Filtro realizado!", Toast.LENGTH_SHORT).show();
                 }
                 if (pDialog != null && pDialog.isShowing()) {
@@ -216,18 +230,6 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             }*/
         });
 
-        // Implementa o evento de click para passar por parâmetro para a ViewHolder
-        OnListClickInteractionListener listener = new OnListClickInteractionListener() {
-            @Override
-            public void onClick(int id) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("IdAtividade", id);
-
-                Toast.makeText(getContext(), "//TODO:REVERRR", Toast.LENGTH_LONG).show();
-
-            }
-        };
-
         /**
          * OnListClickInteractionListenerView interface QUE CRIEI
          Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
@@ -286,7 +288,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         }*/
         listAtividadeAdicionadas.add(0, new Atividade());
         // 2 - Definir adapter passando listagem de carros e listener
-        atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listener, listenerOptionsList, listenerFiltro);
+        atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listenerOptionsList, listenerFiltro);
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setAdapter(atividadeListAdapter);
 
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
@@ -311,7 +313,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
     }
 
     @Override
-    public void btnFiltrarClicked(int idStatusAtividade, String dataCriacao) {
+    public void btnFiltrarClicked(int idStatusAtividade, EditText dataCriacao) {
         filtrarAtividades(idStatusAtividade, dataCriacao);
     }
 

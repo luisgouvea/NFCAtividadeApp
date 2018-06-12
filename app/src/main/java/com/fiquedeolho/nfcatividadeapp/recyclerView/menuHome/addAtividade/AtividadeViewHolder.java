@@ -29,7 +29,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     /**
      * Header filtro
      */
-    private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Disponível", "Finalizada"};
+    private static final String[] STATUS_ATIVIDADE = new String[]{"Status da Atividade", "Não iniciada", "Em execução", "Finalizada"};
     private Spinner mViewSpinnerAtivAdd;
     private EditText mViewEditTextDataCriacaoAddAtividade;
     private Button mVieBtnFiltrarAtivAdd;
@@ -70,7 +70,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final Atividade atividade, final OnListClickInteractionListener listener, final OnListClickInteractionListenerView listenerOptions, ClickListener listnerFiltro, int position) {
+    public void bindData(final Atividade atividade, final OnListClickInteractionListenerView listenerOptions, ClickListener listnerFiltro, int position) {
         clickListner = listnerFiltro;
         if (position == 0) {
             this.mViewSpinnerAtivAdd = itemView.findViewById(R.id.status_spinner_atividade_add);
@@ -114,17 +114,6 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
                 this.modoExecucao.setText("Por dia");
             }
 
-            // Adciona evento de click
-            this.nomeAtividade.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /**
-                     * Metodo (onClick) da interface OnListClickInteractionListener,  implementada nesse projeto
-                     */
-                    listener.onClick(atividade.getId());
-                }
-            });
-
             popMenu.setId(atividade.getId());
             this.popMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,12 +132,12 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_filtrar_atividade_add) {
-            clickListner.btnFiltrarClicked(this.mViewSpinnerAtivAdd.getSelectedItemPosition(), this.mViewEditTextDataCriacaoAddAtividade.getText().toString());
+            clickListner.btnFiltrarClicked(this.mViewSpinnerAtivAdd.getSelectedItemPosition(), this.mViewEditTextDataCriacaoAddAtividade);
         }
     }
 
     public interface ClickListener {
 
-        void btnFiltrarClicked(int idStatusAtividade, String DataCriacao);
+        void btnFiltrarClicked(int idStatusAtividade, EditText DataCriacao);
     }
 }

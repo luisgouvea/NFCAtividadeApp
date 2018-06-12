@@ -19,9 +19,6 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     // Lista de atividades
     private List<Atividade> mListAtividades;
 
-    // Interface que define as ações
-    private OnListClickInteractionListener mOnListClickInteractionListener;
-
     private OnListClickInteractionListenerView mOnListOptionListener;
 
     private AtividadeViewHolder.ClickListener mListenerFiltroPesquisa;
@@ -29,9 +26,8 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerView listOptions, AtividadeViewHolder.ClickListener listFiltroPesquisa) {
+    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListenerView listOptions, AtividadeViewHolder.ClickListener listFiltroPesquisa) {
         this.mListAtividades = atividades;
-        this.mOnListClickInteractionListener = listener;
         this.mOnListOptionListener = listOptions;
         this.mListenerFiltroPesquisa = listFiltroPesquisa;
     }
@@ -68,7 +64,7 @@ public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolde
     @Override
     public void onBindViewHolder(AtividadeViewHolder holder, int position) {
         Atividade car = this.mListAtividades.get(position);
-        holder.bindData(car, this.mOnListClickInteractionListener, this.mOnListOptionListener, mListenerFiltroPesquisa, position);
+        holder.bindData(car, this.mOnListOptionListener, mListenerFiltroPesquisa, position);
     }
 
     @Override
