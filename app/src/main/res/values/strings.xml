@@ -48,4 +48,6 @@
     <item name="masked" type="id" />
     <string name="message_aproxime_tag_ao_disp">Aproxime a sua TAG NFC ao dispositvo</string>
     <string name="repet_tarefa_add_ativ">Repetição de Tarefas</string>
+    <string name="criar_conta">Criar Conta</string>
+    <string name="criando_conta_usu">Criando conta</string>
 </resources>

@@ -13,6 +13,9 @@ public interface UsuarioRetrofit {
     @POST("/api/Usuario/LogarUsuario")
     Call<Integer> logarUsuario(@Body List<String> value);
 
+    @POST("/api/Usuario/CriarConta")
+    Call<Boolean> criarConta(@Body Usuario usuario);
+
     @POST("/api/Usuario/ListAllUsuarioAddAtivVincExecutor")
     Call<ArrayList<Usuario>> listAllUsuarios(@Body int value);
 }

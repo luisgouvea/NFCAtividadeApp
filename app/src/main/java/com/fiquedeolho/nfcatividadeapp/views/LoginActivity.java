@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -43,6 +46,14 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
         this.loginViewHolder.login = (EditText) findViewById(R.id.input_email);
 
         this.loginViewHolder.btnLogin.setOnClickListener(this);
+
+        this.loginViewHolder.linkCreateAccount = findViewById(R.id.link_signup);
+
+        SpannableString content = new SpannableString(this.loginViewHolder.linkCreateAccount.getText());
+        content.setSpan(new UnderlineSpan(), 0, this.loginViewHolder.linkCreateAccount.getText().length(), 0);
+        this.loginViewHolder.linkCreateAccount.setText(content);
+
+        this.loginViewHolder.linkCreateAccount.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +63,10 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
             final String senha = this.loginViewHolder.senha.getText().toString();
             final String login = this.loginViewHolder.login.getText().toString();
             this.autenticarUsuario(login, senha);
+        } else if (id == R.id.link_signup){
+            Intent intent = new Intent(this, CreateAccountActivity.class);
+            startActivity(intent);
+            //finish();
         }
     }
 
@@ -66,6 +81,7 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
     private static class ViewHolder {
         EditText login;
         EditText senha;
+        TextView linkCreateAccount;
         Button btnLogin;
     }
 

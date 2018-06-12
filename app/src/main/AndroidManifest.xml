@@ -67,7 +67,8 @@
                 android:value="views.RegrasTarefasActivity" />
         </activity>
         <activity android:name=".views.VinculoTarefaETagActivity" />
-        <activity android:name=".views.InfTagsActivity"
+        <activity
+            android:name=".views.InfTagsActivity"
             android:label="Gerenciamento de TAGs"
             android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
@@ -90,13 +91,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.InitialNavigationActivity" />
         </activity>
-        <activity android:name=".views.InfCheckNFCActivity"
+        <activity
+            android:name=".views.InfCheckNFCActivity"
             android:label="@string/title_page_registro_nfc"
             android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.InitialNavigationActivity" />
-            </activity>
+        </activity>
         <activity android:name=".views.DetalhesTarefaActivity" />
         <activity
             android:name=".views.InfNotificacoesActivity"
@@ -109,14 +111,21 @@
             android:label="Sinalização de Problema" />
         <activity
             android:name=".views.InfNotificacaoProblemaTarefaActivity"
-            android:label="Detalhes da Notificação"></activity>
+            android:label="Detalhes da Notificação" />
         <activity
             android:name=".views.InfRoteiroAtividadeActivity"
             android:label="Roteiro de execução"
             android:parentActivityName=".views.InitialNavigationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.InitialNavigationActivity"/>
+                android:value=".views.InitialNavigationActivity" />
+        </activity>
+        <activity android:name=".views.CreateAccountActivity"
+            android:label="Criar Conta"
+            android:parentActivityName=".views.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.LoginActivity" />
         </activity>
     </application>
 
