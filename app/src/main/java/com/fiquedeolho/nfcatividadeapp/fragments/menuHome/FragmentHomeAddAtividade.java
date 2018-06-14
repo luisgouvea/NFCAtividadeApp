@@ -31,6 +31,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.AtividadeListAdpter;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
+import com.fiquedeolho.nfcatividadeapp.views.DetalhesAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfRoteiroAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
@@ -254,6 +255,14 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 intent.putExtras(bundle);
 
                                 startActivity(intent);
+                                break;
+                            case R.id.mnu_detalhes_atividade:
+                                bundle.putInt("IdAtividade", idAtividade);
+
+                                Intent intentDetalhesAtiv = new Intent(rootView.getContext(), DetalhesAtividadeActivity.class);
+                                intentDetalhesAtiv.putExtras(bundle);
+
+                                startActivity(intentDetalhesAtiv);
                                 break;
                             case R.id.mnu_item_inf_roteiro_exec_ativ:
                                 Intent intentInfRoteiroExecAtiv = new Intent(rootView.getContext(), InfRoteiroAtividadeActivity.class);

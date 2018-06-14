@@ -120,13 +120,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.InitialNavigationActivity" />
         </activity>
-        <activity android:name=".views.CreateAccountActivity"
+        <activity
+            android:name=".views.CreateAccountActivity"
             android:label="Criar Conta"
             android:parentActivityName=".views.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.LoginActivity" />
         </activity>
+        <activity android:name=".views.DetalhesAtividadeActivity"></activity>
     </application>
 
 </manifest>

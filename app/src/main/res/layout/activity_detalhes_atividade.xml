@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollInfAtiv">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/first_content_linear_layout_inf_ativ"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/linear_layout_nome_inf_ativ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextLabelAtivAdd">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/input_nomeAtividade_inf_ativ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nomeAtividadeAdd"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/second_content_linear_layout_add_ativ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextLabelAtivAdd">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/input_data_finalizacao_ativ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dtFinalizacaoAtiv"
+                    android:inputType="date" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fourth_content_linear_layout_add_tarefa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modo de execução: "
+                android:textSize="19sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/forma_execucao_tarefa_finaliza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="DesabilitaInfFormaExecDia"
+                    android:text="Execução até a realização de um check que finalize a atividade" />
+
+                <RadioButton
+                    android:id="@+id/forma_execucao_por_dia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="HabilitaInfFormaExecDia"
+                    android:text="Execução por dia" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/content_opcoes_forma_execucao_dia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A execução deve ocorrer todo dia?"
+                    android:textStyle="bold"
+                    android:textSize="15sp"/>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/execucao_todo_dia_sim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="DesabilitarDiaEspecifico"
+                        android:text="Sim" />
+
+                    <RadioButton
+                        android:id="@+id/execucao_todo_dia_nao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="HabilitarDiaEspecifico"
+                        android:text="Não" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/content_dia_especifico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:text="Qual dia específicamente?" />
+
+                    <EditText
+                        android:id="@+id/editText_dia_especifico"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/content_repeticao_fluxo_completo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="120dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repetição de fluxo completo: "
+                android:textSize="19sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/repeti_fluxo_compl_semLimite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="DesabilitarQtdRepeticoes"
+                    android:text="Sem limitação (inúmeras vezes)" />
+
+
+                <RadioButton
+                    android:id="@+id/repeti_fluxo_compl_qtdEsp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="HabilitarQtdRepeticoes"
+                    android:text="Quantidade especifica" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/qtd_numero_repeticoes_fluxo_completo"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:text="Quantas repetições (ciclos) ?" />
+
+                <EditText
+                    android:id="@+id/editText_repeticao_fluxo_rept_fluxo"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
