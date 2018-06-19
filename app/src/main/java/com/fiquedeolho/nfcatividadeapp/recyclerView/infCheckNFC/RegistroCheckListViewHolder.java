@@ -18,6 +18,7 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
     private TextView textDataExecucaoCheck;
     private ImageView imageStatusCheckValido;
     private ImageView imageStatusCheckInvalido;
+    private TextView textCiclo;
 
     /**
      * Construtor
@@ -29,6 +30,7 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
         this.imageStatusCheckValido = itemView.findViewById(R.id.image_check_valido);
         this.imageStatusCheckInvalido = itemView.findViewById(R.id.image_check_invalido);
         this.textDataExecucaoCheck = itemView.findViewById(R.id.text_data_check_nfc);
+        this.textCiclo = itemView.findViewById(R.id.text_ciclo_check_nfc);
     }
 
     /**
@@ -46,5 +48,7 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
             this.imageStatusCheckValido.setVisibility(View.VISIBLE);
         }
         this.textDataExecucaoCheck.setText(Convert.formatDate(ativTarefaHistoricoCheck.getDataExecucao()));
+
+        this.textCiclo.setText("Ciclo " + ativTarefaHistoricoCheck.getCiclo());
     }
 }

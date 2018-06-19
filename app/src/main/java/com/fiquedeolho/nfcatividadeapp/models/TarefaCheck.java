@@ -10,12 +10,14 @@ public class TarefaCheck extends Tarefa {
     private int IdTarefaCheck;
     private int IdStatusCheckNFC;
     private Date DataExecucao;
+    private int Ciclo;
 
     public TarefaCheck(Parcel in) {
         super(in);
         IdStatusCheckNFC = in.readInt();
         IdTarefaCheck = in.readInt();
         DataExecucao = (java.util.Date) in.readSerializable();
+        Ciclo = in.readInt();
     }
 
     public TarefaCheck(){
@@ -50,6 +52,14 @@ public class TarefaCheck extends Tarefa {
         IdStatusCheckNFC = idStatusCheckNFC;
     }
 
+    public int getCiclo() {
+        return Ciclo;
+    }
+
+    public void setCiclo(int ciclo) {
+        Ciclo = ciclo;
+    }
+
     public Date getDataExecucao() {
         return DataExecucao;
     }
@@ -64,5 +74,6 @@ public class TarefaCheck extends Tarefa {
         parcel.writeInt(IdTarefaCheck);
         parcel.writeInt(IdStatusCheckNFC);
         parcel.writeLong(DataExecucao != null ? DataExecucao.getTime() : -1 );
+        parcel.writeInt(Ciclo);
     }
 }

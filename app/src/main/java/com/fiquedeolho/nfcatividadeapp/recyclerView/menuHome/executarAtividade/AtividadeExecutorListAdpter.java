@@ -14,49 +14,58 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 
 import java.util.List;
 
-public class AtividadeListAdpter extends RecyclerView.Adapter<AtividadeViewHolder> {
+public class AtividadeExecutorListAdpter extends RecyclerView.Adapter<AtividadeExecutorViewHolder> {
 
     // Lista de atividades
     private List<Atividade> mListAtividades;
 
-    // Interface que define as ações
-    private OnListClickInteractionListener mOnListClickInteractionListener;
-
     private OnListClickInteractionListenerView mOnListOptionListener;
 
+    private AtividadeExecutorViewHolder.ClickListener mListenerFiltroPesquisa;
     /**
      * Construtor
      */
-    public AtividadeListAdpter(List<Atividade> atividades, OnListClickInteractionListener listener, OnListClickInteractionListenerView listOptions) {
+    public AtividadeExecutorListAdpter(List<Atividade> atividades, OnListClickInteractionListenerView listOptions, AtividadeExecutorViewHolder.ClickListener listFiltroPesquisa) {
         this.mListAtividades = atividades;
-        this.mOnListClickInteractionListener = listener;
         this.mOnListOptionListener = listOptions;
+        this.mListenerFiltroPesquisa = listFiltroPesquisa;
     }
 
     /**
      * Responsável pela criação de linha
      */
     @Override
-    public AtividadeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AtividadeExecutorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // Obtém o contexto
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Instancia o layout para manipulação dos elementos
-        View atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_exec, parent, false);
+        View atividadeView = null;
+        if(viewType == 0){
+            atividadeView = inflater.inflate(R.layout.activity_header_filtro_pesquisa_home, parent, false);
+        }
+        else {
+            // Instancia o layout para manipulação dos elementos
+            atividadeView = inflater.inflate(R.layout.activity_row_atividade_list_exec, parent, false);
+        }
 
         // Passa a ViewHolder
-        return new AtividadeViewHolder(atividadeView);
+        return new AtividadeExecutorViewHolder(atividadeView);
+    }
+    @Override
+    public int getItemViewType (int position){
+        return position;
     }
 
     /**
      * Responsável por atribuir valores após linha criada
      */
     @Override
-    public void onBindViewHolder(AtividadeViewHolder holder, int position) {
+    public void onBindViewHolder(AtividadeExecutorViewHolder holder, int position) {
         Atividade car = this.mListAtividades.get(position);
-        holder.bindData(car, this.mOnListClickInteractionListener, this.mOnListOptionListener);
+        holder.bindData(car, this.mOnListOptionListener, this.mListenerFiltroPesquisa, position);
     }
 
     @Override

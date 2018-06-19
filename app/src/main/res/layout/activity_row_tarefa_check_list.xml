@@ -69,6 +69,13 @@
                 android:layout_below="@+id/content_check_status"
                 android:textSize="15sp"
                 android:text="dsajkdadjioajsoiadjio"/>
+
+            <TextView
+                android:id="@+id/text_ciclo_check_nfc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_data_check_nfc"
+                android:textSize="15sp"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
