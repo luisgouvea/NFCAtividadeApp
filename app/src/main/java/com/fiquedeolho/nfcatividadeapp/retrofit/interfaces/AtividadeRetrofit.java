@@ -2,6 +2,7 @@ package com.fiquedeolho.nfcatividadeapp.retrofit.interfaces;
 
 
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
+import com.fiquedeolho.nfcatividadeapp.models.DetalhesAtividade;
 import com.fiquedeolho.nfcatividadeapp.models.FiltroPesquisaHome;
 
 import java.util.ArrayList;
@@ -28,4 +29,7 @@ public interface AtividadeRetrofit {
 
     @POST("/api/Atividade/filtrarAtividadesExecutar")
     Call<ArrayList<Atividade>> filtrarAtividadesExecutar(@Body FiltroPesquisaHome filtro);
+
+    @POST("/api/Atividade/getDetalhesAtividade")
+    Call<DetalhesAtividade> getDetalhesAtividade(@Body int idAtividade);
 }

@@ -128,7 +128,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.LoginActivity" />
         </activity>
-        <activity android:name=".views.DetalhesAtividadeActivity"></activity>
+        <activity
+            android:name=".views.DetalhesAtividadeActivity"
+            android:label="Detalhes da Atividade"
+            android:parentActivityName=".views.InitialNavigationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.InitialNavigationActivity" />
+        </activity>
     </application>
 
 </manifest>

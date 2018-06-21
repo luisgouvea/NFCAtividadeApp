@@ -257,10 +257,8 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 startActivity(intent);
                                 break;
                             case R.id.mnu_detalhes_atividade:
-                                bundle.putInt("IdAtividade", idAtividade);
-
+                                DetalhesAtividadeActivity.idAtividade = idAtividade;
                                 Intent intentDetalhesAtiv = new Intent(rootView.getContext(), DetalhesAtividadeActivity.class);
-                                intentDetalhesAtiv.putExtras(bundle);
 
                                 startActivity(intentDetalhesAtiv);
                                 break;

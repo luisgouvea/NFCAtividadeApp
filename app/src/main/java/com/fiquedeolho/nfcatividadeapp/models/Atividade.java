@@ -14,6 +14,7 @@ public class Atividade implements Parcelable {
     private int IdUsuarioExecutor;
     private ArrayList<Tarefa> listTarefas;
     private Date DataCriacao;
+    private Date DataFinalizacao;
     private int IdStatus;
     private int IdModoExecucao;
     private String DiaExecucao;
@@ -138,6 +139,14 @@ public class Atividade implements Parcelable {
 
     public int getNumMaximoCiclo() {
         return NumMaximoCiclo;
+    }
+
+    public Date getDataFinalizacao() {
+        return DataFinalizacao;
+    }
+
+    public void setDataFinalizacao(Date dataFinalizacao) {
+        DataFinalizacao = dataFinalizacao;
     }
 
     @Override
