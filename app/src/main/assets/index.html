@@ -73,6 +73,12 @@
                         g.addEdge(tarefa.Nome, tarefaSucessora.Nome, { directed : true });
                     }
                 }
+                 if (tarefa.listaAntecessoras != undefined && tarefa.listaAntecessoras.length > 0) {
+                    for (var m = 0; m < tarefa.listaAntecessoras.length; m++){
+                        var tarefaAntecessora = tarefa.listaAntecessoras[m];
+                        g.addEdge(tarefaAntecessora.Nome, tarefa.Nome, { directed : true });
+                    }
+                }
             }
 
 

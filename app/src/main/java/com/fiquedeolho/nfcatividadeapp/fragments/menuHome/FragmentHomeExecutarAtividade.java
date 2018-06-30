@@ -33,6 +33,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.A
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
+import com.fiquedeolho.nfcatividadeapp.views.InfRoteiroAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
 
 import java.text.DateFormat;
@@ -126,6 +127,11 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
                                 startActivity(intent);
                                 break;
+                            case R.id.mnu_item_inf_roteiro_exec_ativ:
+                                Intent intentInfRoteiroExecAtiv = new Intent(rootView.getContext(), InfRoteiroAtividadeActivity.class);
+                                InfRoteiroAtividadeActivity.idAtividade = idAtividade;
+                                startActivity(intentInfRoteiroExecAtiv);
+                                break;
                             case R.id.mnu_item_registro_check_nfc_executor:
                                 bundle.putInt("IdAtividade", idAtividade);
 
@@ -143,6 +149,7 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
             }
         };
 
+        listAtividadeExecutar.add(0, new Atividade());
         // 2 - Definir adapter passando listagem de carros e listener
         atividadeListAdapter = new AtividadeExecutorListAdpter(listAtividadeExecutar, listenerOptionsList, listenerFiltro);
         this.mViewHolderExecAtivHome.mViewRecyclerViewAtividadeFazer.setAdapter(atividadeListAdapter);

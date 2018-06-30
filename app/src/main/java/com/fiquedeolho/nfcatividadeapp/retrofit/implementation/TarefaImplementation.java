@@ -22,7 +22,11 @@ public class TarefaImplementation implements BaseObjectRequest {
 
     private ArrayList<ArrayList<Tarefa>> listTarefasByIdAtividade;
 
+    private ArrayList<ArrayList<Tarefa>> listTarefasRoteiroByIdAtividade;
+
     private Call<ArrayList<Tarefa>> callGetListTarefasByIdAtividade;
+
+    private Call<ArrayList<Tarefa>> callGetListTarefasRoteiroByIdAtividade;
 
 
     public TarefaImplementation() {
@@ -88,19 +92,33 @@ public class TarefaImplementation implements BaseObjectRequest {
         this.callGetListTarefasByIdAtividade = call;
     }
 
+    public void requestSelectAllObjectRoteirosByIdAtividade(Callback callbackGeneric, int idAtividade) {
+        Callback<ArrayList<Tarefa>> callbackGetAllTarefaByIdAtiv = (Callback<ArrayList<Tarefa>>) callbackGeneric;
+        Call<ArrayList<Tarefa>> call = tarefaRetrofit.getTarefasRoteiroByIdAtividade(idAtividade);
+        call.enqueue(callbackGetAllTarefaByIdAtiv);
+        this.callGetListTarefasRoteiroByIdAtividade = call;
+    }
+
     public ArrayList resultSelectAllObjectsByIdAtividade() {
         return listTarefasByIdAtividade;
     }
 
+    public ArrayList resultSelectAllObjectsRoteiroByIdAtividade() {
+        return listTarefasRoteiroByIdAtividade;
+    }
+
     @Override
     public String findResponse(Call call, Response response) {
-        if (call == callGetListTarefasByIdAtividade) {
+        if (call == callGetListTarefasByIdAtividade || call == callGetListTarefasRoteiroByIdAtividade) {
             verifyResponse(response);
             if (error != null) {
                 return "erro";
             }
             if (call == callGetListTarefasByIdAtividade) {
                 return "getTarefasByIdAtividade";
+            }
+            if(call == callGetListTarefasRoteiroByIdAtividade){
+                return "getTarefasRoteiroByIdAtividade";
             }
         }
         return "";
@@ -115,6 +133,10 @@ public class TarefaImplementation implements BaseObjectRequest {
 
             if (url.contains("getTarefasByIdAtividade")) {
                 listTarefasByIdAtividade = (ArrayList<ArrayList<Tarefa>>) response.body();
+            }
+
+            if (url.contains("getTarefasRoteiroByIdAtividade")) {
+                listTarefasRoteiroByIdAtividade = (ArrayList<ArrayList<Tarefa>>) response.body();
             }
 
             return null;
@@ -135,6 +157,7 @@ public class TarefaImplementation implements BaseObjectRequest {
     @Override
     public void clearObject() {
         listTarefasByIdAtividade = null;
+        listTarefasRoteiroByIdAtividade = null;
         error = null;
         tarefa = null;
     }

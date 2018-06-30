@@ -12,6 +12,9 @@ public interface TarefaRetrofit {
     @POST("/api/Tarefa/getTarefasByIdAtividade")
     Call<ArrayList<Tarefa>> getTarefasByIdAtividade(@Body int idAtividade);
 
+    @POST("/api/Tarefa/getTarefasRoteiroByIdAtividade")
+    Call<ArrayList<Tarefa>> getTarefasRoteiroByIdAtividade(@Body int idAtividade);
+
     @POST("/api/Tarefa/addTarefa")
     Call<Boolean> addTarefa(@Body Tarefa tarefa);
 }

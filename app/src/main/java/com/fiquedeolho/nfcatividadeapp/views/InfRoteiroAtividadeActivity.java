@@ -61,7 +61,7 @@ public class InfRoteiroAtividadeActivity<T> extends AppCompatActivity implements
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
-        tarefaImplementation.requestSelectAllObjectsByIdAtividade(requestRetrofit, idAtividade);
+        tarefaImplementation.requestSelectAllObjectRoteirosByIdAtividade(requestRetrofit, idAtividade);
     }
 
     private void executeWebView() {
@@ -107,8 +107,8 @@ public class InfRoteiroAtividadeActivity<T> extends AppCompatActivity implements
                         Toast.makeText(getApplicationContext(), "Ocorreu um erro genérico", Toast.LENGTH_LONG).show();
                     }
                     break;
-                case "getTarefasByIdAtividade":
-                    listaTarefas = tarefaImplementation.resultSelectAllObjectsByIdAtividade();
+                case "getTarefasRoteiroByIdAtividade":
+                    listaTarefas = tarefaImplementation.resultSelectAllObjectsRoteiroByIdAtividade();
                     if(listaTarefas == null || listaTarefas.size() == 0){
                         closeProgressDialog();
                         showAtividadeSemTarefas();
