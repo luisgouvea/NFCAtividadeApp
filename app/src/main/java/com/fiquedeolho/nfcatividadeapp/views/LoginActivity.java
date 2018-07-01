@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.SharedPreferences.SavePreferences;
 import com.fiquedeolho.nfcatividadeapp.models.APIError;
+import com.fiquedeolho.nfcatividadeapp.models.Usuario;
 import com.fiquedeolho.nfcatividadeapp.retrofit.implementation.NotificacaoUsuarioImplementation;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.BaseUrlRetrofit;
 import com.fiquedeolho.nfcatividadeapp.retrofit.interfaces.UsuarioRetrofit;
@@ -54,6 +55,25 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
         this.loginViewHolder.linkCreateAccount.setText(content);
 
         this.loginViewHolder.linkCreateAccount.setOnClickListener(this);
+
+        checkUsuarioJaLogado();
+    }
+
+    private void checkUsuarioJaLogado() {
+        final Context contextoLogin = this;
+        SavePreferences save = new SavePreferences(contextoLogin);
+        if (save != null) {
+            int idUsuario = save.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO);
+            String loginUsu = save.getSavedString(KeysSharedPreference.LOGIN_USUARIO_LOGADO);
+            String senhaUsu = save.getSavedString(KeysSharedPreference.SENHA_USUARIO_LOGADO);
+            if (idUsuario != 0 &&
+                    loginUsu != null &&
+                    !loginUsu.isEmpty() &&
+                    senhaUsu != null &&
+                    !senhaUsu.isEmpty()) {
+                autenticarUsuario(loginUsu, senhaUsu);
+            }
+        }
     }
 
     @Override
@@ -63,7 +83,7 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
             final String senha = this.loginViewHolder.senha.getText().toString();
             final String login = this.loginViewHolder.login.getText().toString();
             this.autenticarUsuario(login, senha);
-        } else if (id == R.id.link_signup){
+        } else if (id == R.id.link_signup) {
             Intent intent = new Intent(this, CreateAccountActivity.class);
             startActivity(intent);
             //finish();
@@ -91,23 +111,26 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
         ArrayList<String> list = new ArrayList<>();
         list.add(login);
         list.add(senha);
-        final Call<Integer> call = usuInterface.logarUsuario(list);
+        final Call<Usuario> call = usuInterface.logarUsuario(list);
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(getString(R.string.title_progress_aut_login));
         pDialog.setMessage(getString(R.string.message_progress_dialog));
         pDialog.setCancelable(false);
         pDialog.show();
-        call.enqueue(new Callback<Integer>() {
+        call.enqueue(new Callback<Usuario>() {
             @Override
-            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
-                int idUsuario = response.body();
+            public void onResponse(Call<Usuario> call, retrofit2.Response<Usuario> response) {
+                Usuario usuario = response.body();
                 SavePreferences save = new SavePreferences(contextoLogin);
-                save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
+                save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, usuario.getIdUsuario());
+                save.saveString(KeysSharedPreference.NOME_USUARIO_LOGADO, usuario.getNome());
+                save.saveString(KeysSharedPreference.LOGIN_USUARIO_LOGADO, usuario.getLogin());
+                save.saveString(KeysSharedPreference.SENHA_USUARIO_LOGADO, usuario.getSenha());
                 getNotificacoesNaoVista();
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<Usuario> call, Throwable t) {
                 Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(t.getMessage()), Toast.LENGTH_LONG).show();
                 if (pDialog.isShowing()) {
                     pDialog.dismiss();

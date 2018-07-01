@@ -160,9 +160,6 @@ public class RegrasTarefasActivity extends AppCompatActivity {
 
                                 startActivity(intent);
                                 break;
-                            case R.id.mnu_data_tarefa_regra:
-
-                                break;
                             default:
                                 break;
                         }

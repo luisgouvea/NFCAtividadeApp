@@ -3,24 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-    </group>
-
-    <item android:title="Communicate">
+    <item android:title="Gerenciamento">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
             <item
                 android:id="@+id/cadastro_tags"
                 android:icon="@drawable/ic_nfc_communication"
-                android:title="Gerenciamento de Tags" />
+                android:title="Tags" />
+            <item
+                android:id="@+id/about_app"
+                android:icon="@drawable/ic_info"
+                android:title="Sobre" />
+            <item
+                android:id="@+id/logout_app"
+                android:icon="@drawable/ic_logout_to_app"
+                android:title="Sair" />
         </menu>
     </item>
+
 
 </menu>

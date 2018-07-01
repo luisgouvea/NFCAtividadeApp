@@ -61,14 +61,19 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         usuario.setLogin(this.mViewHolderCreateAccount.login.getText().toString());
         usuario.setSenha(this.mViewHolderCreateAccount.senha.getText().toString());
         UsuarioRetrofit usuInterface = BaseUrlRetrofit.retrofit.create(UsuarioRetrofit.class);
-        final Call<Integer> call = usuInterface.criarConta(usuario);
-        call.enqueue(new Callback<Integer>() {
+        final Call<Usuario> call = usuInterface.criarConta(usuario);
+        call.enqueue(new Callback<Usuario>() {
             @Override
-            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
+            public void onResponse(Call<Usuario> call, retrofit2.Response<Usuario> response) {
                 if(response.code() == 200) {
-                    int idUsuario = response.body();
+                    Usuario usuario = response.body();
+
                     SavePreferences save = new SavePreferences(getApplicationContext());
-                    save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, idUsuario);
+                    save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, usuario.getIdUsuario());
+                    save.saveString(KeysSharedPreference.NOME_USUARIO_LOGADO, usuario.getNome());
+                    save.saveString(KeysSharedPreference.LOGIN_USUARIO_LOGADO, usuario.getLogin());
+                    save.saveString(KeysSharedPreference.SENHA_USUARIO_LOGADO, usuario.getSenha());
+
                     Intent intent = new Intent(getApplicationContext(), InitialNavigationActivity.class);
                     startActivity(intent);
                     finish();
@@ -83,7 +88,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<Usuario> call, Throwable t) {
                 closeLoadingRequest();
 //                dialogDefaultErro.setTextErro(t.getMessage());
 //                dialogDefaultErro.show(getSupportFragmentManager(),"dialog");

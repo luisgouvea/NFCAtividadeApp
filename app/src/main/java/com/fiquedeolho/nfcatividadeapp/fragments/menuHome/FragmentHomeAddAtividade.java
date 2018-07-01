@@ -32,6 +32,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.addAtividade.Ativid
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
 import com.fiquedeolho.nfcatividadeapp.views.AddAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.DetalhesAtividadeActivity;
+import com.fiquedeolho.nfcatividadeapp.views.EditarAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfRoteiroAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasCriadorActivity;
@@ -274,6 +275,11 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 intentRegistroCheck.putExtras(bundle);
 
                                 startActivity(intentRegistroCheck);
+                                break;
+                            case R.id.mnu_editar_ativ:
+                                EditarAtividadeActivity.idAtividade = idAtividade;
+                                Intent intentEditarAtiv = new Intent(rootView.getContext(), EditarAtividadeActivity.class);
+                                startActivity(intentEditarAtiv);
                                 break;
                             case R.id.mnu_deletar_ativ:
                                 Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();

@@ -11,10 +11,10 @@ import retrofit2.http.POST;
 
 public interface UsuarioRetrofit {
     @POST("/api/Usuario/LogarUsuario")
-    Call<Integer> logarUsuario(@Body List<String> value);
+    Call<Usuario> logarUsuario(@Body List<String> value);
 
     @POST("/api/Usuario/CriarConta")
-    Call<Integer> criarConta(@Body Usuario usuario);
+    Call<Usuario> criarConta(@Body Usuario usuario);
 
     @POST("/api/Usuario/ListAllUsuarioAddAtivVincExecutor")
     Call<ArrayList<Usuario>> listAllUsuarios(@Body int value);

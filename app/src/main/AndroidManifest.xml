@@ -136,6 +136,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.InitialNavigationActivity" />
         </activity>
+        <activity android:name=".views.EditarAtividadeActivity"
+            android:label="Editar Atividade"
+            android:parentActivityName=".views.InitialNavigationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.InitialNavigationActivity" />
+        </activity>
     </application>
 
 </manifest>

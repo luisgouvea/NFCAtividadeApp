@@ -12,10 +12,4 @@
         android:icon="@drawable/ic_help_menu_main"
         android:title="Tutorial ajuda"
         app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/logout_app"
-        android:icon="@drawable/ic_logout_to_app"
-        android:title="Logout App"
-        app:showAsAction="ifRoom"/>
 </menu>

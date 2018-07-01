@@ -19,7 +19,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -102,6 +104,11 @@ public class InitialNavigationActivity extends AppCompatActivity
         this.mViewHolderInitialHome.mViewNavigation = findViewById(R.id.nav_view);
         this.mViewHolderInitialHome.mViewNavigation.setNavigationItemSelectedListener(this);
 
+        SavePreferences save = new SavePreferences(this);
+        View header = this.mViewHolderInitialHome.mViewNavigation.getHeaderView(0);
+        TextView t = header.findViewById(R.id.textView);
+        t.setText(save.getSavedString(KeysSharedPreference.NOME_USUARIO_LOGADO));
+
         this.mViewHolderInitialHome.mViewPagerTableInitial = findViewById(R.id.view_pager_table_initial);
         this.mViewHolderInitialHome.mViewPagerTableInitial.setAdapter(new ViewPagerTableMenu(this.getSupportFragmentManager()));
 
@@ -156,9 +163,6 @@ public class InitialNavigationActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -177,16 +181,23 @@ public class InitialNavigationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.cadastro_tags) {
+        if (id == R.id.cadastro_tags) {
+            Intent intent = new Intent(this, InfTagsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.about_app) {
             Intent intent = new Intent(this, InfTagsActivity.class);
             startActivity(intent);
         }
-
+        else if (id == R.id.logout_app) {
+            SavePreferences save = new SavePreferences(this);
+            save.removeShared(KeysSharedPreference.ID_USUARIO_LOGADO);
+            save.removeShared(KeysSharedPreference.NOME_USUARIO_LOGADO);
+            save.removeShared(KeysSharedPreference.LOGIN_USUARIO_LOGADO);
+            save.removeShared(KeysSharedPreference.SENHA_USUARIO_LOGADO);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

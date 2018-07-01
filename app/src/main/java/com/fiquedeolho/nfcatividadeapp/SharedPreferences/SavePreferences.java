@@ -27,4 +27,19 @@ public class SavePreferences {
         int value = sharedPref.getInt(key, 0);
         return value;
     }
+
+    public void saveString(String key, String value) {
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public String getSavedString(String key){
+        String value = sharedPref.getString(key, "");
+        return value;
+    }
+
+    public void removeShared(String key) {
+        editor.remove(key);
+        editor.commit();
+    }
 }

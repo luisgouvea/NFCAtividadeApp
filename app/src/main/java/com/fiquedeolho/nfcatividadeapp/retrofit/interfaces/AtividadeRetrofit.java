@@ -32,4 +32,7 @@ public interface AtividadeRetrofit {
 
     @POST("/api/Atividade/getDetalhesAtividade")
     Call<DetalhesAtividade> getDetalhesAtividade(@Body int idAtividade);
+
+    @POST("/api/Atividade/alterarAtividade")
+    Call<Boolean> alterarAtividade(@Body int idAtividade);
 }
