@@ -14,6 +14,7 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
+import com.fiquedeolho.nfcatividadeapp.util.Convert;
 import com.fiquedeolho.nfcatividadeapp.util.Mask;
 
 public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -25,6 +26,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
     public ClickListener clickListner;
     private TextView statusAtividade;
     private TextView modoExecucao;
+    private TextView dataCriacao;
 
     /**
      * Header filtro
@@ -45,26 +47,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionAtivAdd);
         this.statusAtividade = itemView.findViewById(R.id.text_status_atividade);
         this.modoExecucao = itemView.findViewById(R.id.text_modo_execucao_atividade);
-
-        /**
-         * Header filtro
-         */
-        /*this.mViewSpinnerAtivAdd = itemView.findViewById(R.id.status_spinner_atividade_add);
-        ArrayAdapter adp = new ArrayAdapter<String>(itemView.getContext(), android.R.layout.simple_spinner_item, STATUS_ATIVIDADE);
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        mViewSpinnerAtivAdd.setAdapter(adp);
-
-        mViewEditTextDataCriacaoAddAtividade = itemView.findViewById(R.id.data_criacao_add_ativ);
-        mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", mViewEditTextDataCriacaoAddAtividade));
-        mViewEditTextDataCriacaoAddAtividade.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                mViewEditTextDataCriacaoAddAtividade.setFocusableInTouchMode(true);
-                return false;
-            }
-        });
-
-        mVieBtnFiltrarAtivAdd = (Button) itemView.findViewById(R.id.btn_filtrar_atividade_add);
-        mVieBtnFiltrarAtivAdd.setOnClickListener(this);*/
+        this.dataCriacao = itemView.findViewById(R.id.text_data_criacao);
     }
 
     /**
@@ -79,7 +62,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
             mViewSpinnerAtivAdd.setAdapter(adp);
 
             mViewEditTextDataCriacaoAddAtividade = itemView.findViewById(R.id.data_criacao_add_ativ);
-            mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", mViewEditTextDataCriacaoAddAtividade));
+            //mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", mViewEditTextDataCriacaoAddAtividade));
             mViewEditTextDataCriacaoAddAtividade.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View arg0, MotionEvent arg1) {
                     mViewEditTextDataCriacaoAddAtividade.setFocusableInTouchMode(true);
@@ -93,6 +76,7 @@ public class AtividadeViewHolder extends RecyclerView.ViewHolder implements View
             // Altera valor
             this.nomeAtividade.setText(atividade.getNome());
             //this.descricaoAtividade.setText(atividade.getDescricao());
+            this.dataCriacao.setText(Convert.formatDate(atividade.getDataCriacao()));
             int idStatus = atividade.getIdStatus();
 
             if (idStatus == 1) {

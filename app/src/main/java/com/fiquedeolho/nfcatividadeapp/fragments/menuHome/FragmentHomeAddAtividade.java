@@ -98,10 +98,9 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
     }
 
     private void filtrarAtividades(int idStatusAtividade, EditText dataCriacao) {
-        if(idStatusAtividade == 0 && dataCriacao.getText().toString().equals("")){
+        if (idStatusAtividade == 0 && dataCriacao.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "Por favor, preencha algum campo!", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             FiltroPesquisaHome filtro = new FiltroPesquisaHome();
             if (idStatusAtividade != 0) {
                 filtro.setIdStatusAtividade(idStatusAtividade);
@@ -282,10 +281,7 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
                                 startActivity(intentEditarAtiv);
                                 break;
                             case R.id.mnu_deletar_ativ:
-                                Toast.makeText(getContext(), "Deletado", Toast.LENGTH_LONG).show();
-                                int positionDeletar = descobrePositionArrayListAtiv(idAtividade);
-                                listAtividadeAdicionadas.remove(positionDeletar);
-                                ObservableRecycler();
+                                removerAtividade(idAtividade);
                                 break;
                             default:
                                 break;
@@ -296,9 +292,12 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
             }
         };
 
-        /*if(listAtividadeAdicionadas.size() == 1){
-            listAtividadeAdicionadas.add(0, new Atividade());
-        }*/
+        for (int i = 0; i < listAtividadeAdicionadas.size(); i++) {
+            Atividade ativ = listAtividadeAdicionadas.get(i);
+            if (ativ.getIdStatus() == 4) { // removida
+                listAtividadeAdicionadas.remove(i);
+            }
+        }
         listAtividadeAdicionadas.add(0, new Atividade());
         // 2 - Definir adapter passando listagem de carros e listener
         atividadeListAdapter = new AtividadeListAdpter(listAtividadeAdicionadas, listenerOptionsList, listenerFiltro);
@@ -309,6 +308,39 @@ public class FragmentHomeAddAtividade extends Fragment implements View.OnClickLi
         // 3 - Definir um layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
         this.mViewHolderAddAtivHome.mViewRecyclerViewAtividadeAdd.setLayoutManager(linearLayoutManager);
+    }
+
+    private void removerAtividade(int idAtividade) {
+        requestRemoverAtividade(idAtividade);
+    }
+
+    private void requestRemoverAtividade(final int idAtividade) {
+        AtividadeRetrofit ativiInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
+        final Call<Boolean> call = ativiInterface.removerAtividadeById(idAtividade);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+                if (response.code() != 200) {
+                    Toast.makeText(getContext(), "Ocorreu um erro, tente novamente, por favor", Toast.LENGTH_LONG).show();
+                } else{
+                    Toast.makeText(getContext(), "Atividade Removida", Toast.LENGTH_LONG).show();
+                    int positionDeletar = descobrePositionArrayListAtiv(idAtividade);
+                    listAtividadeAdicionadas.remove(positionDeletar);
+                    ObservableRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                if (pDialog != null && pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+                Toast.makeText(getContext(), "Ocorreu um erro, tente novamente, por favor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private int descobrePositionArrayListAtiv(int idAtividade) {

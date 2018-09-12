@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/scrollAddAtiv">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,6 +10,7 @@
         android:id="@+id/first_content_linear_layout_add_ativ"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         android:orientation="vertical">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,6 +59,29 @@
                     android:hint="@string/dtFinalizacaoAtiv"
                     android:inputType="date" />
             </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Descrição da Atividade :"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/desc_atividade"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/content_textarea"
+                android:gravity="top" />
+
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

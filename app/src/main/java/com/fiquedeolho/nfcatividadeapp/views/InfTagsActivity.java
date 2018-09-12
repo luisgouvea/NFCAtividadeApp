@@ -176,7 +176,7 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
          Implementacao da acao dos menus na listagem das atividade dentro do RecyclerView
          Parametro: O viewTarget em questao, representa o Text (tres pontinhos) clicado
          */
-        OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
+        /*OnListClickInteractionListenerView listenerOptionsList = new OnListClickInteractionListenerView() {
             @Override
             public void onClick(final View viewTarget) {
                 PopupMenu popupMenu = new PopupMenu(viewTarget.getContext(), viewTarget);
@@ -196,10 +196,10 @@ public class InfTagsActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
             }
-        };
+        };*/
 
         // 2 - Definir adapter passando listagem de tarefas e listener
-        tagsListAdapter = new TagListAdapter(listTags, listenerOptionsList);
+        tagsListAdapter = new TagListAdapter(listTags);
         this.mViewHolderInfTags.mViewRecyclerViewInfTags.setAdapter(tagsListAdapter);
 
         this.mViewHolderInfTags.mViewRecyclerViewInfTags.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));

@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.fiquedeolho.nfcatividadeapp.R;
@@ -30,6 +31,7 @@ public class EditarAtividadeActivity extends AppCompatActivity {
     public static int idAtividade;
     private ProgressDialog pDialogLoadingPage;
     private ProgressDialog pDialogLoadingSave;
+    private static Atividade atividade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,58 @@ public class EditarAtividadeActivity extends AppCompatActivity {
         getAtividade();
     }
 
+
+    public void HabilitaInfFormaExecDia(View v) {
+        mViewHolderEditarAtividade.mViewContentExec.setVisibility(View.VISIBLE);
+        mViewHolderEditarAtividade.mViewContentRepFluxo.setVisibility(View.VISIBLE);
+    }
+
+
+    public void DesabilitaInfFormaExecDia(View v) {
+        mViewHolderEditarAtividade.mViewContentExec.setVisibility(View.GONE);
+        mViewHolderEditarAtividade.mViewContentRepFluxo.setVisibility(View.GONE);
+    }
+
+    public void HabilitarDiaEspecifico(View v) {
+        mViewHolderEditarAtividade.mViewContentDiaEspecifico = findViewById(R.id.content_dia_especifico);
+        mViewHolderEditarAtividade.mViewContentDiaEspecifico.setVisibility(View.VISIBLE);
+    }
+
+    public void DesabilitarDiaEspecifico(View v) {
+        mViewHolderEditarAtividade.mViewContentDiaEspecifico = findViewById(R.id.content_dia_especifico);
+        mViewHolderEditarAtividade.mViewContentDiaEspecifico.setVisibility(View.GONE);
+    }
+
+
+    public void HabilitarQtdRepeticoes(View v) {
+        LinearLayout linear = findViewById(R.id.qtd_numero_repeticoes_fluxo_completo);
+        linear.setVisibility(View.VISIBLE);
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
+    public void DesabilitarQtdRepeticoes(View v) {
+        LinearLayout linear = findViewById(R.id.qtd_numero_repeticoes_fluxo_completo);
+        linear.setVisibility(View.GONE);
+
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
     public void capturaElementos() {
         mViewHolderEditarAtividade.mViewContentFirstLinear = findViewById(R.id.first_content_linear_layout_add_ativ);
+
+        mViewHolderEditarAtividade.mViewDescricaoAtividade = findViewById(R.id.desc_atividade);
 
         mViewHolderEditarAtividade.mViewNomeAtividade = findViewById(R.id.input_nomeAtividade);
         mViewHolderEditarAtividade.mViewDataFinalizacao = findViewById(R.id.input_data_finalizacao_ativ);
@@ -84,8 +136,8 @@ public class EditarAtividadeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Atividade> call, retrofit2.Response<Atividade> response) {
                 if (response.code() == 200) {
-                    Atividade atividade = response.body();
-                    setarInformacoes(atividade);
+                    atividade = response.body();
+                    setarInformacoes();
                 } else {
                     if (pDialogLoadingPage != null && pDialogLoadingPage.isShowing()) {
                         pDialogLoadingPage.dismiss();
@@ -110,9 +162,10 @@ public class EditarAtividadeActivity extends AppCompatActivity {
         });
     }
 
-    public void setarInformacoes(Atividade atividade) {
+    public void setarInformacoes() {
         String nomeAtiv = atividade.getNome();
         Date dataFinalizacao = atividade.getDataFinalizacao();
+        String descAtividade = atividade.getDescricao();
         int modoExec = atividade.getIdModoExecucao();
         String diaExec = atividade.getDiaExecucao();
         int qtdLimiteExecFluxo = atividade.getNumMaximoCiclo();
@@ -122,10 +175,13 @@ public class EditarAtividadeActivity extends AppCompatActivity {
         mViewHolderEditarAtividade.mViewContentFirstLinear.setFocusable(false);
 
         mViewHolderEditarAtividade.mViewNomeAtividade.setText(nomeAtiv);
+        mViewHolderEditarAtividade.mViewDescricaoAtividade.setText(descAtividade);
+
         if(dataFinalizacao.getYear() > 0) {
             mViewHolderEditarAtividade.mViewDataFinalizacao.setText(Convert.formatDate(dataFinalizacao));
         } else{
             mViewHolderEditarAtividade.mViewDataFinalizacao.setText("Não preenchido");
+           // mViewHolderEditarAtividade.mViewDataFinalizacao.setVisibility(View.GONE);
         }
 
         /**
@@ -188,8 +244,9 @@ public class EditarAtividadeActivity extends AppCompatActivity {
         pDialogLoadingSave.setTitle("Alterando Atividade");
         pDialogLoadingSave.setMessage(getString(R.string.message_progress_dialog));
         pDialogLoadingSave.show();
+        getChangeAtividade();
         AtividadeRetrofit atividadeInterface = BaseUrlRetrofit.retrofit.create(AtividadeRetrofit.class);
-        final Call<Boolean> call = atividadeInterface.alterarAtividade(idAtividade);
+        final Call<Boolean> call = atividadeInterface.alterarAtividade(atividade);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, retrofit2.Response<Boolean> response) {
@@ -216,11 +273,48 @@ public class EditarAtividadeActivity extends AppCompatActivity {
     }
 
 
+    public void getChangeAtividade() {
+        EditText nome = findViewById(R.id.input_nomeAtividade);
+        if(nome != null && !nome.getText().toString().equals("")){
+            atividade.setNome(nome.getText().toString());
+        }
+        EditText descAtiv = mViewHolderEditarAtividade.mViewDescricaoAtividade;
+        if(descAtiv != null && !descAtiv.getText().toString().equals("")){
+            atividade.setDescricao(descAtiv.getText().toString());
+        }
+
+        /*EditText dataFinalizacao = findViewById(R.id.input_data_finalizacao_ativ);
+        if(dataFinalizacao != null && !dataFinalizacao.getText().toString().equals("") && !dataFinalizacao.getText().toString().equals("Não preenchido"))
+        {
+            atividade.setDataFinalizacao(Convert.formatDate(dataFinalizacao.getText().toString()));
+        }*/
+
+        RadioButton ativSequencial = findViewById(R.id.forma_execucao_tarefa_finaliza);
+        RadioButton ativCiclica = findViewById(R.id.forma_execucao_por_dia);
+        if(ativSequencial.isChecked()){
+            atividade.setIdModoExecucao(1);
+        } else{
+            atividade.setIdModoExecucao(2);
+        }
+
+        EditText diaEsp = findViewById(R.id.editText_dia_especifico);
+        if(diaEsp != null && !diaEsp.getText().toString().equals("")){
+            atividade.setDiaExecucao(diaEsp.getText().toString());
+        }
+
+        EditText ed = findViewById(R.id.editText_repeticao_fluxo_rept_fluxo);
+        if(ed != null && !ed.getText().toString().equals("")){
+            atividade.setNumMaximoCiclo(Integer.parseInt(ed.getText().toString()));
+        }
+    }
+
     /**
      * ViewHolder dos elementos
      */
     public static class ViewHolderEditarAtividade {
         private LinearLayout mViewContentFirstLinear;
+
+        private EditText mViewDescricaoAtividade;
         private EditText mViewNomeAtividade;
         private EditText mViewDataFinalizacao;
 

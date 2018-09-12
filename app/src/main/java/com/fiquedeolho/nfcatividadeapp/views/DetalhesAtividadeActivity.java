@@ -49,6 +49,8 @@ public class DetalhesAtividadeActivity extends AppCompatActivity {
     public void capturaElementos() {
         mViewHolderDetalhesAtividade.mViewContentFirstLinear = findViewById(R.id.first_content_linear_layout_add_ativ);
 
+        mViewHolderDetalhesAtividade.mViewDescricaoAtividade = findViewById(R.id.desc_atividade);
+
         mViewHolderDetalhesAtividade.mViewNomeAtividade = findViewById(R.id.input_nomeAtividade);
         mViewHolderDetalhesAtividade.mViewDataFinalizacao = findViewById(R.id.input_data_finalizacao_ativ);
 
@@ -76,6 +78,7 @@ public class DetalhesAtividadeActivity extends AppCompatActivity {
 
     public void disableActivity() {
         mViewHolderDetalhesAtividade.mViewNomeAtividade.setEnabled(false);
+        mViewHolderDetalhesAtividade.mViewDescricaoAtividade.setEnabled(false);
         mViewHolderDetalhesAtividade.mViewDataFinalizacao.setEnabled(false);
 
         mViewHolderDetalhesAtividade.mViewFormExecAtivFinaliza.setEnabled(false);
@@ -138,6 +141,7 @@ public class DetalhesAtividadeActivity extends AppCompatActivity {
 
     public void setarInformacoes(DetalhesAtividade detalhesAtividade) {
         Atividade atividade = detalhesAtividade.getAtividade();
+        String descricaoAtiv = atividade.getDescricao();
         String nomeExecutor = detalhesAtividade.getNomeExecutor();
         String nomeAtiv = atividade.getNome();
         Date dataFinalizacao = atividade.getDataFinalizacao();
@@ -149,6 +153,11 @@ public class DetalhesAtividadeActivity extends AppCompatActivity {
         mViewHolderDetalhesAtividade.mViewContentFirstLinear.setEnabled(false);
         mViewHolderDetalhesAtividade.mViewContentFirstLinear.setFocusable(false);
 
+        if(!descricaoAtiv.equals("")) {
+            mViewHolderDetalhesAtividade.mViewDescricaoAtividade.setText(descricaoAtiv);
+        } else{
+            mViewHolderDetalhesAtividade.mViewDescricaoAtividade.setText("Não preenchido");
+        }
         mViewHolderDetalhesAtividade.mViewNomeAtividade.setText(nomeAtiv);
         if(dataFinalizacao.getYear() > 0) {
             mViewHolderDetalhesAtividade.mViewDataFinalizacao.setText(Convert.formatDate(dataFinalizacao));
@@ -203,6 +212,8 @@ public class DetalhesAtividadeActivity extends AppCompatActivity {
      */
     public static class ViewHolderDetalhesAtividade {
         private LinearLayout mViewContentFirstLinear;
+
+        private EditText mViewDescricaoAtividade;
         private EditText mViewNomeAtividade;
         private EditText mViewDataFinalizacao;
 

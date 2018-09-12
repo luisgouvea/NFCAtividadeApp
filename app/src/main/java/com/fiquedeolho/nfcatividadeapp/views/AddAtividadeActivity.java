@@ -147,6 +147,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                      * GET ELEMENTOS
                      */
                     EditText nomeAtivEle = linear.findViewById(R.id.input_nomeAtividade);
+                    EditText descAtividadeEle = linear.findViewById(R.id.desc_atividade);
                     EditText dataFinalizaEle = linear.findViewById(R.id.input_data_finalizacao_ativ);
                     RadioButton ativSequencial = linear.findViewById(R.id.forma_execucao_tarefa_finaliza);
                     RadioButton ativPorDia = linear.findViewById(R.id.forma_execucao_por_dia);
@@ -161,7 +162,8 @@ public class AddAtividadeActivity extends AppCompatActivity {
                      * SET ELEMENTOS
                      */
                     String nomeAtividadeInput = nomeAtivEle.getText().toString();
-                    String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
+                    String descAtividade = descAtividadeEle.getText().toString();
+                    //String dataFinalizacaoInput = dataFinalizaEle.getText().toString();
                     int maneiraExecucao = 0;
                     int numMaximoCicloFinal = 0;
                     String diaExecucaoFinal = null;
@@ -217,6 +219,7 @@ public class AddAtividadeActivity extends AppCompatActivity {
                         atividade.setNumMaximoCiclo(numMaximoCicloFinal);
                     }
                     atividade.setNome(nomeAtividadeInput);
+                    atividade.setDescricao(descAtividade);
                     atividade.setIdUsuarioCriador(shared.getSavedInt(KeysSharedPreference.ID_USUARIO_LOGADO));
                     atividade.setIdUsuarioExecutor(idUsuarioVinc);
                     //atividade.setDataFinalizacao(dataFinalizacaoInput);
@@ -243,6 +246,14 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto = findViewById(R.id.content_repeticao_fluxo_completo);
         this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia.setVisibility(View.VISIBLE);
         this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto.setVisibility(View.VISIBLE);
+
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 
 
@@ -251,6 +262,14 @@ public class AddAtividadeActivity extends AppCompatActivity {
         this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto = findViewById(R.id.content_repeticao_fluxo_completo);
         this.mViewHolderAddAtividade.mViewContentOpcoesFormaExecucaoDia.setVisibility(View.GONE);
         this.mViewHolderAddAtividade.mViewContentRepeticaoFluxoCompleto.setVisibility(View.GONE);
+
+        final ScrollView scrollView = findViewById(R.id.scrollAddAtiv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 
     public void HabilitarDiaEspecifico(View v) {

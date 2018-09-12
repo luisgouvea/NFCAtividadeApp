@@ -175,23 +175,10 @@ public class InfTarefasCriadorActivity extends AppCompatActivity implements View
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.mnu_vinc_tarefa_tag:
-                                bundle.putInt("IdTarefa", idTarefa);
-                                bundle.putInt("IdAtividade", IdAtividade);
-                                Intent intent = new Intent(getApplicationContext(), VinculoTarefaETagActivity.class);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                                break;
                             case R.id.mnu_item_detalhes_tarefa:
                                 DetalhesTarefaActivity.idTarefa = idTarefa;
                                 Intent intentDetalhesTarefa = new Intent(getApplicationContext(), DetalhesTarefaActivity.class);
                                 startActivity(intentDetalhesTarefa);
-                                break;
-                            case R.id.mnu_deletar_tarefa:
-                                Toast.makeText(getApplicationContext(), "Deletado", Toast.LENGTH_LONG).show();
-                                int positionDeletar = descobrePositionArrayListAtiv(idTarefa);
-                                listTarefas.remove(positionDeletar);
-                                ObservableRecycler();
                                 break;
                             default:
                                 break;

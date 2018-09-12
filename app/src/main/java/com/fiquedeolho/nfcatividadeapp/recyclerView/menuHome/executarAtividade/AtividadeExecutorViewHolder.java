@@ -14,6 +14,7 @@ import com.fiquedeolho.nfcatividadeapp.R;
 import com.fiquedeolho.nfcatividadeapp.models.Atividade;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListenerView;
+import com.fiquedeolho.nfcatividadeapp.util.Convert;
 import com.fiquedeolho.nfcatividadeapp.util.Mask;
 
 
@@ -26,7 +27,7 @@ public class AtividadeExecutorViewHolder extends RecyclerView.ViewHolder impleme
     public ClickListener clickListner;
     private TextView statusAtividade;
     private TextView modoExecucao;
-
+    private TextView dataCriacao;
 
     /**
      * Header filtro
@@ -46,6 +47,7 @@ public class AtividadeExecutorViewHolder extends RecyclerView.ViewHolder impleme
         this.popMenu = (TextView) itemView.findViewById(R.id.txtOptionDigit);
         this.statusAtividade = itemView.findViewById(R.id.text_status_atividade);
         this.modoExecucao = itemView.findViewById(R.id.text_modo_execucao_atividade);
+        this.dataCriacao = itemView.findViewById(R.id.text_data_criacao);
     }
 
     /**
@@ -60,7 +62,7 @@ public class AtividadeExecutorViewHolder extends RecyclerView.ViewHolder impleme
             mViewSpinnerAtivAdd.setAdapter(adp);
 
             mViewEditTextDataCriacaoAddAtividade = itemView.findViewById(R.id.data_criacao_add_ativ);
-            mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", mViewEditTextDataCriacaoAddAtividade));
+            //mViewEditTextDataCriacaoAddAtividade.addTextChangedListener(Mask.insert("##/##/####", mViewEditTextDataCriacaoAddAtividade));
             mViewEditTextDataCriacaoAddAtividade.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View arg0, MotionEvent arg1) {
                     mViewEditTextDataCriacaoAddAtividade.setFocusableInTouchMode(true);
@@ -73,7 +75,7 @@ public class AtividadeExecutorViewHolder extends RecyclerView.ViewHolder impleme
         } else {
             // Altera valor
             this.nomeAtividade.setText(atividade.getNome());
-            //this.descricaoAtividade.setText(atividade.getDescricao());
+            this.dataCriacao.setText(Convert.formatDate(atividade.getDataCriacao()));
             int idStatus = atividade.getIdStatus();
 
             if (idStatus == 1) {

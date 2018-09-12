@@ -123,9 +123,9 @@ public class DialogCheckNFCRead extends DialogFragment {
         super.onStop();
         dismiss();
         disableForegroundDispatchSystem();
-        if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
+        /*if(dialogDefaultErro != null && dialogDefaultErro.isVisible()){
             dialogDefaultErro.dismiss();
-        }
+        }*/
     }
 
     private void enableForegroundDispatchSystem() {

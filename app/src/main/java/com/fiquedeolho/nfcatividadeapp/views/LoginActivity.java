@@ -122,11 +122,18 @@ public class LoginActivity<T> extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call<Usuario> call, retrofit2.Response<Usuario> response) {
                 Usuario usuario = response.body();
                 SavePreferences save = new SavePreferences(contextoLogin);
-                save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, usuario.getIdUsuario());
-                save.saveString(KeysSharedPreference.NOME_USUARIO_LOGADO, usuario.getNome());
-                save.saveString(KeysSharedPreference.LOGIN_USUARIO_LOGADO, usuario.getLogin());
-                save.saveString(KeysSharedPreference.SENHA_USUARIO_LOGADO, usuario.getSenha());
-                getNotificacoesNaoVista();
+                if(usuario != null) {
+                    save.saveInt(KeysSharedPreference.ID_USUARIO_LOGADO, usuario.getIdUsuario());
+                    save.saveString(KeysSharedPreference.NOME_USUARIO_LOGADO, usuario.getNome());
+                    save.saveString(KeysSharedPreference.LOGIN_USUARIO_LOGADO, usuario.getLogin());
+                    save.saveString(KeysSharedPreference.SENHA_USUARIO_LOGADO, usuario.getSenha());
+                    getNotificacoesNaoVista();
+                } else {
+                    Toast.makeText(getBaseContext(), "Login ou senha incorretos", Toast.LENGTH_LONG).show();
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+                }
             }
 
             @Override

@@ -28,7 +28,7 @@ public class TagListViewHolder extends RecyclerView.ViewHolder {
     /**
      * Atribui valores aos elementos
      */
-    public void bindData(final TAG tag, final OnListClickInteractionListenerView listenerOptions ) {
+    public void bindData(final TAG tag) {
 
         // Altera valor
         this.nomeTag.setText(tag.getNome());
@@ -38,15 +38,15 @@ public class TagListViewHolder extends RecyclerView.ViewHolder {
         //popMenu.setId(tag.getId());
 
         // Adciona evento de click
-        this.popMenu.setOnClickListener(new View.OnClickListener() {
+        /*this.popMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /**
+                *//**
                  * Metodo (onClick) da interface OnListClickInteractionListenerView,  implementada nesse projeto
                  * Nesse caso, o View eh um TextView
-                 */
+                 *//*
                 listenerOptions.onClick(view);
             }
-        });
+        });*/
     }
 }

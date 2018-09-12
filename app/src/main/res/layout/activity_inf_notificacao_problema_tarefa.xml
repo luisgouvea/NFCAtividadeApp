@@ -62,12 +62,4 @@
             android:gravity="top" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_detalhe_tarefa_problema"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="DETALHES DA TAREFA COM PROBLEMA" />
-
 </LinearLayout>

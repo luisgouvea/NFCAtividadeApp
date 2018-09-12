@@ -49,6 +49,8 @@ public class RegistroCheckListViewHolder extends RecyclerView.ViewHolder{
         }
         this.textDataExecucaoCheck.setText(Convert.formatDate(ativTarefaHistoricoCheck.getDataExecucao()));
 
-        this.textCiclo.setText("Ciclo " + ativTarefaHistoricoCheck.getCiclo());
+        //this.textCiclo.setText("Ciclo " + ativTarefaHistoricoCheck.getCiclo());
+        int ciclo = ativTarefaHistoricoCheck.getCiclo()+ 1;
+        this.textCiclo.setText( ciclo + "º Ciclo");
     }
 }

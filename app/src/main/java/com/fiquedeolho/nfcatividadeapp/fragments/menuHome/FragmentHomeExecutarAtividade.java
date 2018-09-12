@@ -32,6 +32,7 @@ import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListen
 import com.fiquedeolho.nfcatividadeapp.recyclerView.menuHome.executarAtividade.AtividadeExecutorListAdpter;
 import com.fiquedeolho.nfcatividadeapp.recyclerView.OnListClickInteractionListener;
 import com.fiquedeolho.nfcatividadeapp.util.KeysSharedPreference;
+import com.fiquedeolho.nfcatividadeapp.views.DetalhesAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfCheckNFCActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfRoteiroAtividadeActivity;
 import com.fiquedeolho.nfcatividadeapp.views.InfTarefasExecutorActivity;
@@ -140,6 +141,12 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
 
                                 startActivity(intentRegistroCheck);
                                 break;
+                            case R.id.mnu_detalhes_atividade_executor:
+                                DetalhesAtividadeActivity.idAtividade = idAtividade;
+                                Intent intentDetalhesAtiv = new Intent(rootView.getContext(), DetalhesAtividadeActivity.class);
+
+                                startActivity(intentDetalhesAtiv);
+                                break;
                             default:
                                 break;
                         }
@@ -148,6 +155,13 @@ public class FragmentHomeExecutarAtividade extends Fragment implements View.OnCl
                 });
             }
         };
+
+        for(int i = 0; i< listAtividadeExecutar.size(); i++){
+            Atividade ativ = listAtividadeExecutar.get(i);
+            if(ativ.getIdStatus() == 4) { // removida
+                listAtividadeExecutar.remove(i);
+            }
+        }
 
         listAtividadeExecutar.add(0, new Atividade());
         // 2 - Definir adapter passando listagem de carros e listener

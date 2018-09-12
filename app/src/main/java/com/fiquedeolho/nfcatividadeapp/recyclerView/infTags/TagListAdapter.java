@@ -18,11 +18,11 @@ public class TagListAdapter  extends RecyclerView.Adapter<TagListViewHolder>{
     private List<TAG> mListTags;
 
     // Interface que define as ações
-    private OnListClickInteractionListenerView mOnListOptionListener;
+    //private OnListClickInteractionListenerView mOnListOptionListener;
 
-    public TagListAdapter(List<TAG> tags, OnListClickInteractionListenerView listOptions){
+    public TagListAdapter(List<TAG> tags){
         this.mListTags = tags;
-        this.mOnListOptionListener = listOptions;
+        //this.mOnListOptionListener = listOptions;
     }
     /**
      * Responsável pela criação de linha
@@ -47,7 +47,7 @@ public class TagListAdapter  extends RecyclerView.Adapter<TagListViewHolder>{
     @Override
     public void onBindViewHolder(TagListViewHolder holder, int position) {
         TAG tag = this.mListTags.get(position);
-        holder.bindData(tag, this.mOnListOptionListener);
+        holder.bindData(tag);
     }
 
     @Override

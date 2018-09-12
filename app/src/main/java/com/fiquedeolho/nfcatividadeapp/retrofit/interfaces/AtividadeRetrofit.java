@@ -34,5 +34,8 @@ public interface AtividadeRetrofit {
     Call<DetalhesAtividade> getDetalhesAtividade(@Body int idAtividade);
 
     @POST("/api/Atividade/alterarAtividade")
-    Call<Boolean> alterarAtividade(@Body int idAtividade);
+    Call<Boolean> alterarAtividade(@Body Atividade atividade);
+
+    @POST("/api/Atividade/removerAtividadeById")
+    Call<Boolean> removerAtividadeById(@Body int idAtividade);
 }
